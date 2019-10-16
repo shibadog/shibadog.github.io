@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>shibadog site</title>
-    <link>https://shibadog.github.io/</link>
-    <description>Recent content on shibadog site</description>
+    <title>note on shibadog site</title>
+    <link>https://shibadog.github.io/tags/note/</link>
+    <description>Recent content in note on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <lastBuildDate>Wed, 16 Oct 2019 22:12:21 +0900</lastBuildDate>
     
-	<atom:link href="https://shibadog.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://shibadog.github.io/tags/note/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -36,15 +36,6 @@
       <description>ブログをまたやりたいと思い、 Hugo という静的サイトジェネレータと GitHub Pages を使って作ってみた。
 3日坊主にならないことを祈る。
 しかし、このHugoというやつ結構楽しい。 まずはこれを使いこなせるようになりたい。。。</description>
-    </item>
-    
-    <item>
-      <title>About Me</title>
-      <link>https://shibadog.github.io/about-hugo/</link>
-      <pubDate>Tue, 15 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://shibadog.github.io/about-hugo/</guid>
-      <description>ここに何か書く</description>
     </item>
     
   </channel>

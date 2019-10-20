@@ -5,8 +5,69 @@
 		<description>Recent content in Posts on shibadog site</description>
 		<generator>Hugo -- gohugo.io</generator>
 		<language>ja-jp</language>
-		<lastBuildDate>Thu, 17 Oct 2019 09:55:20 +0900</lastBuildDate>
+		<lastBuildDate>Sun, 20 Oct 2019 21:10:22 +0900</lastBuildDate>
 		<atom:link href="https://shibadog.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>Hystrixを説明してみた</title>
+			<link>https://shibadog.github.io/posts/001_hystrix_01/</link>
+			<pubDate>Sun, 20 Oct 2019 21:10:22 +0900</pubDate>
+			
+			<guid>https://shibadog.github.io/posts/001_hystrix_01/</guid>
+			<description>Hystrixとは Netflixが開発したOSSで、Circuit Breakerの実装。
+Circuit Breakerとは、マイクロサービスで開発されたアプリケーション同士が、一つのアプリの障害で連鎖的に障害を発生させる状態を防止するための、ブレーカー的役割をする機能のこと。
+後続のアプリケーションが障害を起こした場合、当該アプリで即エラーを返すことでリクエストの流入を抑える。
+例えば、一番後続のアプリが障害を起こして、応答がなくなる。
+リクエストが流れ続けるため、障害を起こしたアプリを呼び出す全断のアプリが引きずられ、スレッド枯渇やGC頻発による応答不能が発生する（ことがある）。
+さらに、これを呼び出すアプリが同様に障害を起こすことで、正常なアプリへの呼び出しも行われなくなり、全体が障害となってしまう。
+もし、Hystrixがアプリに組み込まれていた場合。
+やはり、最下層のアプリに障害が発生し。。。
+しかし、前段のアプリで、障害を検知して後続が障害の場合のロジックを通って
+これによって、後続が障害により連続でエラーを返す状態になった場合にも、後続へのリクエストを中止し、負荷をかけないようにしたうえで、異常状態の対処を行う。
+これが相当に便利であり、しかも後続への無駄な負荷をかけずにすむという代物でした。
+今回はここまで。</description>
+			<content type="html"><![CDATA[
+
+<h2 id="hystrixとは">Hystrixとは</h2>
+
+<p>Netflixが開発したOSSで、Circuit Breakerの実装。<br />
+Circuit Breakerとは、マイクロサービスで開発されたアプリケーション同士が、一つのアプリの障害で連鎖的に障害を発生させる状態を防止するための、ブレーカー的役割をする機能のこと。</p>
+
+<p>後続のアプリケーションが障害を起こした場合、当該アプリで即エラーを返すことでリクエストの流入を抑える。</p>
+
+<p><img src="./CircuitBreaker_01.svg" alt="" /></p>
+
+<p>例えば、一番後続のアプリが障害を起こして、応答がなくなる。</p>
+
+<p><img src="./CircuitBreaker_02.svg" alt="" /></p>
+
+<p>リクエストが流れ続けるため、障害を起こしたアプリを呼び出す全断のアプリが引きずられ、スレッド枯渇やGC頻発による応答不能が発生する（ことがある）。</p>
+
+<p><img src="./CircuitBreaker_03.svg" alt="" /></p>
+
+<p>さらに、これを呼び出すアプリが同様に障害を起こすことで、正常なアプリへの呼び出しも行われなくなり、全体が障害となってしまう。</p>
+
+<p><img src="./CircuitBreaker_04.svg" alt="" /></p>
+
+<p>もし、Hystrixがアプリに組み込まれていた場合。</p>
+
+<p><img src="./CircuitBreaker_05.svg" alt="" /></p>
+
+<p>やはり、最下層のアプリに障害が発生し。。。</p>
+
+<p><img src="./CircuitBreaker_06.svg" alt="" /></p>
+
+<p>しかし、前段のアプリで、障害を検知して後続が障害の場合のロジックを通って</p>
+
+<p><img src="./CircuitBreaker_07.svg" alt="" /></p>
+
+<p>これによって、後続が障害により連続でエラーを返す状態になった場合にも、後続へのリクエストを中止し、負荷をかけないようにしたうえで、異常状態の対処を行う。</p>
+
+<p>これが相当に便利であり、しかも後続への無駄な負荷をかけずにすむという代物でした。</p>
+
+<p>今回はここまで。</p>
+]]></content>
+		</item>
 		
 		<item>
 			<title>hugoにgoogleアナリティクスを導入</title>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta itemprop="name" content="Hystrixを説明してみた２">
+<meta itemprop="description" content="Hystrixを説明してみた の続き
+Hystrixの機能 Hystrixの機能紹介をしてみる。
+ コマンド隔離 コマンドエラー検知  例外ハンドリング タイムアウトハンドリング  コマンド同時実行数制限  コマンド隔離 Hystrixではコマンドの隔離が行える。
+具体的には、指定したメソッド一つが隔離対象となり、別名で隔離したメソッドと影響しあわないようにできる。
+例えば、以下のように2つのコマンドを定義したアプリの場合。 コマンドAからアクセスするAPIAがタイムアウトを頻発するような状況になってしまったとすると、
+コマンドAが即エラーを返すようなることで、リクエスト処理スレッドが占有されず、コマンドBは正常に処理が行われる。
+ 
+コマンドエラー検知 コマンド内で実行される処理でExceptionが発生した場合には、このExceptionを検知してフォールバック処理を行うことができる。
+また、コマンド内の処理のタイムアウトを測ることができ、指定時間を過ぎた場合に、HystrixのExceptionを発生させることができる。
+timeInMillisecondsの秒数内に、numBuckets分の記録用の箱があるイメージ。 例えば、10,000msで10Bucketsの場合、集計範囲は1,000msになる。
+circuitBreaker.errorThresholdPercentageで設定した割合でSuccess以外のエラー数となった場合に、ショートサーキット状態となる。
+参考：GitHub - Netflix/Hystrix wiki
+コマンド同時実行数制御 隔離されたコマンドは同時実行数の制御が行える。
+Hystrixは隔離方式を2種類用意しており、デフォルトでは独立Threadによる制御を行う。
+もう一つの制御方法として、セマフォ方式を持っている。
+若干飽きて適当になった（ぇ
+いったんこれまでにしておく。">
+
+
+<meta itemprop="datePublished" content="2019-10-26T13:17:15&#43;09:00" />
+<meta itemprop="dateModified" content="2019-10-26T13:17:15&#43;09:00" />
+<meta itemprop="wordCount" content="31">
+
+
+
+<meta itemprop="keywords" content="hystrix,circuit_breaker," />
+<meta property="og:title" content="Hystrixを説明してみた２" />
+<meta property="og:description" content="Hystrixを説明してみた の続き
+Hystrixの機能 Hystrixの機能紹介をしてみる。
+ コマンド隔離 コマンドエラー検知  例外ハンドリング タイムアウトハンドリング  コマンド同時実行数制限  コマンド隔離 Hystrixではコマンドの隔離が行える。
+具体的には、指定したメソッド一つが隔離対象となり、別名で隔離したメソッドと影響しあわないようにできる。
+例えば、以下のように2つのコマンドを定義したアプリの場合。 コマンドAからアクセスするAPIAがタイムアウトを頻発するような状況になってしまったとすると、
+コマンドAが即エラーを返すようなることで、リクエスト処理スレッドが占有されず、コマンドBは正常に処理が行われる。
+ 
+コマンドエラー検知 コマンド内で実行される処理でExceptionが発生した場合には、このExceptionを検知してフォールバック処理を行うことができる。
+また、コマンド内の処理のタイムアウトを測ることができ、指定時間を過ぎた場合に、HystrixのExceptionを発生させることができる。
+timeInMillisecondsの秒数内に、numBuckets分の記録用の箱があるイメージ。 例えば、10,000msで10Bucketsの場合、集計範囲は1,000msになる。
+circuitBreaker.errorThresholdPercentageで設定した割合でSuccess以外のエラー数となった場合に、ショートサーキット状態となる。
+参考：GitHub - Netflix/Hystrix wiki
+コマンド同時実行数制御 隔離されたコマンドは同時実行数の制御が行える。
+Hystrixは隔離方式を2種類用意しており、デフォルトでは独立Threadによる制御を行う。
+もう一つの制御方法として、セマフォ方式を持っている。
+若干飽きて適当になった（ぇ
+いったんこれまでにしておく。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://shibadog.github.io/posts/002_hystrix_02/" />
+<meta property="article:published_time" content="2019-10-26T13:17:15+09:00" />
+<meta property="article:modified_time" content="2019-10-26T13:17:15+09:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Hystrixを説明してみた２"/>
+<meta name="twitter:description" content="Hystrixを説明してみた の続き
+Hystrixの機能 Hystrixの機能紹介をしてみる。
+ コマンド隔離 コマンドエラー検知  例外ハンドリング タイムアウトハンドリング  コマンド同時実行数制限  コマンド隔離 Hystrixではコマンドの隔離が行える。
+具体的には、指定したメソッド一つが隔離対象となり、別名で隔離したメソッドと影響しあわないようにできる。
+例えば、以下のように2つのコマンドを定義したアプリの場合。 コマンドAからアクセスするAPIAがタイムアウトを頻発するような状況になってしまったとすると、
+コマンドAが即エラーを返すようなることで、リクエスト処理スレッドが占有されず、コマンドBは正常に処理が行われる。
+ 
+コマンドエラー検知 コマンド内で実行される処理でExceptionが発生した場合には、このExceptionを検知してフォールバック処理を行うことができる。
+また、コマンド内の処理のタイムアウトを測ることができ、指定時間を過ぎた場合に、HystrixのExceptionを発生させることができる。
+timeInMillisecondsの秒数内に、numBuckets分の記録用の箱があるイメージ。 例えば、10,000msで10Bucketsの場合、集計範囲は1,000msになる。
+circuitBreaker.errorThresholdPercentageで設定した割合でSuccess以外のエラー数となった場合に、ショートサーキット状態となる。
+参考：GitHub - Netflix/Hystrix wiki
+コマンド同時実行数制御 隔離されたコマンドは同時実行数の制御が行える。
+Hystrixは隔離方式を2種類用意しており、デフォルトでは独立Threadによる制御を行う。
+もう一つの制御方法として、セマフォ方式を持っている。
+若干飽きて適当になった（ぇ
+いったんこれまでにしておく。"/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>Hystrixを説明してみた２</title>
+	<link rel="stylesheet" href="https://shibadog.github.io/css/style.min.5ee5e7976cd09872c64e40a582206543f6aa38c69a8c43898aadc70040344b92.css" integrity="sha256-XuXnl2zQmHLGTkClgiBlQ/aqOMaajEOJiq3HAEA0S5I=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://shibadog.github.io/">shibadog site</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://shibadog.github.io/posts/">Posts</a>
+				<a href="https://shibadog.github.io/about-hugo/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://twitter.com/shiba_dog" target="_blank" rel="noopener me" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://github.com/shibadog" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://shibadog.github.io/posts/">Posts</a></li>
+			<li><a href="https://shibadog.github.io/about-hugo/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>Oct 26, 2019</span></div>
+				<h1>Hystrixを説明してみた２</h1>
+			</header>
+			<div class="content">
+				
+
+<p><a href="../001_hystrix_01/">Hystrixを説明してみた</a> の続き</p>
+
+<h1 id="hystrixの機能">Hystrixの機能<a href="#hystrixの機能" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h1>
+
+<p>Hystrixの機能紹介をしてみる。</p>
+
+<ul>
+<li>コマンド隔離</li>
+<li>コマンドエラー検知
+
+<ul>
+<li>例外ハンドリング</li>
+<li>タイムアウトハンドリング</li>
+</ul></li>
+<li>コマンド同時実行数制限</li>
+</ul>
+
+<h2 id="コマンド隔離">コマンド隔離<a href="#コマンド隔離" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>Hystrixではコマンドの隔離が行える。<br />
+具体的には、指定したメソッド一つが隔離対象となり、別名で隔離したメソッドと影響しあわないようにできる。</p>
+
+<p>例えば、以下のように2つのコマンドを定義したアプリの場合。
+コマンドAからアクセスするAPIAがタイムアウトを頻発するような状況になってしまったとすると、<br />
+コマンドAが即エラーを返すようなることで、リクエスト処理スレッドが占有されず、コマンドBは正常に処理が行われる。</p>
+
+<p><div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;page&quot;:0,&quot;toolbar&quot;:&quot;pages zoom layers lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;url&quot;:&quot;https://drive.google.com/uc?id=1mWn5fHltGC2OvDTEekX06TUGgJboxkYB&amp;export=download&quot;}"></div>
+<script type="text/javascript" src="https://www.draw.io/embed2.js?&fetch=https%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1mWn5fHltGC2OvDTEekX06TUGgJboxkYB%26export%3Ddownload"></script></p>
+
+<h2 id="コマンドエラー検知">コマンドエラー検知<a href="#コマンドエラー検知" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>コマンド内で実行される処理でExceptionが発生した場合には、このExceptionを検知してフォールバック処理を行うことができる。</p>
+
+<p>また、コマンド内の処理のタイムアウトを測ることができ、指定時間を過ぎた場合に、HystrixのExceptionを発生させることができる。</p>
+
+<p>timeInMillisecondsの秒数内に、numBuckets分の記録用の箱があるイメージ。
+例えば、10,000msで10Bucketsの場合、集計範囲は1,000msになる。</p>
+
+<p>circuitBreaker.errorThresholdPercentageで設定した割合でSuccess以外のエラー数となった場合に、ショートサーキット状態となる。</p>
+
+<p><img src="./Hystrixエラー検知.svg" alt="" /></p>
+
+<p>参考：<a href="https://github.com/Netflix/Hystrix/wiki/Configuration#metricsrollingstatstimeinmilliseconds">GitHub - Netflix/Hystrix wiki</a></p>
+
+<h2 id="コマンド同時実行数制御">コマンド同時実行数制御<a href="#コマンド同時実行数制御" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>隔離されたコマンドは同時実行数の制御が行える。</p>
+
+<p>Hystrixは隔離方式を2種類用意しており、デフォルトでは独立Threadによる制御を行う。</p>
+
+<p><img src="./Hystrix同時実行数_01.svg" alt="" /></p>
+
+<p>もう一つの制御方法として、セマフォ方式を持っている。</p>
+
+<p><img src="./Hystrix同時実行数_02.svg" alt="" /></p>
+
+<p>若干飽きて適当になった（ぇ</p>
+
+<p>いったんこれまでにしておく。</p>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://shibadog.github.io/tags/hystrix">hystrix</a></span><span class="tag"><a href="https://shibadog.github.io/tags/circuit_breaker">circuit_breaker</a></span>
+				</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>31 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-10-26T13:17:00&#43;0900</p>
+			</footer>
+		</article>
+		<div class="post-nav thin">
+			<a class="prev-post" href="https://shibadog.github.io/posts/001_hystrix_01/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>Hystrixを説明してみた</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+    <p>&copy; 2019 <a href="https://shibadog.github.io/">shibadog</a></p>
+    <p>
+        Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://shibadog.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    </p>
+</footer>
+<script src="/asset/mermaid/mermaid.js"></script>
+
+
+
+	<script src="https://shibadog.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-150290110-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>

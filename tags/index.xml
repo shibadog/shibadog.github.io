@@ -6,7 +6,7 @@
     <description>Recent content in Tags on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Sun, 20 Oct 2019 21:10:22 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 26 Oct 2019 13:17:15 +0900</lastBuildDate>
     
 	<atom:link href="https://shibadog.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>circuit_breaker</title>
       <link>https://shibadog.github.io/tags/circuit_breaker/</link>
-      <pubDate>Sun, 20 Oct 2019 21:10:22 +0900</pubDate>
+      <pubDate>Sat, 26 Oct 2019 13:17:15 +0900</pubDate>
       
       <guid>https://shibadog.github.io/tags/circuit_breaker/</guid>
       <description></description>
@@ -23,7 +23,7 @@
     <item>
       <title>hystrix</title>
       <link>https://shibadog.github.io/tags/hystrix/</link>
-      <pubDate>Sun, 20 Oct 2019 21:10:22 +0900</pubDate>
+      <pubDate>Sat, 26 Oct 2019 13:17:15 +0900</pubDate>
       
       <guid>https://shibadog.github.io/tags/hystrix/</guid>
       <description></description>

@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta itemprop="name" content="暗号化/ハッシュ化について調べた">
+<meta itemprop="description" content="何もできなかったから過去書いたネタを転載（ぉ
+暗号化アルゴリズム 暗号化と複合 暗号化は誰でもアクセス可能なパブリックな場所でデータを転送する際に、第三者にデータを盗み見されたり、改ざんされないようにデータを守るために用いられる。
+暗号化や複合は、暗号化アルゴリズムと鍵によって行われる。
+2種類の暗号化方式 暗号化アルゴリズムには大きく分けて2種類のものがある。
+ 共通鍵暗号 公開鍵暗号  共通鍵暗号 この方式は、直観的に理解しやすい。
+いわゆる現実で用いる「鍵」と同様の方法で、一つの「鍵」を用いて鍵をかける（暗号化）ことができ、さらに同じ「鍵」で鍵を開ける（複合化）できる。
+また、この「鍵」を「共通鍵」と呼ぶ。
+欠点と相手は、暗号化する側と、複合化する側が異なる場合に同一の「共通鍵」をそれぞれが保有している必要がある。
+これは、「共通鍵」を他人が知り得てしまった場合は、その他人が暗号文を解読できてしまうというリスクが発生する。
+公開鍵方式 この方式は、少し現実で表現しにくい。
+二つの鍵を用意し、それぞれ、「暗号化用」と「複合化用」とする。
+「暗号化用」の鍵を「公開鍵」と呼び、「複合化用」の鍵を「秘密鍵」と呼ぶ。
+使用するときは、複合化する側が2つの鍵を生成し、「公開鍵」を暗号化する側に渡す。
+渡された暗号化する側が「公開鍵」で暗号化を行った後、複合化する側に暗号文を渡す。
+複合化する側は「秘密鍵」を用いて暗号文を複合化できる。
+この方式の特徴は、「公開鍵」で暗号化したものは「秘密鍵」でのみ複合化できるということで、かつ、「公開鍵」を用いて「秘密鍵」を推測することができないことである。
+「公開鍵」を知り得ても暗号化はできても複合化ができないため、必ず「秘密鍵」を持っているものしか暗号文を解読することはできない。
+欠点としては、共通鍵方式と比べると処理（暗号化・複合化）の速度が遅い。
+ハイブリット方式 それぞれの方式には利点・欠点がありそれを補完するためにはブリット方式が存在する。
+ハイブリット方式では、データの暗号化には「共通鍵方式」を用い、この「共通鍵」を受け渡す際に「公開鍵方式」で暗号化を行うというものである。
+「共通鍵」の漏えいリスクを「公開鍵方式」で担保し、高速な「共通鍵方式」のアルゴリズムでデータを担保するという手法。
+共通鍵方式の中での2種類の方式 共通鍵方式の中で、その手法を大きく2つに分けることができる。
+それが以下の2つの種類の暗号化方式である。
+ ブロック暗号 ストリーム暗号  ブロック暗号 ブロック暗号は、暗号化対象の平文データを一定の長さのブロックに分割して暗号化を行う手法である。
+通常、平文データは1byte単位の可変長であるが、1byteごとに1byteの暗号文としていた場合は256通りのパターンでしかないため、簡単に解読されてしまう。
+これを防ぐために、8byte（64bit）や、32byte（256bit）といった、より大きな「ブロック」ごとにまとめて暗号化する方式で解読を難しくしている。
+ストリーム暗号 ブロック暗号では、ブロック毎に暗号化をすることで1byte毎の暗号化よりも解読を難しくしているが、結局ブロック長が短ければパターン数が少なく解読の難易度も下がってしまう問題は変わらない。
+ブロック長を十分な長さにしたとしても、過去あった暗号化方式であるDESでも起こったように、コンピュータの性能向上によって脆弱なアルゴリズムになってしまう。
+そこで、任意長の鍵ストリーム列を生成させ、これと入力の平文を演算させる「ストリーム暗号」が考え出された。
+これは、1bitや1byte単位でデータを暗号化でき、かつ、パターンを十分に増やせる。
+また、対象の平文の長さを気にしなくて済むため、SSL（HTTPS）や無線LAN（WEP）など、ネットワークトラフィックを暗号化するために利用されている。
+暗号化アルゴリズムの種類 暗号化アルゴリズム一覧    # 方式 暗号化方式 暗号アルゴリズム 信頼度 規格 備考     1 共通鍵 ブロック DES 低 RFC 2451    2 共通鍵 ブロック AES 中     3 共通鍵 ブロック Rijndael 高     4 共通鍵 ブロック Triple-DES 中     5 共通鍵 ブロック RC2 低 RFC 2268    6 共通鍵 ストリーム RC4 低 RFC 7465    7 公開鍵 - RSA 高  大きな数の素因数分解問題   8 公開鍵 - El Gamal 高  離散対数問題   9 公開鍵 - ECC 高  離散対数暗号方式に楕円曲線の点のグループを適用させた方式    暗号利用モード (Block cipher modes of opration) 暗号化のアルゴリズムとは別に、暗号化を行う手順についての規格（？）。">
+
+
+<meta itemprop="datePublished" content="2019-11-04T22:54:02&#43;09:00" />
+<meta itemprop="dateModified" content="2019-11-04T22:54:02&#43;09:00" />
+<meta itemprop="wordCount" content="363">
+
+
+
+<meta itemprop="keywords" content="encrypt,memo," />
+<meta property="og:title" content="暗号化/ハッシュ化について調べた" />
+<meta property="og:description" content="何もできなかったから過去書いたネタを転載（ぉ
+暗号化アルゴリズム 暗号化と複合 暗号化は誰でもアクセス可能なパブリックな場所でデータを転送する際に、第三者にデータを盗み見されたり、改ざんされないようにデータを守るために用いられる。
+暗号化や複合は、暗号化アルゴリズムと鍵によって行われる。
+2種類の暗号化方式 暗号化アルゴリズムには大きく分けて2種類のものがある。
+ 共通鍵暗号 公開鍵暗号  共通鍵暗号 この方式は、直観的に理解しやすい。
+いわゆる現実で用いる「鍵」と同様の方法で、一つの「鍵」を用いて鍵をかける（暗号化）ことができ、さらに同じ「鍵」で鍵を開ける（複合化）できる。
+また、この「鍵」を「共通鍵」と呼ぶ。
+欠点と相手は、暗号化する側と、複合化する側が異なる場合に同一の「共通鍵」をそれぞれが保有している必要がある。
+これは、「共通鍵」を他人が知り得てしまった場合は、その他人が暗号文を解読できてしまうというリスクが発生する。
+公開鍵方式 この方式は、少し現実で表現しにくい。
+二つの鍵を用意し、それぞれ、「暗号化用」と「複合化用」とする。
+「暗号化用」の鍵を「公開鍵」と呼び、「複合化用」の鍵を「秘密鍵」と呼ぶ。
+使用するときは、複合化する側が2つの鍵を生成し、「公開鍵」を暗号化する側に渡す。
+渡された暗号化する側が「公開鍵」で暗号化を行った後、複合化する側に暗号文を渡す。
+複合化する側は「秘密鍵」を用いて暗号文を複合化できる。
+この方式の特徴は、「公開鍵」で暗号化したものは「秘密鍵」でのみ複合化できるということで、かつ、「公開鍵」を用いて「秘密鍵」を推測することができないことである。
+「公開鍵」を知り得ても暗号化はできても複合化ができないため、必ず「秘密鍵」を持っているものしか暗号文を解読することはできない。
+欠点としては、共通鍵方式と比べると処理（暗号化・複合化）の速度が遅い。
+ハイブリット方式 それぞれの方式には利点・欠点がありそれを補完するためにはブリット方式が存在する。
+ハイブリット方式では、データの暗号化には「共通鍵方式」を用い、この「共通鍵」を受け渡す際に「公開鍵方式」で暗号化を行うというものである。
+「共通鍵」の漏えいリスクを「公開鍵方式」で担保し、高速な「共通鍵方式」のアルゴリズムでデータを担保するという手法。
+共通鍵方式の中での2種類の方式 共通鍵方式の中で、その手法を大きく2つに分けることができる。
+それが以下の2つの種類の暗号化方式である。
+ ブロック暗号 ストリーム暗号  ブロック暗号 ブロック暗号は、暗号化対象の平文データを一定の長さのブロックに分割して暗号化を行う手法である。
+通常、平文データは1byte単位の可変長であるが、1byteごとに1byteの暗号文としていた場合は256通りのパターンでしかないため、簡単に解読されてしまう。
+これを防ぐために、8byte（64bit）や、32byte（256bit）といった、より大きな「ブロック」ごとにまとめて暗号化する方式で解読を難しくしている。
+ストリーム暗号 ブロック暗号では、ブロック毎に暗号化をすることで1byte毎の暗号化よりも解読を難しくしているが、結局ブロック長が短ければパターン数が少なく解読の難易度も下がってしまう問題は変わらない。
+ブロック長を十分な長さにしたとしても、過去あった暗号化方式であるDESでも起こったように、コンピュータの性能向上によって脆弱なアルゴリズムになってしまう。
+そこで、任意長の鍵ストリーム列を生成させ、これと入力の平文を演算させる「ストリーム暗号」が考え出された。
+これは、1bitや1byte単位でデータを暗号化でき、かつ、パターンを十分に増やせる。
+また、対象の平文の長さを気にしなくて済むため、SSL（HTTPS）や無線LAN（WEP）など、ネットワークトラフィックを暗号化するために利用されている。
+暗号化アルゴリズムの種類 暗号化アルゴリズム一覧    # 方式 暗号化方式 暗号アルゴリズム 信頼度 規格 備考     1 共通鍵 ブロック DES 低 RFC 2451    2 共通鍵 ブロック AES 中     3 共通鍵 ブロック Rijndael 高     4 共通鍵 ブロック Triple-DES 中     5 共通鍵 ブロック RC2 低 RFC 2268    6 共通鍵 ストリーム RC4 低 RFC 7465    7 公開鍵 - RSA 高  大きな数の素因数分解問題   8 公開鍵 - El Gamal 高  離散対数問題   9 公開鍵 - ECC 高  離散対数暗号方式に楕円曲線の点のグループを適用させた方式    暗号利用モード (Block cipher modes of opration) 暗号化のアルゴリズムとは別に、暗号化を行う手順についての規格（？）。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://shibadog.github.io/posts/003_encript/" />
+<meta property="article:published_time" content="2019-11-04T22:54:02+09:00" />
+<meta property="article:modified_time" content="2019-11-04T22:54:02+09:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="暗号化/ハッシュ化について調べた"/>
+<meta name="twitter:description" content="何もできなかったから過去書いたネタを転載（ぉ
+暗号化アルゴリズム 暗号化と複合 暗号化は誰でもアクセス可能なパブリックな場所でデータを転送する際に、第三者にデータを盗み見されたり、改ざんされないようにデータを守るために用いられる。
+暗号化や複合は、暗号化アルゴリズムと鍵によって行われる。
+2種類の暗号化方式 暗号化アルゴリズムには大きく分けて2種類のものがある。
+ 共通鍵暗号 公開鍵暗号  共通鍵暗号 この方式は、直観的に理解しやすい。
+いわゆる現実で用いる「鍵」と同様の方法で、一つの「鍵」を用いて鍵をかける（暗号化）ことができ、さらに同じ「鍵」で鍵を開ける（複合化）できる。
+また、この「鍵」を「共通鍵」と呼ぶ。
+欠点と相手は、暗号化する側と、複合化する側が異なる場合に同一の「共通鍵」をそれぞれが保有している必要がある。
+これは、「共通鍵」を他人が知り得てしまった場合は、その他人が暗号文を解読できてしまうというリスクが発生する。
+公開鍵方式 この方式は、少し現実で表現しにくい。
+二つの鍵を用意し、それぞれ、「暗号化用」と「複合化用」とする。
+「暗号化用」の鍵を「公開鍵」と呼び、「複合化用」の鍵を「秘密鍵」と呼ぶ。
+使用するときは、複合化する側が2つの鍵を生成し、「公開鍵」を暗号化する側に渡す。
+渡された暗号化する側が「公開鍵」で暗号化を行った後、複合化する側に暗号文を渡す。
+複合化する側は「秘密鍵」を用いて暗号文を複合化できる。
+この方式の特徴は、「公開鍵」で暗号化したものは「秘密鍵」でのみ複合化できるということで、かつ、「公開鍵」を用いて「秘密鍵」を推測することができないことである。
+「公開鍵」を知り得ても暗号化はできても複合化ができないため、必ず「秘密鍵」を持っているものしか暗号文を解読することはできない。
+欠点としては、共通鍵方式と比べると処理（暗号化・複合化）の速度が遅い。
+ハイブリット方式 それぞれの方式には利点・欠点がありそれを補完するためにはブリット方式が存在する。
+ハイブリット方式では、データの暗号化には「共通鍵方式」を用い、この「共通鍵」を受け渡す際に「公開鍵方式」で暗号化を行うというものである。
+「共通鍵」の漏えいリスクを「公開鍵方式」で担保し、高速な「共通鍵方式」のアルゴリズムでデータを担保するという手法。
+共通鍵方式の中での2種類の方式 共通鍵方式の中で、その手法を大きく2つに分けることができる。
+それが以下の2つの種類の暗号化方式である。
+ ブロック暗号 ストリーム暗号  ブロック暗号 ブロック暗号は、暗号化対象の平文データを一定の長さのブロックに分割して暗号化を行う手法である。
+通常、平文データは1byte単位の可変長であるが、1byteごとに1byteの暗号文としていた場合は256通りのパターンでしかないため、簡単に解読されてしまう。
+これを防ぐために、8byte（64bit）や、32byte（256bit）といった、より大きな「ブロック」ごとにまとめて暗号化する方式で解読を難しくしている。
+ストリーム暗号 ブロック暗号では、ブロック毎に暗号化をすることで1byte毎の暗号化よりも解読を難しくしているが、結局ブロック長が短ければパターン数が少なく解読の難易度も下がってしまう問題は変わらない。
+ブロック長を十分な長さにしたとしても、過去あった暗号化方式であるDESでも起こったように、コンピュータの性能向上によって脆弱なアルゴリズムになってしまう。
+そこで、任意長の鍵ストリーム列を生成させ、これと入力の平文を演算させる「ストリーム暗号」が考え出された。
+これは、1bitや1byte単位でデータを暗号化でき、かつ、パターンを十分に増やせる。
+また、対象の平文の長さを気にしなくて済むため、SSL（HTTPS）や無線LAN（WEP）など、ネットワークトラフィックを暗号化するために利用されている。
+暗号化アルゴリズムの種類 暗号化アルゴリズム一覧    # 方式 暗号化方式 暗号アルゴリズム 信頼度 規格 備考     1 共通鍵 ブロック DES 低 RFC 2451    2 共通鍵 ブロック AES 中     3 共通鍵 ブロック Rijndael 高     4 共通鍵 ブロック Triple-DES 中     5 共通鍵 ブロック RC2 低 RFC 2268    6 共通鍵 ストリーム RC4 低 RFC 7465    7 公開鍵 - RSA 高  大きな数の素因数分解問題   8 公開鍵 - El Gamal 高  離散対数問題   9 公開鍵 - ECC 高  離散対数暗号方式に楕円曲線の点のグループを適用させた方式    暗号利用モード (Block cipher modes of opration) 暗号化のアルゴリズムとは別に、暗号化を行う手順についての規格（？）。"/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>暗号化/ハッシュ化について調べた</title>
+	<link rel="stylesheet" href="https://shibadog.github.io/css/style.min.5ee5e7976cd09872c64e40a582206543f6aa38c69a8c43898aadc70040344b92.css" integrity="sha256-XuXnl2zQmHLGTkClgiBlQ/aqOMaajEOJiq3HAEA0S5I=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://shibadog.github.io/">shibadog site</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://shibadog.github.io/posts/">Posts</a>
+				<a href="https://shibadog.github.io/about-hugo/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<button id="toc-btn" class="hdr-btn desktop-only-ib" title="Table of Contents"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg></button><span class="hdr-social hide-in-mobile"><a href="https://twitter.com/shiba_dog" target="_blank" rel="noopener me" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://github.com/shibadog" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://shibadog.github.io/posts/">Posts</a></li>
+			<li><a href="https://shibadog.github.io/about-hugo/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>Nov 4, 2019</span></div>
+				<h1>暗号化/ハッシュ化について調べた</h1>
+			</header>
+			<div class="content">
+				
+
+<p>何もできなかったから過去書いたネタを転載（ぉ</p>
+
+<h2 id="暗号化アルゴリズム">暗号化アルゴリズム<a href="#暗号化アルゴリズム" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<h3 id="暗号化と複合">暗号化と複合<a href="#暗号化と複合" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>暗号化は誰でもアクセス可能なパブリックな場所でデータを転送する際に、第三者にデータを盗み見されたり、改ざんされないようにデータを守るために用いられる。</p>
+
+<p>暗号化や複合は、暗号化アルゴリズムと鍵によって行われる。</p>
+
+<h3 id="2種類の暗号化方式">2種類の暗号化方式<a href="#2種類の暗号化方式" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>暗号化アルゴリズムには大きく分けて2種類のものがある。</p>
+
+<ul>
+<li>共通鍵暗号</li>
+<li>公開鍵暗号</li>
+</ul>
+
+<h4 id="共通鍵暗号">共通鍵暗号<a href="#共通鍵暗号" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>この方式は、直観的に理解しやすい。</p>
+
+<p>いわゆる現実で用いる「鍵」と同様の方法で、一つの「鍵」を用いて鍵をかける（暗号化）ことができ、さらに同じ「鍵」で鍵を開ける（複合化）できる。</p>
+
+<p>また、この「鍵」を「共通鍵」と呼ぶ。</p>
+
+<p>欠点と相手は、暗号化する側と、複合化する側が異なる場合に同一の「共通鍵」をそれぞれが保有している必要がある。</p>
+
+<p>これは、「共通鍵」を他人が知り得てしまった場合は、その他人が暗号文を解読できてしまうというリスクが発生する。</p>
+
+<h4 id="公開鍵方式">公開鍵方式<a href="#公開鍵方式" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>この方式は、少し現実で表現しにくい。</p>
+
+<p>二つの鍵を用意し、それぞれ、「暗号化用」と「複合化用」とする。</p>
+
+<p>「暗号化用」の鍵を「公開鍵」と呼び、「複合化用」の鍵を「秘密鍵」と呼ぶ。</p>
+
+<p>使用するときは、複合化する側が2つの鍵を生成し、「公開鍵」を暗号化する側に渡す。</p>
+
+<p>渡された暗号化する側が「公開鍵」で暗号化を行った後、複合化する側に暗号文を渡す。</p>
+
+<p>複合化する側は「秘密鍵」を用いて暗号文を複合化できる。</p>
+
+<p>この方式の特徴は、「公開鍵」で暗号化したものは「秘密鍵」でのみ複合化できるということで、かつ、「公開鍵」を用いて「秘密鍵」を推測することができないことである。</p>
+
+<p>「公開鍵」を知り得ても暗号化はできても複合化ができないため、必ず「秘密鍵」を持っているものしか暗号文を解読することはできない。</p>
+
+<p>欠点としては、共通鍵方式と比べると処理（暗号化・複合化）の速度が遅い。</p>
+
+<h3 id="ハイブリット方式">ハイブリット方式<a href="#ハイブリット方式" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>それぞれの方式には利点・欠点がありそれを補完するためにはブリット方式が存在する。</p>
+
+<p>ハイブリット方式では、データの暗号化には「共通鍵方式」を用い、この「共通鍵」を受け渡す際に「公開鍵方式」で暗号化を行うというものである。</p>
+
+<p>「共通鍵」の漏えいリスクを「公開鍵方式」で担保し、高速な「共通鍵方式」のアルゴリズムでデータを担保するという手法。</p>
+
+<h3 id="共通鍵方式の中での2種類の方式">共通鍵方式の中での2種類の方式<a href="#共通鍵方式の中での2種類の方式" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>共通鍵方式の中で、その手法を大きく2つに分けることができる。</p>
+
+<p>それが以下の2つの種類の暗号化方式である。</p>
+
+<ul>
+<li>ブロック暗号</li>
+<li>ストリーム暗号</li>
+</ul>
+
+<h4 id="ブロック暗号">ブロック暗号<a href="#ブロック暗号" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>ブロック暗号は、暗号化対象の平文データを一定の長さのブロックに分割して暗号化を行う手法である。</p>
+
+<p>通常、平文データは1byte単位の可変長であるが、1byteごとに1byteの暗号文としていた場合は256通りのパターンでしかないため、簡単に解読されてしまう。</p>
+
+<p>これを防ぐために、8byte（64bit）や、32byte（256bit）といった、より大きな「ブロック」ごとにまとめて暗号化する方式で解読を難しくしている。</p>
+
+<h4 id="ストリーム暗号">ストリーム暗号<a href="#ストリーム暗号" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>ブロック暗号では、ブロック毎に暗号化をすることで1byte毎の暗号化よりも解読を難しくしているが、結局ブロック長が短ければパターン数が少なく解読の難易度も下がってしまう問題は変わらない。</p>
+
+<p>ブロック長を十分な長さにしたとしても、過去あった暗号化方式であるDESでも起こったように、コンピュータの性能向上によって脆弱なアルゴリズムになってしまう。</p>
+
+<p>そこで、任意長の鍵ストリーム列を生成させ、これと入力の平文を演算させる「ストリーム暗号」が考え出された。</p>
+
+<p>これは、1bitや1byte単位でデータを暗号化でき、かつ、パターンを十分に増やせる。</p>
+
+<p>また、対象の平文の長さを気にしなくて済むため、SSL（HTTPS）や無線LAN（WEP）など、ネットワークトラフィックを暗号化するために利用されている。</p>
+
+<h3 id="暗号化アルゴリズムの種類">暗号化アルゴリズムの種類<a href="#暗号化アルゴリズムの種類" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<h4 id="暗号化アルゴリズム一覧">暗号化アルゴリズム一覧<a href="#暗号化アルゴリズム一覧" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>方式</th>
+<th>暗号化方式</th>
+<th>暗号アルゴリズム</th>
+<th>信頼度</th>
+<th>規格</th>
+<th>備考</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>共通鍵</td>
+<td>ブロック</td>
+<td>DES</td>
+<td>低</td>
+<td>RFC 2451</td>
+<td></td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>共通鍵</td>
+<td>ブロック</td>
+<td>AES</td>
+<td>中</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>共通鍵</td>
+<td>ブロック</td>
+<td>Rijndael</td>
+<td>高</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>共通鍵</td>
+<td>ブロック</td>
+<td>Triple-DES</td>
+<td>中</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>共通鍵</td>
+<td>ブロック</td>
+<td>RC2</td>
+<td>低</td>
+<td>RFC 2268</td>
+<td></td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>共通鍵</td>
+<td>ストリーム</td>
+<td>RC4</td>
+<td>低</td>
+<td>RFC 7465</td>
+<td></td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>公開鍵</td>
+<td>-</td>
+<td>RSA</td>
+<td>高</td>
+<td></td>
+<td>大きな数の素因数分解問題</td>
+</tr>
+
+<tr>
+<td>8</td>
+<td>公開鍵</td>
+<td>-</td>
+<td>El Gamal</td>
+<td>高</td>
+<td></td>
+<td>離散対数問題</td>
+</tr>
+
+<tr>
+<td>9</td>
+<td>公開鍵</td>
+<td>-</td>
+<td>ECC</td>
+<td>高</td>
+<td></td>
+<td>離散対数暗号方式に楕円曲線の点のグループを適用させた方式</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="暗号利用モード-block-cipher-modes-of-opration">暗号利用モード (Block cipher modes of opration)<a href="#暗号利用モード-block-cipher-modes-of-opration" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>暗号化のアルゴリズムとは別に、暗号化を行う手順についての規格（？）。</p>
+
+<p>また、このモードはブロック暗号と呼ばれる暗号方式の際に利用する。</p>
+
+<p>代表的なECBモードといわれる方法では、鍵で平文を暗号化する際に単純に一回暗号化処理を行う。この状態では、同じ平文を同じパスワードで暗号化した場合、暗号化結果が同一になってしまうため、パターンを解析することで平文が求められてしまう。</p>
+
+<p>これを防ぐためのやり方がそのほかのモードである。</p>
+
+<h4 id="ecb-electronic-codebook-モード">ECB(Electronic Codebook)モード<a href="#ecb-electronic-codebook-モード" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>最も単純な暗号利用モードである。
+平文を決まったブロック(長さ)に分けたのち、そのブロックをそれぞれ独立して暗号化する。</p>
+
+<p>EBCモードの欠点は、上記にも記載した通り、同じ鍵を用いた場合ある平文ブロックを暗号化した結果の暗号ブロックが常に同じになることである。</p>
+
+<h4 id="cbc-cipher-block-chaining-モード">CBC(Cipher Block Chaining)モード<a href="#cbc-cipher-block-chaining-モード" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>この方式はIBMによって考案された方式で、各ブロックの平文を前のブロックのXORをとってから暗号化させる。</p>
+
+<p>この方法をとることによって、同一のパスワード・平文であったとしても、文脈が異なれば暗号化結果が変わる状態となる。</p>
+
+<p>また、最初のブロックについては、前のブロックが存在しないため、代わりになるInitialization Vector(IV)という初期値を与える。</p>
+
+<p>これは、最初のブロックに対して前のブロックの代わりになるため、ブロック長と同じ長さを指定する必要がある。</p>
+
+<p>この方式の欠点は以下の2点があげられる。</p>
+
+<ul>
+<li>ブロックの暗号化に前のブロックの情報が必要であるため、暗号化は並列で行うことができない。</li>
+<li>暗号ブロックの長さを固定化しなければならないため、対象の平文をブロック長の整数倍の長さにパディング（空白埋めなど）しなければならない。</li>
+</ul>
+
+<p>Niels FergusonおよびBruce Schneierによって推奨される二つの暗号化の一つである。</p>
+
+<h5 id="pcbc-propagating-cipher-block-chaining-モード">PCBC(Propagating Cipher Block Chaining)モード<a href="#pcbc-propagating-cipher-block-chaining-モード" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h5>
+
+<p>あまり主流ではないCBCモードの変法である。</p>
+
+<p>CBCモードでは、前のブロックの暗号結果を次のブロックに対してXORをかけた後に鍵で暗号化をかけていたが、PCBCモードでは、前のブロックの暗号化結果とそのブロックの暗号化前の平文をXORした結果で次のブロックの平文をXORし、鍵で暗号化する。</p>
+
+<p>特徴としては、隣接する2つの暗号文ブロックを入れ替えたとしてもそれ以降のブロックの複合に影響しないこと。</p>
+
+<h4 id="cfb-cipher-feedback-モード">CFB(Cipher Feedback)モード<a href="#cfb-cipher-feedback-モード" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>CBCモードと似ているが、どちらを主として考えるかという違いのようである。</p>
+
+<p>手順としては、IV（または前の暗号化結果）を暗号化し、その結果に次のブロックをXORして暗号化結果とする。</p>
+
+<p>これは、CBCモードと同様に、並列処理ができない作りである。</p>
+
+<p>また、これもCBCモードと同様だが、平文1ビットの変更で暗号文全体が変わってしまう。</p>
+
+<p>CBCモードと比べて利点となるのは、パディング処理を行わなくともよいという点である。</p>
+
+<h4 id="ofb-output-feedback-モード">OFB(Output Feedback)モード<a href="#ofb-output-feedback-モード" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>CFBモードの亜種みたいなもので、次のブロックの元となる暗号化ブロックを、前のブロックでXORをかける前の暗号化ブロックを用いる。</p>
+
+<p>利点としては、暗号化前でも前方誤り補正を適用できることのようだが、正確な意味を理解できていない。。。[TODO]</p>
+
+<p>また、細かい部分の説明を省くが、CBCモードを入力がすべて0で実施したときの暗号化ブロックが、OFBモードのブロックごとの入力値となるため、ハードウェア的な高速CBC機構を用いてOFBモードを実施する事が可能である。</p>
+
+<h4 id="ctr-counter-モード">CTR(Counter)モード<a href="#ctr-counter-モード" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>Counterと呼ばれる値とNonceと呼ばれる値を組み合わせ、暗号化処理をかけた結果を平文のブロックにXORすることで暗号化する。</p>
+
+<p>Counterは単調増加であり値が重複することがなければどんな値でもよいが、1ずつ増加する値を用いることが一般的である。</p>
+
+<p>また、この方式では暗号化・複合化ともに並列処理が行えるため、複数プロセッサと相性が良い。</p>
+
+<p>さらに、Niels FergusonおよびBruce Schneierによって推奨される2つの暗号化の一つである。</p>
+
+<h4 id="その他">その他<a href="#その他" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<ul>
+<li>CTS(CipherText Stealing)</li>
+<li>2DEM(2D Encryption Mode)</li>
+<li>ABC(Accumulated Block Chaining)</li>
+<li>IGE(Infinite Garble Extension)</li>
+<li>F8@3GPP</li>
+</ul>
+
+<p>などなど</p>
+
+<h4 id="参考文献">参考文献<a href="#参考文献" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<ol>
+<li><a href="https://ja.wikipedia.org/wiki/%E6%9A%97%E5%8F%B7%E5%88%A9%E7%94%A8%E3%83%A2%E3%83%BC%E3%83%89">Wikipedia - 暗号利用モード</a></li>
+<li><a href="http://www.triplefalcon.com/Lexicon/Encryption-Block-Mode-1.htm">triplefalcon - ブロック暗号化モード</a></li>
+</ol>
+
+<h3 id="パディングモード">パディングモード<a href="#パディングモード" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>暗号化モードでパディング処理が必要であるが、このパディングについても手法がいくつかある。</p>
+
+<h4 id="nopadding">NoPadding<a href="#nopadding" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>単純で、パディングを行わないモード
+これで問題ないのか？</p>
+
+<h4 id="zerobytepadding">ZeroBytePadding<a href="#zerobytepadding" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>ブロック長に満たない場合はNULLバイト(0x00)で埋める。
+ブロック長ピッタリな場合はパディングされない。</p>
+
+<p>このため、末尾のNULLバイトが本来生成された値の末尾なのかパディングされた値なのかを判断できない。</p>
+
+<p>暗号化するデータにNULLバイトが含まれていない場合に用いれる。</p>
+
+<h4 id="pkcs-5-padding">PKCS#5 Padding<a href="#pkcs-5-padding" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>ブロック長に満たないサイズの値を表すバイト値で足りない分を埋める。</p>
+
+<p>不足分が変われば埋める値が変わる。</p>
+
+<p>ブロック長がピッタリな場合は1ブロック分丸ごとパディングされる。</p>
+
+<p><a href="https://www.ietf.org/rfc/rfc1423.txt">RFC1423</a>で規格化されている。</p>
+
+<h4 id="pkcs-7-padding">PKCS#7 Padding<a href="#pkcs-7-padding" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>バイト シーケンスで構成され、各バイト シーケンスは追加される埋め込みバイトの合計数に等しいバイト数になる。</p>
+
+<p><a href="https://tools.ietf.org/html/rfc5652">RFC5652</a>で規格化されている。</p>
+
+<p>.NETではPKCS方式の場合このバージョンが実装されている。</p>
+
+<p>たとえば以下の通り。</p>
+
+<p><code>FF FF FF FF FF FF FF FF FF 07 07 07 07 07 07 07</code></p>
+
+<h4 id="iso10126padding">ISO10126Padding<a href="#iso10126padding" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>W3Cで定義されているパディング方式</p>
+
+<p>ランダムな値で埋める。</p>
+
+<p>たとえば以下の通り。</p>
+
+<p><code>FF FF FF FF FF FF FF FF FF 7 D 2A 75 EF F8 EF 07</code></p>
+
+<h4 id="ssl3padding">SSL3Padding<a href="#ssl3padding" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>SSL Protocol バージョン3.0のセクション5.2.3.2(CBCブロック暗号)で規定されたパディング方式</p>
+
+<h4 id="ansix923-padding">ANSIX923 Padding<a href="#ansix923-padding" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<p>ブロック長に満たないサイズの値を表すバイトを最後につけたNULLバイト値で埋める。</p>
+
+<p>たとえば以下の通り。</p>
+
+<p><code>FF FF FF FF FF FF FF FF FF 00 00 00 00 00 00 07</code></p>
+
+<h4 id="参考資料">参考資料<a href="#参考資料" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<ol>
+<li><a href="https://msdn.microsoft.com/ja-jp/library/system.security.cryptography.paddingmode(v=vs.110).aspx">MSDN - PaddingMode 列挙型</a></li>
+<li><a href="http://pentan.info/doc/block_cipher.html">Pentan.info - [暗号化]ブロック暗号とは(AES/DES/Blowfish PKCS5Padding ECB/CBC IV)</a></li>
+</ol>
+
+<h3 id="参考資料-1">参考資料<a href="#参考資料-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<ol>
+<li><a href="http://www.infraexpert.com/study/security4.html">ネットワークエンジニアとして - Common key cryptosystem / Public key cryptosystem</a></li>
+<li><a href="http://www.atmarkit.co.jp/ait/articles/1504/27/news032.html">@IT - 第1回　暗号化の基礎</a></li>
+<li><a href="http://www.mukaidono.jp/Board/infosys2000/security/firewall.htm">情報社会におけるセキュリティ - ２－４ 暗号化アルゴリズム</a></li>
+</ol>
+
+<h2 id="ハッシュ化アルゴリズム">ハッシュ化アルゴリズム<a href="#ハッシュ化アルゴリズム" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p>暗号化とは似て異なる代物で、暗号化では可逆の暗号文を生成するが、ハッシュでは不可逆の暗号文（メッセージダイジェストとかフィンガープリントとか呼ぶらしい）を生成する。</p>
+
+<p>また、可変のデータ長の平文を一定のデータ長の値を求めることができるため、チェックディジットや、パスワードの保管などに使われる。</p>
+
+<p>使用方法から、ハッシュでは暗号化と異なった特性が求められる。</p>
+
+<ul>
+<li>ハッシュは同じハッシュ関数を通す場合は常に同じ値が求まる。</li>
+<li>異なる元メッセージから同じハッシュ値が生成され <strong>にくい</strong></li>
+<li>また、生成されたハッシュ値と同一のハッシュ値が生成されるメッセージを求めることが困難であること。</li>
+</ul>
+
+<h3 id="ハッシュ化アルゴリズムの種類">ハッシュ化アルゴリズムの種類<a href="#ハッシュ化アルゴリズムの種類" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<h4 id="ハッシュ化アルゴリズム一覧">ハッシュ化アルゴリズム一覧<a href="#ハッシュ化アルゴリズム一覧" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>ハッシュアルゴリズム</th>
+<th>信頼度</th>
+<th>規格</th>
+<th>備考</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>MD5</td>
+<td>低</td>
+<td>RFC 1321</td>
+<td>_</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>SHA-1</td>
+<td>低</td>
+<td>FIPS 180-2</td>
+<td>_</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>SHA-2</td>
+<td>高</td>
+<td>FIPS 180-4</td>
+<td>_</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>SHA-3</td>
+<td>?</td>
+<td></td>
+<td>_</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="参考資料-2">参考資料<a href="#参考資料-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+
+<ol>
+<li><a href="http://sehermitage.web.fc2.com/crypto/digest.html">シニアエンジニアの庵 - ハッシュ関数</a></li>
+</ol>
+
+<h3 id="ソルト">ソルト<a href="#ソルト" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>ハッシュ化アルゴリズムの特性上、同じ平文を与えた場合常にハッシュ化された値は同じになることが保証されている。</p>
+
+<p>この特性をついて、よく設定される平文に対応するハッシュ値をデータベース化し、これと突き合わせることによって平文を求めるという手法（レインボーテーブル）に弱いことが知られている。</p>
+
+<p>この対策のため、平文に「ある値」をつなげた結果をハッシュ化し、「ハッシュ値」とこの「ある値」を一緒に管理するという手法がとられている。</p>
+
+<p>この「ある値」をソルトと呼んでいる。</p>
+
+<p>パスワードの管理であれば、パスワードを入力された後、このパスワードと保管しておいたソルトをつなげハッシュ値を求める。このハッシュ値が保管しているハッシュ値と一致していれば、入力されたパスワードが正しいと判断できる。</p>
+
+<p>また、レインボーテーブルへの対応としては以下の要件を満たすべきである。</p>
+
+<ul>
+<li>平文ごとに異なるソルトを使う</li>
+<li>ある程度の長さ（20文字程度以上）を確保する</li>
+</ul>
+
+<h3 id="ストレッチング">ストレッチング<a href="#ストレッチング" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<p>ストレッチングは総当たりによる解読の対策として生まれた手法。</p>
+
+<p>ハッシュの使用目的として、処理速度は高速であることが求められるため、この高速性をついて総当たりでの平文探索を行われてしまうことがある。</p>
+
+<p>これの対策として、あえて遅いハッシュ関数を作成するのではなく、早いハッシュ関数を何千回と繰り返すことで処理自体を遅くし、総当たりに時間がかかるようにする手法がストレッチングである。</p>
+
+<p>ストレッチングの回数が多いほど安全性が高まるが、計算量が増えることで負荷がかかってしまう。</p>
+
+<p>この負荷を利用してDoS攻撃に悪用されるリスクが高まってしまう。</p>
+
+<h2 id="参考資料-3">参考資料<a href="#参考資料-3" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<ol>
+<li><a href="http://tkengo.github.io/blog/2015/12/01/https-details/">けんごのお屋敷 - 理解してるつもりの SSL/TLS でも、もっと理解したら面白かった話</a></li>
+<li><a href="http://qiita.com/chroju/items/3ddae568206b8bc3d8f9">Qiita - 暗号化とハッシュ化に関する基本的な事柄まとめ</a></li>
+</ol>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://shibadog.github.io/tags/encrypt">encrypt</a></span><span class="tag"><a href="https://shibadog.github.io/tags/memo">memo</a></span>
+				</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>363 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-11-04T22:54:00&#43;0900</p>
+			</footer>
+		</article>
+		<aside id="toc">
+			<div class="toc-title">Table of Contents</div>
+			<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#暗号化アルゴリズム">暗号化アルゴリズム</a>
+<ul>
+<li><a href="#暗号化と複合">暗号化と複合</a></li>
+<li><a href="#2種類の暗号化方式">2種類の暗号化方式</a>
+<ul>
+<li><a href="#共通鍵暗号">共通鍵暗号</a></li>
+<li><a href="#公開鍵方式">公開鍵方式</a></li>
+</ul></li>
+<li><a href="#ハイブリット方式">ハイブリット方式</a></li>
+<li><a href="#共通鍵方式の中での2種類の方式">共通鍵方式の中での2種類の方式</a>
+<ul>
+<li><a href="#ブロック暗号">ブロック暗号</a></li>
+<li><a href="#ストリーム暗号">ストリーム暗号</a></li>
+</ul></li>
+<li><a href="#暗号化アルゴリズムの種類">暗号化アルゴリズムの種類</a>
+<ul>
+<li><a href="#暗号化アルゴリズム一覧">暗号化アルゴリズム一覧</a></li>
+</ul></li>
+<li><a href="#暗号利用モード-block-cipher-modes-of-opration">暗号利用モード (Block cipher modes of opration)</a>
+<ul>
+<li><a href="#ecb-electronic-codebook-モード">ECB(Electronic Codebook)モード</a></li>
+<li><a href="#cbc-cipher-block-chaining-モード">CBC(Cipher Block Chaining)モード</a>
+<ul>
+<li><a href="#pcbc-propagating-cipher-block-chaining-モード">PCBC(Propagating Cipher Block Chaining)モード</a></li>
+</ul></li>
+<li><a href="#cfb-cipher-feedback-モード">CFB(Cipher Feedback)モード</a></li>
+<li><a href="#ofb-output-feedback-モード">OFB(Output Feedback)モード</a></li>
+<li><a href="#ctr-counter-モード">CTR(Counter)モード</a></li>
+<li><a href="#その他">その他</a></li>
+<li><a href="#参考文献">参考文献</a></li>
+</ul></li>
+<li><a href="#パディングモード">パディングモード</a>
+<ul>
+<li><a href="#nopadding">NoPadding</a></li>
+<li><a href="#zerobytepadding">ZeroBytePadding</a></li>
+<li><a href="#pkcs-5-padding">PKCS#5 Padding</a></li>
+<li><a href="#pkcs-7-padding">PKCS#7 Padding</a></li>
+<li><a href="#iso10126padding">ISO10126Padding</a></li>
+<li><a href="#ssl3padding">SSL3Padding</a></li>
+<li><a href="#ansix923-padding">ANSIX923 Padding</a></li>
+<li><a href="#参考資料">参考資料</a></li>
+</ul></li>
+<li><a href="#参考資料-1">参考資料</a></li>
+</ul></li>
+<li><a href="#ハッシュ化アルゴリズム">ハッシュ化アルゴリズム</a>
+<ul>
+<li><a href="#ハッシュ化アルゴリズムの種類">ハッシュ化アルゴリズムの種類</a>
+<ul>
+<li><a href="#ハッシュ化アルゴリズム一覧">ハッシュ化アルゴリズム一覧</a></li>
+<li><a href="#参考資料-2">参考資料</a></li>
+</ul></li>
+<li><a href="#ソルト">ソルト</a></li>
+<li><a href="#ストレッチング">ストレッチング</a></li>
+</ul></li>
+<li><a href="#参考資料-3">参考資料</a></li>
+</ul></li>
+</ul>
+</nav>
+		</aside>
+		<div class="post-nav thin">
+			<a class="prev-post" href="https://shibadog.github.io/posts/002_hystrix_02/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>Hystrixを説明してみた２</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+    <p>&copy; 2019 <a href="https://shibadog.github.io/">shibadog</a></p>
+    <p>
+        Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://shibadog.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    </p>
+</footer>
+<script src="/asset/mermaid/mermaid.js"></script>
+
+
+
+	<script src="https://shibadog.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-150290110-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>

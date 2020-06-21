@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>memo on shibadog site</title>
@@ -6,10 +6,22 @@
     <description>Recent content in memo on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Mon, 04 Nov 2019 22:54:02 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 20 Jun 2020 00:26:00 +0900</lastBuildDate>
     
 	<atom:link href="https://shibadog.github.io/tags/memo/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>最近気持ちが上がった話</title>
+      <link>https://shibadog.github.io/posts/005_%E6%9C%80%E8%BF%91%E6%B0%97%E6%8C%81%E3%81%A1%E3%81%8C%E4%B8%8A%E3%81%8C%E3%81%A3%E3%81%9F%E8%A9%B1/</link>
+      <pubDate>Sat, 20 Jun 2020 00:26:00 +0900</pubDate>
+      
+      <guid>https://shibadog.github.io/posts/005_%E6%9C%80%E8%BF%91%E6%B0%97%E6%8C%81%E3%81%A1%E3%81%8C%E4%B8%8A%E3%81%8C%E3%81%A3%E3%81%9F%E8%A9%B1/</guid>
+      <description>別にまとめる気もなく、アゲアゲになったヤツをただ並べるだけ
+ Spring-bootの2.3系でmavenのビルドにbuildpackが組み込まれた  なので、ちょーーーかんたんにdocker-composeで複数アプリをホイホイ立てれるし、コード編集しつつ反映が楽ちん。   vscodeでdrawioを直いじりができつつ、pngやsvgで保存できる。  なので、ちょーーーかんたんにmarkdownに埋め込む画像をdrawioで編集しつつgithubで見れる。(hugo使った記事にも使える)   一緒にお題を決めて勉強をしてくれる人を見つけた（若い子たちだけど おいちゃんから連絡があった  あんまりなかった。。。でもマジで気分が上がったネタだった。
+次は、こうだったらいいのになー
+ APIのI/Fをドキュメントする便利で安定していて広く使える方法 超手軽に立てられる環境隔離ができ（Concouseみたいに）、環境構築をコードで書けるCIシステム ブラウザバージョンアップに追従しなくていいブラウザ自動操作系の何か（selenium辛い）  </description>
+    </item>
     
     <item>
       <title>暗号化/ハッシュ化について調べた</title>

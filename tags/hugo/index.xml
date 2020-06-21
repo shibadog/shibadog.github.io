@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>hugo on shibadog site</title>
@@ -17,11 +17,11 @@
       <pubDate>Thu, 17 Oct 2019 09:55:20 +0900</pubDate>
       
       <guid>https://shibadog.github.io/posts/hugo_analytics/</guid>
-      <description> とりあえずgoogle analyticsが標準対応との記述を公式ドキュメントで見つけたのでやっておく。
+      <description>とりあえずgoogle analyticsが標準対応との記述を公式ドキュメントで見つけたのでやっておく。
 1. google analyticsにログイン 2. 新規プロパティを作成 ハマったこと ウェブを選択。
 アプリとウェブだとうまくできなかった（よくよめよ）
 3. トラッキングIDをコピー プロパティのメニューから選ぶ
-4. config.toml に追加 baseURL = &amp;quot;https://shibadog.github.io/&amp;quot; languageCode = &amp;quot;ja-jp&amp;quot; title = &amp;quot;shibadog site&amp;quot; theme = &amp;quot;hermit&amp;quot; googleAnalytics = &amp;quot;UA-999999999-9&amp;quot; [author] name = &amp;quot;shibadog&amp;quot; : :  参考  AGO&amp;rsquo;s page - hugoにgoogle アナリティクスを導入した話 なかけんのHugoノート - 画像を追加しよう  </description>
+4. config.toml に追加 baseURL = &amp;#34;https://shibadog.github.io/&amp;#34; languageCode = &amp;#34;ja-jp&amp;#34; title = &amp;#34;shibadog site&amp;#34; theme = &amp;#34;hermit&amp;#34; googleAnalytics = &amp;#34;UA-999999999-9&amp;#34; [author] name = &amp;#34;shibadog&amp;#34; : : 参考  AGO&amp;rsquo;s page - hugoにgoogle アナリティクスを導入した話 なかけんのHugoノート - 画像を追加しよう  </description>
     </item>
     
   </channel>

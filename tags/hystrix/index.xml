@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>hystrix on shibadog site</title>
@@ -19,11 +19,10 @@
       <guid>https://shibadog.github.io/posts/002_hystrix_02/</guid>
       <description>Hystrixを説明してみた の続き
 Hystrixの機能 Hystrixの機能紹介をしてみる。
- コマンド隔離 コマンドエラー検知  例外ハンドリング タイムアウトハンドリング  コマンド同時実行数制限  コマンド隔離 Hystrixではコマンドの隔離が行える。
+ コマンド隔離 コマンドエラー検知  例外ハンドリング タイムアウトハンドリング   コマンド同時実行数制限  コマンド隔離 Hystrixではコマンドの隔離が行える。
 具体的には、指定したメソッド一つが隔離対象となり、別名で隔離したメソッドと影響しあわないようにできる。
 例えば、以下のように2つのコマンドを定義したアプリの場合。 コマンドAからアクセスするAPIAがタイムアウトを頻発するような状況になってしまったとすると、
 コマンドAが即エラーを返すようなることで、リクエスト処理スレッドが占有されず、コマンドBは正常に処理が行われる。
- 
 コマンドエラー検知 コマンド内で実行される処理でExceptionが発生した場合には、このExceptionを検知してフォールバック処理を行うことができる。
 また、コマンド内の処理のタイムアウトを測ることができ、指定時間を過ぎた場合に、HystrixのExceptionを発生させることができる。
 timeInMillisecondsの秒数内に、numBuckets分の記録用の箱があるイメージ。 例えば、10,000msで10Bucketsの場合、集計範囲は1,000msになる。

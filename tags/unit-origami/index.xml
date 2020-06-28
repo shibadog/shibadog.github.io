@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>unit-origami on shibadog site</title>
+    <link>https://shibadog.github.io/tags/unit-origami/</link>
+    <description>Recent content in unit-origami on shibadog site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Sun, 28 Jun 2020 09:45:32 +0900</lastBuildDate>
+    
+	<atom:link href="https://shibadog.github.io/tags/unit-origami/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>もやもやボール</title>
+      <link>https://shibadog.github.io/posts/006_moyat-ball-star/</link>
+      <pubDate>Sun, 28 Jun 2020 09:45:32 +0900</pubDate>
+      
+      <guid>https://shibadog.github.io/posts/006_moyat-ball-star/</guid>
+      <description>ユニット折り紙 イライラ、もやもやしたときにいつも作るユニット折り紙を並べて行こうという試み。
+今回、いつも使っているユニット折り紙の本以外から情報を得て作ったので、作り方を残しておくというのもある。
+完成図 作り方 思ったよりも、Draw.ioで折り紙書くの辛かった（何
+折り紙の図面は表裏がわかるように範囲色付けとか、変形させた際に微調整をするために、線同士の結合をしたまま移動させるとかの機能があったほうがいい。。。
+つまり、ちゃんとしたお絵かきソフトで作ったほうが断然効率がいいということが分かったorz
+でもちょっと面白かった</description>
+    </item>
+    
+  </channel>
+</rss>

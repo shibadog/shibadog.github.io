@@ -6,10 +6,24 @@
     <description>Recent content on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Sat, 20 Jun 2020 00:26:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 28 Jun 2020 09:45:32 +0900</lastBuildDate>
     
 	<atom:link href="https://shibadog.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>もやもやボール</title>
+      <link>https://shibadog.github.io/posts/006_moyat-ball-star/</link>
+      <pubDate>Sun, 28 Jun 2020 09:45:32 +0900</pubDate>
+      
+      <guid>https://shibadog.github.io/posts/006_moyat-ball-star/</guid>
+      <description>ユニット折り紙 イライラ、もやもやしたときにいつも作るユニット折り紙を並べて行こうという試み。
+今回、いつも使っているユニット折り紙の本以外から情報を得て作ったので、作り方を残しておくというのもある。
+完成図 作り方 思ったよりも、Draw.ioで折り紙書くの辛かった（何
+折り紙の図面は表裏がわかるように範囲色付けとか、変形させた際に微調整をするために、線同士の結合をしたまま移動させるとかの機能があったほうがいい。。。
+つまり、ちゃんとしたお絵かきソフトで作ったほうが断然効率がいいということが分かったorz
+でもちょっと面白かった</description>
+    </item>
     
     <item>
       <title>最近気持ちが上がった話</title>

@@ -116,7 +116,7 @@ Hystrixは隔離方式を2種類用意しており、デフォルトでは独立
 			</header>
 			<div class="content">
 				<p><a href="../001_hystrix_01/">Hystrixを説明してみた</a> の続き</p>
-<h1 id="hystrixの機能">Hystrixの機能<a href="#hystrixの機能" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h1>
+<h1 id="hystrix">Hystrixの機能<a href="#hystrix" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h1>
 <p>Hystrixの機能紹介をしてみる。</p>
 <ul>
 <li>コマンド隔離</li>
@@ -128,14 +128,14 @@ Hystrixは隔離方式を2種類用意しており、デフォルトでは独立
 </li>
 <li>コマンド同時実行数制限</li>
 </ul>
-<h2 id="コマンド隔離">コマンド隔離<a href="#コマンド隔離" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h2 id="heading">コマンド隔離<a href="#heading" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <p>Hystrixではコマンドの隔離が行える。<br>
 具体的には、指定したメソッド一つが隔離対象となり、別名で隔離したメソッドと影響しあわないようにできる。</p>
 <p>例えば、以下のように2つのコマンドを定義したアプリの場合。
 コマンドAからアクセスするAPIAがタイムアウトを頻発するような状況になってしまったとすると、<br>
 コマンドAが即エラーを返すようなることで、リクエスト処理スレッドが占有されず、コマンドBは正常に処理が行われる。</p>
 <!-- raw HTML omitted -->
-<h2 id="コマンドエラー検知">コマンドエラー検知<a href="#コマンドエラー検知" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h2 id="heading-1">コマンドエラー検知<a href="#heading-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <p>コマンド内で実行される処理でExceptionが発生した場合には、このExceptionを検知してフォールバック処理を行うことができる。</p>
 <p>また、コマンド内の処理のタイムアウトを測ることができ、指定時間を過ぎた場合に、HystrixのExceptionを発生させることができる。</p>
 <p>timeInMillisecondsの秒数内に、numBuckets分の記録用の箱があるイメージ。
@@ -143,7 +143,7 @@ Hystrixは隔離方式を2種類用意しており、デフォルトでは独立
 <p>circuitBreaker.errorThresholdPercentageで設定した割合でSuccess以外のエラー数となった場合に、ショートサーキット状態となる。</p>
 <p><img src="./Hystrix%E3%82%A8%E3%83%A9%E3%83%BC%E6%A4%9C%E7%9F%A5.svg" alt=""></p>
 <p>参考：<a href="https://github.com/Netflix/Hystrix/wiki/Configuration#metricsrollingstatstimeinmilliseconds">GitHub - Netflix/Hystrix wiki</a></p>
-<h2 id="コマンド同時実行数制御">コマンド同時実行数制御<a href="#コマンド同時実行数制御" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h2 id="heading-2">コマンド同時実行数制御<a href="#heading-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <p>隔離されたコマンドは同時実行数の制御が行える。</p>
 <p>Hystrixは隔離方式を2種類用意しており、デフォルトでは独立Threadによる制御を行う。</p>
 <p><img src="./Hystrix%E5%90%8C%E6%99%82%E5%AE%9F%E8%A1%8C%E6%95%B0_01.svg" alt=""></p>
@@ -159,7 +159,7 @@ Hystrixは隔離方式を2種類用意しており、デフォルトでは独立
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://shibadog.github.io/tags/hystrix">hystrix</a></span><span class="tag"><a href="https://shibadog.github.io/tags/circuit_breaker">circuit_breaker</a></span>
 				</p>
 				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>31 Words</p>
-				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-10-26T13:17:00&#43;0900</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-10-26T04:17:00&#43;0000</p>
 			</footer>
 		</article>
 		<div class="post-nav thin">

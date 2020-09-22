@@ -20,12 +20,12 @@
 折り紙の図面は表裏がわかるように範囲色付けとか、変形させた際に微調整をするために、線同士の結合をしたまま移動させるとかの機能があったほうがいい。。。
 つまり、ちゃんとしたお絵かきソフトで作ったほうが断然効率がいいということが分かったorz
 でもちょっと面白かった</description>
-			<content type="html"><![CDATA[<h2 id="ユニット折り紙">ユニット折り紙</h2>
+			<content type="html"><![CDATA[<h2 id="heading">ユニット折り紙</h2>
 <p>イライラ、もやもやしたときにいつも作るユニット折り紙を並べて行こうという試み。</p>
 <p>今回、いつも使っているユニット折り紙の本以外から情報を得て作ったので、作り方を残しておくというのもある。</p>
-<h2 id="完成図">完成図</h2>
+<h2 id="heading-1">完成図</h2>
 <p><img src="./IMG_0103.jpg" alt="完成図"></p>
-<h2 id="作り方">作り方</h2>
+<h2 id="heading-2">作り方</h2>
 <p><img src="./001_%E4%BD%9C%E3%82%8A%E6%96%B9.drawio.svg" alt=""></p>
 <p><img src="./002_%E4%BD%9C%E3%82%8A%E6%96%B9.drawio.svg" alt=""></p>
 <p><img src="./003_%E4%BD%9C%E3%82%8A%E6%96%B9.drawio.svg" alt=""></p>
@@ -110,23 +110,23 @@
 また、対象の平文の長さを気にしなくて済むため、SSL（HTTPS）や無線LAN（WEP）など、ネットワークトラフィックを暗号化するために利用されている。
 暗号化アルゴリズムの種類 暗号化アルゴリズム一覧    # 方式 暗号化方式 暗号アルゴリズム 信頼度 規格 備考     1 共通鍵 ブロック DES 低 RFC 2451    2 共通鍵 ブロック AES 中     3 共通鍵 ブロック Rijndael 高     4 共通鍵 ブロック Triple-DES 中     5 共通鍵 ブロック RC2 低 RFC 2268    6 共通鍵 ストリーム RC4 低 RFC 7465    7 公開鍵 - RSA 高  大きな数の素因数分解問題   8 公開鍵 - El Gamal 高  離散対数問題   9 公開鍵 - ECC 高  離散対数暗号方式に楕円曲線の点のグループを適用させた方式    暗号利用モード (Block cipher modes of opration) 暗号化のアルゴリズムとは別に、暗号化を行う手順についての規格（？）。</description>
 			<content type="html"><![CDATA[<p>何もできなかったから過去書いたネタを転載（ぉ</p>
-<h2 id="暗号化アルゴリズム">暗号化アルゴリズム</h2>
-<h3 id="暗号化と複合">暗号化と複合</h3>
+<h2 id="heading">暗号化アルゴリズム</h2>
+<h3 id="heading-1">暗号化と複合</h3>
 <p>暗号化は誰でもアクセス可能なパブリックな場所でデータを転送する際に、第三者にデータを盗み見されたり、改ざんされないようにデータを守るために用いられる。</p>
 <p>暗号化や複合は、暗号化アルゴリズムと鍵によって行われる。</p>
-<h3 id="2種類の暗号化方式">2種類の暗号化方式</h3>
+<h3 id="2">2種類の暗号化方式</h3>
 <p>暗号化アルゴリズムには大きく分けて2種類のものがある。</p>
 <ul>
 <li>共通鍵暗号</li>
 <li>公開鍵暗号</li>
 </ul>
-<h4 id="共通鍵暗号">共通鍵暗号</h4>
+<h4 id="heading-2">共通鍵暗号</h4>
 <p>この方式は、直観的に理解しやすい。</p>
 <p>いわゆる現実で用いる「鍵」と同様の方法で、一つの「鍵」を用いて鍵をかける（暗号化）ことができ、さらに同じ「鍵」で鍵を開ける（複合化）できる。</p>
 <p>また、この「鍵」を「共通鍵」と呼ぶ。</p>
 <p>欠点と相手は、暗号化する側と、複合化する側が異なる場合に同一の「共通鍵」をそれぞれが保有している必要がある。</p>
 <p>これは、「共通鍵」を他人が知り得てしまった場合は、その他人が暗号文を解読できてしまうというリスクが発生する。</p>
-<h4 id="公開鍵方式">公開鍵方式</h4>
+<h4 id="heading-3">公開鍵方式</h4>
 <p>この方式は、少し現実で表現しにくい。</p>
 <p>二つの鍵を用意し、それぞれ、「暗号化用」と「複合化用」とする。</p>
 <p>「暗号化用」の鍵を「公開鍵」と呼び、「複合化用」の鍵を「秘密鍵」と呼ぶ。</p>
@@ -136,29 +136,29 @@
 <p>この方式の特徴は、「公開鍵」で暗号化したものは「秘密鍵」でのみ複合化できるということで、かつ、「公開鍵」を用いて「秘密鍵」を推測することができないことである。</p>
 <p>「公開鍵」を知り得ても暗号化はできても複合化ができないため、必ず「秘密鍵」を持っているものしか暗号文を解読することはできない。</p>
 <p>欠点としては、共通鍵方式と比べると処理（暗号化・複合化）の速度が遅い。</p>
-<h3 id="ハイブリット方式">ハイブリット方式</h3>
+<h3 id="heading-4">ハイブリット方式</h3>
 <p>それぞれの方式には利点・欠点がありそれを補完するためにはブリット方式が存在する。</p>
 <p>ハイブリット方式では、データの暗号化には「共通鍵方式」を用い、この「共通鍵」を受け渡す際に「公開鍵方式」で暗号化を行うというものである。</p>
 <p>「共通鍵」の漏えいリスクを「公開鍵方式」で担保し、高速な「共通鍵方式」のアルゴリズムでデータを担保するという手法。</p>
-<h3 id="共通鍵方式の中での2種類の方式">共通鍵方式の中での2種類の方式</h3>
+<h3 id="2-1">共通鍵方式の中での2種類の方式</h3>
 <p>共通鍵方式の中で、その手法を大きく2つに分けることができる。</p>
 <p>それが以下の2つの種類の暗号化方式である。</p>
 <ul>
 <li>ブロック暗号</li>
 <li>ストリーム暗号</li>
 </ul>
-<h4 id="ブロック暗号">ブロック暗号</h4>
+<h4 id="heading-5">ブロック暗号</h4>
 <p>ブロック暗号は、暗号化対象の平文データを一定の長さのブロックに分割して暗号化を行う手法である。</p>
 <p>通常、平文データは1byte単位の可変長であるが、1byteごとに1byteの暗号文としていた場合は256通りのパターンでしかないため、簡単に解読されてしまう。</p>
 <p>これを防ぐために、8byte（64bit）や、32byte（256bit）といった、より大きな「ブロック」ごとにまとめて暗号化する方式で解読を難しくしている。</p>
-<h4 id="ストリーム暗号">ストリーム暗号</h4>
+<h4 id="heading-6">ストリーム暗号</h4>
 <p>ブロック暗号では、ブロック毎に暗号化をすることで1byte毎の暗号化よりも解読を難しくしているが、結局ブロック長が短ければパターン数が少なく解読の難易度も下がってしまう問題は変わらない。</p>
 <p>ブロック長を十分な長さにしたとしても、過去あった暗号化方式であるDESでも起こったように、コンピュータの性能向上によって脆弱なアルゴリズムになってしまう。</p>
 <p>そこで、任意長の鍵ストリーム列を生成させ、これと入力の平文を演算させる「ストリーム暗号」が考え出された。</p>
 <p>これは、1bitや1byte単位でデータを暗号化でき、かつ、パターンを十分に増やせる。</p>
 <p>また、対象の平文の長さを気にしなくて済むため、SSL（HTTPS）や無線LAN（WEP）など、ネットワークトラフィックを暗号化するために利用されている。</p>
-<h3 id="暗号化アルゴリズムの種類">暗号化アルゴリズムの種類</h3>
-<h4 id="暗号化アルゴリズム一覧">暗号化アルゴリズム一覧</h4>
+<h3 id="heading-7">暗号化アルゴリズムの種類</h3>
+<h4 id="heading-8">暗号化アルゴリズム一覧</h4>
 <table>
 <thead>
 <tr>
@@ -255,16 +255,16 @@
 </tr>
 </tbody>
 </table>
-<h3 id="暗号利用モード-block-cipher-modes-of-opration">暗号利用モード (Block cipher modes of opration)</h3>
+<h3 id="-block-cipher-modes-of-opration">暗号利用モード (Block cipher modes of opration)</h3>
 <p>暗号化のアルゴリズムとは別に、暗号化を行う手順についての規格（？）。</p>
 <p>また、このモードはブロック暗号と呼ばれる暗号方式の際に利用する。</p>
 <p>代表的なECBモードといわれる方法では、鍵で平文を暗号化する際に単純に一回暗号化処理を行う。この状態では、同じ平文を同じパスワードで暗号化した場合、暗号化結果が同一になってしまうため、パターンを解析することで平文が求められてしまう。</p>
 <p>これを防ぐためのやり方がそのほかのモードである。</p>
-<h4 id="ecbelectronic-codebookモード">ECB(Electronic Codebook)モード</h4>
+<h4 id="ecbelectronic-codebook">ECB(Electronic Codebook)モード</h4>
 <p>最も単純な暗号利用モードである。
 平文を決まったブロック(長さ)に分けたのち、そのブロックをそれぞれ独立して暗号化する。</p>
 <p>EBCモードの欠点は、上記にも記載した通り、同じ鍵を用いた場合ある平文ブロックを暗号化した結果の暗号ブロックが常に同じになることである。</p>
-<h4 id="cbccipher-block-chainingモード">CBC(Cipher Block Chaining)モード</h4>
+<h4 id="cbccipher-block-chaining">CBC(Cipher Block Chaining)モード</h4>
 <p>この方式はIBMによって考案された方式で、各ブロックの平文を前のブロックのXORをとってから暗号化させる。</p>
 <p>この方法をとることによって、同一のパスワード・平文であったとしても、文脈が異なれば暗号化結果が変わる状態となる。</p>
 <p>また、最初のブロックについては、前のブロックが存在しないため、代わりになるInitialization Vector(IV)という初期値を与える。</p>
@@ -275,26 +275,26 @@
 <li>暗号ブロックの長さを固定化しなければならないため、対象の平文をブロック長の整数倍の長さにパディング（空白埋めなど）しなければならない。</li>
 </ul>
 <p>Niels FergusonおよびBruce Schneierによって推奨される二つの暗号化の一つである。</p>
-<h5 id="pcbcpropagating-cipher-block-chainingモード">PCBC(Propagating Cipher Block Chaining)モード</h5>
+<h5 id="pcbcpropagating-cipher-block-chaining">PCBC(Propagating Cipher Block Chaining)モード</h5>
 <p>あまり主流ではないCBCモードの変法である。</p>
 <p>CBCモードでは、前のブロックの暗号結果を次のブロックに対してXORをかけた後に鍵で暗号化をかけていたが、PCBCモードでは、前のブロックの暗号化結果とそのブロックの暗号化前の平文をXORした結果で次のブロックの平文をXORし、鍵で暗号化する。</p>
 <p>特徴としては、隣接する2つの暗号文ブロックを入れ替えたとしてもそれ以降のブロックの複合に影響しないこと。</p>
-<h4 id="cfbcipher-feedbackモード">CFB(Cipher Feedback)モード</h4>
+<h4 id="cfbcipher-feedback">CFB(Cipher Feedback)モード</h4>
 <p>CBCモードと似ているが、どちらを主として考えるかという違いのようである。</p>
 <p>手順としては、IV（または前の暗号化結果）を暗号化し、その結果に次のブロックをXORして暗号化結果とする。</p>
 <p>これは、CBCモードと同様に、並列処理ができない作りである。</p>
 <p>また、これもCBCモードと同様だが、平文1ビットの変更で暗号文全体が変わってしまう。</p>
 <p>CBCモードと比べて利点となるのは、パディング処理を行わなくともよいという点である。</p>
-<h4 id="ofboutput-feedbackモード">OFB(Output Feedback)モード</h4>
+<h4 id="ofboutput-feedback">OFB(Output Feedback)モード</h4>
 <p>CFBモードの亜種みたいなもので、次のブロックの元となる暗号化ブロックを、前のブロックでXORをかける前の暗号化ブロックを用いる。</p>
 <p>利点としては、暗号化前でも前方誤り補正を適用できることのようだが、正確な意味を理解できていない。。。[TODO]</p>
 <p>また、細かい部分の説明を省くが、CBCモードを入力がすべて0で実施したときの暗号化ブロックが、OFBモードのブロックごとの入力値となるため、ハードウェア的な高速CBC機構を用いてOFBモードを実施する事が可能である。</p>
-<h4 id="ctrcounterモード">CTR(Counter)モード</h4>
+<h4 id="ctrcounter">CTR(Counter)モード</h4>
 <p>Counterと呼ばれる値とNonceと呼ばれる値を組み合わせ、暗号化処理をかけた結果を平文のブロックにXORすることで暗号化する。</p>
 <p>Counterは単調増加であり値が重複することがなければどんな値でもよいが、1ずつ増加する値を用いることが一般的である。</p>
 <p>また、この方式では暗号化・複合化ともに並列処理が行えるため、複数プロセッサと相性が良い。</p>
 <p>さらに、Niels FergusonおよびBruce Schneierによって推奨される2つの暗号化の一つである。</p>
-<h4 id="その他">その他</h4>
+<h4 id="heading-9">その他</h4>
 <ul>
 <li>CTS(CipherText Stealing)</li>
 <li>2DEM(2D Encryption Mode)</li>
@@ -303,12 +303,12 @@
 <li>F8@3GPP</li>
 </ul>
 <p>などなど</p>
-<h4 id="参考文献">参考文献</h4>
+<h4 id="heading-10">参考文献</h4>
 <ol>
 <li><a href="https://ja.wikipedia.org/wiki/%E6%9A%97%E5%8F%B7%E5%88%A9%E7%94%A8%E3%83%A2%E3%83%BC%E3%83%89">Wikipedia - 暗号利用モード</a></li>
 <li><a href="http://www.triplefalcon.com/Lexicon/Encryption-Block-Mode-1.htm">triplefalcon - ブロック暗号化モード</a></li>
 </ol>
-<h3 id="パディングモード">パディングモード</h3>
+<h3 id="heading-11">パディングモード</h3>
 <p>暗号化モードでパディング処理が必要であるが、このパディングについても手法がいくつかある。</p>
 <h4 id="nopadding">NoPadding</h4>
 <p>単純で、パディングを行わないモード
@@ -340,18 +340,18 @@
 <p>ブロック長に満たないサイズの値を表すバイトを最後につけたNULLバイト値で埋める。</p>
 <p>たとえば以下の通り。</p>
 <p><code>FF FF FF FF FF FF FF FF FF 00 00 00 00 00 00 07</code></p>
-<h4 id="参考資料">参考資料</h4>
+<h4 id="heading-12">参考資料</h4>
 <ol>
 <li><a href="https://msdn.microsoft.com/ja-jp/library/system.security.cryptography.paddingmode(v=vs.110).aspx">MSDN - PaddingMode 列挙型</a></li>
 <li><a href="http://pentan.info/doc/block_cipher.html">Pentan.info - [暗号化]ブロック暗号とは(AES/DES/Blowfish PKCS5Padding ECB/CBC IV)</a></li>
 </ol>
-<h3 id="参考資料-1">参考資料</h3>
+<h3 id="heading-13">参考資料</h3>
 <ol>
 <li><a href="http://www.infraexpert.com/study/security4.html">ネットワークエンジニアとして - Common key cryptosystem / Public key cryptosystem</a></li>
 <li><a href="http://www.atmarkit.co.jp/ait/articles/1504/27/news032.html">@IT - 第1回　暗号化の基礎</a></li>
 <li><a href="http://www.mukaidono.jp/Board/infosys2000/security/firewall.htm">情報社会におけるセキュリティ - ２－４ 暗号化アルゴリズム</a></li>
 </ol>
-<h2 id="ハッシュ化アルゴリズム">ハッシュ化アルゴリズム</h2>
+<h2 id="heading-14">ハッシュ化アルゴリズム</h2>
 <p>暗号化とは似て異なる代物で、暗号化では可逆の暗号文を生成するが、ハッシュでは不可逆の暗号文（メッセージダイジェストとかフィンガープリントとか呼ぶらしい）を生成する。</p>
 <p>また、可変のデータ長の平文を一定のデータ長の値を求めることができるため、チェックディジットや、パスワードの保管などに使われる。</p>
 <p>使用方法から、ハッシュでは暗号化と異なった特性が求められる。</p>
@@ -360,8 +360,8 @@
 <li>異なる元メッセージから同じハッシュ値が生成され <strong>にくい</strong></li>
 <li>また、生成されたハッシュ値と同一のハッシュ値が生成されるメッセージを求めることが困難であること。</li>
 </ul>
-<h3 id="ハッシュ化アルゴリズムの種類">ハッシュ化アルゴリズムの種類</h3>
-<h4 id="ハッシュ化アルゴリズム一覧">ハッシュ化アルゴリズム一覧</h4>
+<h3 id="heading-15">ハッシュ化アルゴリズムの種類</h3>
+<h4 id="heading-16">ハッシュ化アルゴリズム一覧</h4>
 <table>
 <thead>
 <tr>
@@ -403,11 +403,11 @@
 </tr>
 </tbody>
 </table>
-<h4 id="参考資料-2">参考資料</h4>
+<h4 id="heading-17">参考資料</h4>
 <ol>
 <li><a href="http://sehermitage.web.fc2.com/crypto/digest.html">シニアエンジニアの庵 - ハッシュ関数</a></li>
 </ol>
-<h3 id="ソルト">ソルト</h3>
+<h3 id="heading-18">ソルト</h3>
 <p>ハッシュ化アルゴリズムの特性上、同じ平文を与えた場合常にハッシュ化された値は同じになることが保証されている。</p>
 <p>この特性をついて、よく設定される平文に対応するハッシュ値をデータベース化し、これと突き合わせることによって平文を求めるという手法（レインボーテーブル）に弱いことが知られている。</p>
 <p>この対策のため、平文に「ある値」をつなげた結果をハッシュ化し、「ハッシュ値」とこの「ある値」を一緒に管理するという手法がとられている。</p>
@@ -418,13 +418,13 @@
 <li>平文ごとに異なるソルトを使う</li>
 <li>ある程度の長さ（20文字程度以上）を確保する</li>
 </ul>
-<h3 id="ストレッチング">ストレッチング</h3>
+<h3 id="heading-19">ストレッチング</h3>
 <p>ストレッチングは総当たりによる解読の対策として生まれた手法。</p>
 <p>ハッシュの使用目的として、処理速度は高速であることが求められるため、この高速性をついて総当たりでの平文探索を行われてしまうことがある。</p>
 <p>これの対策として、あえて遅いハッシュ関数を作成するのではなく、早いハッシュ関数を何千回と繰り返すことで処理自体を遅くし、総当たりに時間がかかるようにする手法がストレッチングである。</p>
 <p>ストレッチングの回数が多いほど安全性が高まるが、計算量が増えることで負荷がかかってしまう。</p>
 <p>この負荷を利用してDoS攻撃に悪用されるリスクが高まってしまう。</p>
-<h2 id="参考資料-3">参考資料</h2>
+<h2 id="heading-20">参考資料</h2>
 <ol>
 <li><a href="http://tkengo.github.io/blog/2015/12/01/https-details/">けんごのお屋敷 - 理解してるつもりの SSL/TLS でも、もっと理解したら面白かった話</a></li>
 <li><a href="http://qiita.com/chroju/items/3ddae568206b8bc3d8f9">Qiita - 暗号化とハッシュ化に関する基本的な事柄まとめ</a></li>
@@ -455,7 +455,7 @@ Hystrixは隔離方式を2種類用意しており、デフォルトでは独立
 若干飽きて適当になった（ぇ
 いったんこれまでにしておく。</description>
 			<content type="html"><![CDATA[<p><a href="../001_hystrix_01/">Hystrixを説明してみた</a> の続き</p>
-<h1 id="hystrixの機能">Hystrixの機能</h1>
+<h1 id="hystrix">Hystrixの機能</h1>
 <p>Hystrixの機能紹介をしてみる。</p>
 <ul>
 <li>コマンド隔離</li>
@@ -467,14 +467,14 @@ Hystrixは隔離方式を2種類用意しており、デフォルトでは独立
 </li>
 <li>コマンド同時実行数制限</li>
 </ul>
-<h2 id="コマンド隔離">コマンド隔離</h2>
+<h2 id="heading">コマンド隔離</h2>
 <p>Hystrixではコマンドの隔離が行える。<br>
 具体的には、指定したメソッド一つが隔離対象となり、別名で隔離したメソッドと影響しあわないようにできる。</p>
 <p>例えば、以下のように2つのコマンドを定義したアプリの場合。
 コマンドAからアクセスするAPIAがタイムアウトを頻発するような状況になってしまったとすると、<br>
 コマンドAが即エラーを返すようなることで、リクエスト処理スレッドが占有されず、コマンドBは正常に処理が行われる。</p>
 <!-- raw HTML omitted -->
-<h2 id="コマンドエラー検知">コマンドエラー検知</h2>
+<h2 id="heading-1">コマンドエラー検知</h2>
 <p>コマンド内で実行される処理でExceptionが発生した場合には、このExceptionを検知してフォールバック処理を行うことができる。</p>
 <p>また、コマンド内の処理のタイムアウトを測ることができ、指定時間を過ぎた場合に、HystrixのExceptionを発生させることができる。</p>
 <p>timeInMillisecondsの秒数内に、numBuckets分の記録用の箱があるイメージ。
@@ -482,7 +482,7 @@ Hystrixは隔離方式を2種類用意しており、デフォルトでは独立
 <p>circuitBreaker.errorThresholdPercentageで設定した割合でSuccess以外のエラー数となった場合に、ショートサーキット状態となる。</p>
 <p><img src="./Hystrix%E3%82%A8%E3%83%A9%E3%83%BC%E6%A4%9C%E7%9F%A5.svg" alt=""></p>
 <p>参考：<a href="https://github.com/Netflix/Hystrix/wiki/Configuration#metricsrollingstatstimeinmilliseconds">GitHub - Netflix/Hystrix wiki</a></p>
-<h2 id="コマンド同時実行数制御">コマンド同時実行数制御</h2>
+<h2 id="heading-2">コマンド同時実行数制御</h2>
 <p>隔離されたコマンドは同時実行数の制御が行える。</p>
 <p>Hystrixは隔離方式を2種類用意しており、デフォルトでは独立Threadによる制御を行う。</p>
 <p><img src="./Hystrix%E5%90%8C%E6%99%82%E5%AE%9F%E8%A1%8C%E6%95%B0_01.svg" alt=""></p>
@@ -511,7 +511,7 @@ Circuit Breakerとは、マイクロサービスで開発されたアプリケ�
 これによって、後続が障害により連続でエラーを返す状態になった場合にも、後続へのリクエストを中止し、負荷をかけないようにしたうえで、異常状態の対処を行う。
 これが相当に便利であり、しかも後続への無駄な負荷をかけずにすむという代物でした。
 今回はここまで。</description>
-			<content type="html"><![CDATA[<h2 id="hystrixとは">Hystrixとは</h2>
+			<content type="html"><![CDATA[<h2 id="hystrix">Hystrixとは</h2>
 <p>Netflixが開発したOSSで、Circuit Breakerの実装。<br>
 Circuit Breakerとは、マイクロサービスで開発されたアプリケーション同士が、一つのアプリの障害で連鎖的に障害を発生させる状態を防止するための、ブレーカー的役割をする機能のこと。</p>
 <p>後続のアプリケーションが障害を起こした場合、当該アプリで即エラーを返すことでリクエストの流入を抑える。</p>
@@ -544,18 +544,18 @@ Circuit Breakerとは、マイクロサービスで開発されたアプリケ�
 1. google analyticsにログイン 2. 新規プロパティを作成 ハマったこと ウェブを選択。
 アプリとウェブだとうまくできなかった（よくよめよ）
 3. トラッキングIDをコピー プロパティのメニューから選ぶ
-4. config.toml に追加 baseURL = &amp;#34;https://shibadog.github.io/&amp;#34; languageCode = &amp;#34;ja-jp&amp;#34; title = &amp;#34;shibadog site&amp;#34; theme = &amp;#34;hermit&amp;#34; googleAnalytics = &amp;#34;UA-999999999-9&amp;#34; [author] name = &amp;#34;shibadog&amp;#34; : : 参考  AGO&amp;rsquo;s page - hugoにgoogle アナリティクスを導入した話 なかけんのHugoノート - 画像を追加しよう  </description>
+4. config.toml に追加 baseURL = &amp;#34;https://shibadog.github.io/&amp;#34; languageCode = &amp;#34;ja-jp&amp;#34; title = &amp;#34;shibadog site&amp;#34; theme = &amp;#34;hermit&amp;#34; googleAnalytics = &amp;#34;UA-999999999-9&amp;#34; [author] name = &amp;#34;shibadog&amp;#34; : : 参考  AGO&#39;s page - hugoにgoogle アナリティクスを導入した話 なかけんのHugoノート - 画像を追加しよう  </description>
 			<content type="html"><![CDATA[<p>とりあえずgoogle analyticsが標準対応との記述を<a href="https://gohugo.io/templates/internal/#google-analytics">公式ドキュメント</a>で見つけたのでやっておく。</p>
-<h2 id="1-google-analyticsにログイン">1. google analyticsにログイン</h2>
-<h2 id="2-新規プロパティを作成">2. 新規プロパティを作成</h2>
+<h2 id="1-google-analytics">1. google analyticsにログイン</h2>
+<h2 id="2-">2. 新規プロパティを作成</h2>
 <p><img src="./image1.png" alt="プロパティの種類"></p>
-<h3 id="ハマったこと">ハマったこと</h3>
+<h3 id="heading">ハマったこと</h3>
 <p>ウェブを選択。<br>
 アプリとウェブだとうまくできなかった（よくよめよ）</p>
-<h2 id="3-トラッキングidをコピー">3. トラッキングIDをコピー</h2>
+<h2 id="3-id">3. トラッキングIDをコピー</h2>
 <p>プロパティのメニューから選ぶ</p>
 <p><img src="./image2.png" alt="トラッキングIDの場所"></p>
-<h2 id="4-configtoml-に追加">4. <code>config.toml</code> に追加</h2>
+<h2 id="4-configtoml-">4. <code>config.toml</code> に追加</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-config.toml" data-lang="config.toml"><span style="color:#a6e22e">baseURL</span> = <span style="color:#e6db74">&#34;https://shibadog.github.io/&#34;</span>
 <span style="color:#a6e22e">languageCode</span> = <span style="color:#e6db74">&#34;ja-jp&#34;</span>
 <span style="color:#a6e22e">title</span> = <span style="color:#e6db74">&#34;shibadog site&#34;</span>
@@ -567,9 +567,9 @@ Circuit Breakerとは、マイクロサービスで開発されたアプリケ�
   <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;shibadog&#34;</span>
 <span style="color:#960050;background-color:#1e0010">:</span>
 <span style="color:#960050;background-color:#1e0010">:</span>
-</code></pre></div><h2 id="参考">参考</h2>
+</code></pre></div><h2 id="heading-1">参考</h2>
 <ul>
-<li><a href="https://agodoriru.github.io/post/20171218/">AGO&rsquo;s page - hugoにgoogle アナリティクスを導入した話</a></li>
+<li><a href="https://agodoriru.github.io/post/20171218/">AGO's page - hugoにgoogle アナリティクスを導入した話</a></li>
 <li><a href="https://hugo.nakaken88.com/use/image/">なかけんのHugoノート - 画像を追加しよう</a></li>
 </ul>
 ]]></content>

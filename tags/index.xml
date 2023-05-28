@@ -2,102 +2,102 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on shibadog site</title>
-    <link>https://shibadog.github.io/tags/</link>
+    <link>https://pages.shibadog.net/tags/</link>
     <description>Recent content in Tags on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <lastBuildDate>Tue, 22 Sep 2020 14:52:00 +0900</lastBuildDate>
     
-	<atom:link href="https://shibadog.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://pages.shibadog.net/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>sample</title>
-      <link>https://shibadog.github.io/tags/sample/</link>
+      <link>https://pages.shibadog.net/tags/sample/</link>
       <pubDate>Tue, 22 Sep 2020 14:52:00 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/tags/sample/</guid>
+      <guid>https://pages.shibadog.net/tags/sample/</guid>
       <description></description>
     </item>
     
     <item>
       <title>spring boot</title>
-      <link>https://shibadog.github.io/tags/spring-boot/</link>
+      <link>https://pages.shibadog.net/tags/spring-boot/</link>
       <pubDate>Tue, 22 Sep 2020 14:52:00 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/tags/spring-boot/</guid>
+      <guid>https://pages.shibadog.net/tags/spring-boot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>vault</title>
-      <link>https://shibadog.github.io/tags/vault/</link>
+      <link>https://pages.shibadog.net/tags/vault/</link>
       <pubDate>Tue, 22 Sep 2020 14:52:00 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/tags/vault/</guid>
+      <guid>https://pages.shibadog.net/tags/vault/</guid>
       <description></description>
     </item>
     
     <item>
       <title>unit-origami</title>
-      <link>https://shibadog.github.io/tags/unit-origami/</link>
+      <link>https://pages.shibadog.net/tags/unit-origami/</link>
       <pubDate>Sun, 28 Jun 2020 09:45:32 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/tags/unit-origami/</guid>
+      <guid>https://pages.shibadog.net/tags/unit-origami/</guid>
       <description></description>
     </item>
     
     <item>
       <title>memo</title>
-      <link>https://shibadog.github.io/tags/memo/</link>
+      <link>https://pages.shibadog.net/tags/memo/</link>
       <pubDate>Sat, 20 Jun 2020 00:26:00 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/tags/memo/</guid>
+      <guid>https://pages.shibadog.net/tags/memo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>encrypt</title>
-      <link>https://shibadog.github.io/tags/encrypt/</link>
+      <link>https://pages.shibadog.net/tags/encrypt/</link>
       <pubDate>Mon, 04 Nov 2019 22:54:02 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/tags/encrypt/</guid>
+      <guid>https://pages.shibadog.net/tags/encrypt/</guid>
       <description></description>
     </item>
     
     <item>
       <title>circuit_breaker</title>
-      <link>https://shibadog.github.io/tags/circuit_breaker/</link>
+      <link>https://pages.shibadog.net/tags/circuit_breaker/</link>
       <pubDate>Sat, 26 Oct 2019 13:17:15 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/tags/circuit_breaker/</guid>
+      <guid>https://pages.shibadog.net/tags/circuit_breaker/</guid>
       <description></description>
     </item>
     
     <item>
       <title>hystrix</title>
-      <link>https://shibadog.github.io/tags/hystrix/</link>
+      <link>https://pages.shibadog.net/tags/hystrix/</link>
       <pubDate>Sat, 26 Oct 2019 13:17:15 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/tags/hystrix/</guid>
+      <guid>https://pages.shibadog.net/tags/hystrix/</guid>
       <description></description>
     </item>
     
     <item>
       <title>hugo</title>
-      <link>https://shibadog.github.io/tags/hugo/</link>
+      <link>https://pages.shibadog.net/tags/hugo/</link>
       <pubDate>Thu, 17 Oct 2019 09:55:20 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/tags/hugo/</guid>
+      <guid>https://pages.shibadog.net/tags/hugo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>note</title>
-      <link>https://shibadog.github.io/tags/note/</link>
+      <link>https://pages.shibadog.net/tags/note/</link>
       <pubDate>Wed, 16 Oct 2019 22:12:21 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/tags/note/</guid>
+      <guid>https://pages.shibadog.net/tags/note/</guid>
       <description></description>
     </item>
     

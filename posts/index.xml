@@ -1,19 +1,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>Posts on shibadog site</title>
-		<link>https://shibadog.github.io/posts/</link>
+		<link>https://pages.shibadog.net/posts/</link>
 		<description>Recent content in Posts on shibadog site</description>
 		<generator>Hugo -- gohugo.io</generator>
 		<language>ja-jp</language>
 		<lastBuildDate>Tue, 22 Sep 2020 14:52:00 +0900</lastBuildDate>
-		<atom:link href="https://shibadog.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		<atom:link href="https://pages.shibadog.net/posts/index.xml" rel="self" type="application/rss+xml" />
 		
 		<item>
 			<title>spring boot vault</title>
-			<link>https://shibadog.github.io/posts/007_spring-vault/</link>
+			<link>https://pages.shibadog.net/posts/007_spring-vault/</link>
 			<pubDate>Tue, 22 Sep 2020 14:52:00 +0900</pubDate>
 			
-			<guid>https://shibadog.github.io/posts/007_spring-vault/</guid>
+			<guid>https://pages.shibadog.net/posts/007_spring-vault/</guid>
 			<description>やってみた。
 Spring Vault
 VaultはHashiCorpのプロダクトで、クレデンシャル情報を保持するミドル。
@@ -51,10 +51,10 @@ K8Sな言葉がちょいちょい出てくるので何か想定する運用が�
 		
 		<item>
 			<title>もやもやボール</title>
-			<link>https://shibadog.github.io/posts/006_moyat-ball-star/</link>
+			<link>https://pages.shibadog.net/posts/006_moyat-ball-star/</link>
 			<pubDate>Sun, 28 Jun 2020 09:45:32 +0900</pubDate>
 			
-			<guid>https://shibadog.github.io/posts/006_moyat-ball-star/</guid>
+			<guid>https://pages.shibadog.net/posts/006_moyat-ball-star/</guid>
 			<description>ユニット折り紙 イライラ、もやもやしたときにいつも作るユニット折り紙を並べて行こうという試み。
 今回、いつも使っているユニット折り紙の本以外から情報を得て作ったので、作り方を残しておくというのもある。
 完成図 作り方 思ったよりも、Draw.ioで折り紙書くの辛かった（何
@@ -79,10 +79,10 @@ K8Sな言葉がちょいちょい出てくるので何か想定する運用が�
 		
 		<item>
 			<title>最近気持ちが上がった話</title>
-			<link>https://shibadog.github.io/posts/005_%E6%9C%80%E8%BF%91%E6%B0%97%E6%8C%81%E3%81%A1%E3%81%8C%E4%B8%8A%E3%81%8C%E3%81%A3%E3%81%9F%E8%A9%B1/</link>
+			<link>https://pages.shibadog.net/posts/005_%E6%9C%80%E8%BF%91%E6%B0%97%E6%8C%81%E3%81%A1%E3%81%8C%E4%B8%8A%E3%81%8C%E3%81%A3%E3%81%9F%E8%A9%B1/</link>
 			<pubDate>Sat, 20 Jun 2020 00:26:00 +0900</pubDate>
 			
-			<guid>https://shibadog.github.io/posts/005_%E6%9C%80%E8%BF%91%E6%B0%97%E6%8C%81%E3%81%A1%E3%81%8C%E4%B8%8A%E3%81%8C%E3%81%A3%E3%81%9F%E8%A9%B1/</guid>
+			<guid>https://pages.shibadog.net/posts/005_%E6%9C%80%E8%BF%91%E6%B0%97%E6%8C%81%E3%81%A1%E3%81%8C%E4%B8%8A%E3%81%8C%E3%81%A3%E3%81%9F%E8%A9%B1/</guid>
 			<description>別にまとめる気もなく、アゲアゲになったヤツをただ並べるだけ
  Spring-bootの2.3系でmavenのビルドにbuildpackが組み込まれた  なので、ちょーーーかんたんにdocker-composeで複数アプリをホイホイ立てれるし、コード編集しつつ反映が楽ちん。   vscodeでdrawioを直いじりができつつ、pngやsvgで保存できる。  なので、ちょーーーかんたんにmarkdownに埋め込む画像をdrawioで編集しつつgithubで見れる。(hugo使った記事にも使える)   一緒にお題を決めて勉強をしてくれる人を見つけた（若い子たちだけど おいちゃんから連絡があった  あんまりなかった。。。でもマジで気分が上がったネタだった。
 次は、こうだったらいいのになー
@@ -114,10 +114,10 @@ K8Sな言葉がちょいちょい出てくるので何か想定する運用が�
 		
 		<item>
 			<title>暗号化/ハッシュ化について調べた</title>
-			<link>https://shibadog.github.io/posts/003_encript/</link>
+			<link>https://pages.shibadog.net/posts/003_encript/</link>
 			<pubDate>Mon, 04 Nov 2019 22:54:02 +0900</pubDate>
 			
-			<guid>https://shibadog.github.io/posts/003_encript/</guid>
+			<guid>https://pages.shibadog.net/posts/003_encript/</guid>
 			<description>何もできなかったから過去書いたネタを転載（ぉ
 暗号化アルゴリズム 暗号化と複合 暗号化は誰でもアクセス可能なパブリックな場所でデータを転送する際に、第三者にデータを盗み見されたり、改ざんされないようにデータを守るために用いられる。
 暗号化や複合は、暗号化アルゴリズムと鍵によって行われる。
@@ -475,10 +475,10 @@ K8Sな言葉がちょいちょい出てくるので何か想定する運用が�
 		
 		<item>
 			<title>Hystrixを説明してみた２</title>
-			<link>https://shibadog.github.io/posts/002_hystrix_02/</link>
+			<link>https://pages.shibadog.net/posts/002_hystrix_02/</link>
 			<pubDate>Sat, 26 Oct 2019 13:17:15 +0900</pubDate>
 			
-			<guid>https://shibadog.github.io/posts/002_hystrix_02/</guid>
+			<guid>https://pages.shibadog.net/posts/002_hystrix_02/</guid>
 			<description>Hystrixを説明してみた の続き
 Hystrixの機能 Hystrixの機能紹介をしてみる。
  コマンド隔離 コマンドエラー検知  例外ハンドリング タイムアウトハンドリング   コマンド同時実行数制限  コマンド隔離 Hystrixではコマンドの隔離が行える。
@@ -536,10 +536,10 @@ Hystrixは隔離方式を2種類用意しており、デフォルトでは独立
 		
 		<item>
 			<title>Hystrixを説明してみた</title>
-			<link>https://shibadog.github.io/posts/001_hystrix_01/</link>
+			<link>https://pages.shibadog.net/posts/001_hystrix_01/</link>
 			<pubDate>Sun, 20 Oct 2019 21:10:22 +0900</pubDate>
 			
-			<guid>https://shibadog.github.io/posts/001_hystrix_01/</guid>
+			<guid>https://pages.shibadog.net/posts/001_hystrix_01/</guid>
 			<description>Hystrixとは Netflixが開発したOSSで、Circuit Breakerの実装。
 Circuit Breakerとは、マイクロサービスで開発されたアプリケーション同士が、一つのアプリの障害で連鎖的に障害を発生させる状態を防止するための、ブレーカー的役割をする機能のこと。
 後続のアプリケーションが障害を起こした場合、当該アプリで即エラーを返すことでリクエストの流入を抑える。
@@ -577,10 +577,10 @@ Circuit Breakerとは、マイクロサービスで開発されたアプリケ�
 		
 		<item>
 			<title>hugoにgoogleアナリティクスを導入</title>
-			<link>https://shibadog.github.io/posts/hugo_analytics/</link>
+			<link>https://pages.shibadog.net/posts/hugo_analytics/</link>
 			<pubDate>Thu, 17 Oct 2019 09:55:20 +0900</pubDate>
 			
-			<guid>https://shibadog.github.io/posts/hugo_analytics/</guid>
+			<guid>https://pages.shibadog.net/posts/hugo_analytics/</guid>
 			<description>とりあえずgoogle analyticsが標準対応との記述を公式ドキュメントで見つけたのでやっておく。
 1. google analyticsにログイン 2. 新規プロパティを作成 ハマったこと ウェブを選択。
 アプリとウェブだとうまくできなかった（よくよめよ）
@@ -618,10 +618,10 @@ Circuit Breakerとは、マイクロサービスで開発されたアプリケ�
 		
 		<item>
 			<title>ブログのネタブログ</title>
-			<link>https://shibadog.github.io/posts/blog_neta/</link>
+			<link>https://pages.shibadog.net/posts/blog_neta/</link>
 			<pubDate>Wed, 16 Oct 2019 22:12:21 +0900</pubDate>
 			
-			<guid>https://shibadog.github.io/posts/blog_neta/</guid>
+			<guid>https://pages.shibadog.net/posts/blog_neta/</guid>
 			<description>ブログを書きたい気持ちはある。（ともにネタもいくつか考えられはする）
 がしかし、どこから攻めるか、はたまた思いつくままに初めて尻すぼみで終わるのではないかという不安がある。
 これの対策として、ブログにしたい（つまり勉強したい）ネタを並べて置くことにする。
@@ -705,10 +705,10 @@ Circuit Breakerとは、マイクロサービスで開発されたアプリケ�
 		
 		<item>
 			<title>My First Post</title>
-			<link>https://shibadog.github.io/posts/my-first-post/</link>
+			<link>https://pages.shibadog.net/posts/my-first-post/</link>
 			<pubDate>Tue, 15 Oct 2019 23:52:59 +0900</pubDate>
 			
-			<guid>https://shibadog.github.io/posts/my-first-post/</guid>
+			<guid>https://pages.shibadog.net/posts/my-first-post/</guid>
 			<description>ブログをまたやりたいと思い、 Hugo という静的サイトジェネレータと GitHub Pages を使って作ってみた。
 3日坊主にならないことを祈る。
 しかし、このHugoというやつ結構楽しい。 まずはこれを使いこなせるようになりたい。。。</description>

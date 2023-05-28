@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>circuit_breaker on shibadog site</title>
-    <link>https://shibadog.github.io/tags/circuit_breaker/</link>
+    <link>https://pages.shibadog.net/tags/circuit_breaker/</link>
     <description>Recent content in circuit_breaker on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <lastBuildDate>Sat, 26 Oct 2019 13:17:15 +0900</lastBuildDate>
     
-	<atom:link href="https://shibadog.github.io/tags/circuit_breaker/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://pages.shibadog.net/tags/circuit_breaker/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Hystrixを説明してみた２</title>
-      <link>https://shibadog.github.io/posts/002_hystrix_02/</link>
+      <link>https://pages.shibadog.net/posts/002_hystrix_02/</link>
       <pubDate>Sat, 26 Oct 2019 13:17:15 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/posts/002_hystrix_02/</guid>
+      <guid>https://pages.shibadog.net/posts/002_hystrix_02/</guid>
       <description>Hystrixを説明してみた の続き
 Hystrixの機能 Hystrixの機能紹介をしてみる。
  コマンド隔離 コマンドエラー検知  例外ハンドリング タイムアウトハンドリング   コマンド同時実行数制限  コマンド隔離 Hystrixではコマンドの隔離が行える。
@@ -37,10 +37,10 @@ Hystrixは隔離方式を2種類用意しており、デフォルトでは独立
     
     <item>
       <title>Hystrixを説明してみた</title>
-      <link>https://shibadog.github.io/posts/001_hystrix_01/</link>
+      <link>https://pages.shibadog.net/posts/001_hystrix_01/</link>
       <pubDate>Sun, 20 Oct 2019 21:10:22 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/posts/001_hystrix_01/</guid>
+      <guid>https://pages.shibadog.net/posts/001_hystrix_01/</guid>
       <description>Hystrixとは Netflixが開発したOSSで、Circuit Breakerの実装。
 Circuit Breakerとは、マイクロサービスで開発されたアプリケーション同士が、一つのアプリの障害で連鎖的に障害を発生させる状態を防止するための、ブレーカー的役割をする機能のこと。
 後続のアプリケーションが障害を起こした場合、当該アプリで即エラーを返すことでリクエストの流入を抑える。

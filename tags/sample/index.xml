@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>sample on shibadog site</title>
-    <link>https://shibadog.github.io/tags/sample/</link>
+    <link>https://pages.shibadog.net/tags/sample/</link>
     <description>Recent content in sample on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <lastBuildDate>Tue, 22 Sep 2020 14:52:00 +0900</lastBuildDate>
     
-	<atom:link href="https://shibadog.github.io/tags/sample/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://pages.shibadog.net/tags/sample/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>spring boot vault</title>
-      <link>https://shibadog.github.io/posts/007_spring-vault/</link>
+      <link>https://pages.shibadog.net/posts/007_spring-vault/</link>
       <pubDate>Tue, 22 Sep 2020 14:52:00 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/posts/007_spring-vault/</guid>
+      <guid>https://pages.shibadog.net/posts/007_spring-vault/</guid>
       <description>やってみた。
 Spring Vault
 VaultはHashiCorpのプロダクトで、クレデンシャル情報を保持するミドル。

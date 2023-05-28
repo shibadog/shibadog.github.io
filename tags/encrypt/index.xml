@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>encrypt on shibadog site</title>
-    <link>https://shibadog.github.io/tags/encrypt/</link>
+    <link>https://pages.shibadog.net/tags/encrypt/</link>
     <description>Recent content in encrypt on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <lastBuildDate>Mon, 04 Nov 2019 22:54:02 +0900</lastBuildDate>
     
-	<atom:link href="https://shibadog.github.io/tags/encrypt/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://pages.shibadog.net/tags/encrypt/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>暗号化/ハッシュ化について調べた</title>
-      <link>https://shibadog.github.io/posts/003_encript/</link>
+      <link>https://pages.shibadog.net/posts/003_encript/</link>
       <pubDate>Mon, 04 Nov 2019 22:54:02 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/posts/003_encript/</guid>
+      <guid>https://pages.shibadog.net/posts/003_encript/</guid>
       <description>何もできなかったから過去書いたネタを転載（ぉ
 暗号化アルゴリズム 暗号化と複合 暗号化は誰でもアクセス可能なパブリックな場所でデータを転送する際に、第三者にデータを盗み見されたり、改ざんされないようにデータを守るために用いられる。
 暗号化や複合は、暗号化アルゴリズムと鍵によって行われる。

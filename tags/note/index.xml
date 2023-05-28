@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>note on shibadog site</title>
-    <link>https://shibadog.github.io/tags/note/</link>
+    <link>https://pages.shibadog.net/tags/note/</link>
     <description>Recent content in note on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <lastBuildDate>Wed, 16 Oct 2019 22:12:21 +0900</lastBuildDate>
     
-	<atom:link href="https://shibadog.github.io/tags/note/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://pages.shibadog.net/tags/note/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ブログのネタブログ</title>
-      <link>https://shibadog.github.io/posts/blog_neta/</link>
+      <link>https://pages.shibadog.net/posts/blog_neta/</link>
       <pubDate>Wed, 16 Oct 2019 22:12:21 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/posts/blog_neta/</guid>
+      <guid>https://pages.shibadog.net/posts/blog_neta/</guid>
       <description>ブログを書きたい気持ちはある。（ともにネタもいくつか考えられはする）
 がしかし、どこから攻めるか、はたまた思いつくままに初めて尻すぼみで終わるのではないかという不安がある。
 これの対策として、ブログにしたい（つまり勉強したい）ネタを並べて置くことにする。
@@ -28,10 +28,10 @@
     
     <item>
       <title>My First Post</title>
-      <link>https://shibadog.github.io/posts/my-first-post/</link>
+      <link>https://pages.shibadog.net/posts/my-first-post/</link>
       <pubDate>Tue, 15 Oct 2019 23:52:59 +0900</pubDate>
       
-      <guid>https://shibadog.github.io/posts/my-first-post/</guid>
+      <guid>https://pages.shibadog.net/posts/my-first-post/</guid>
       <description>ブログをまたやりたいと思い、 Hugo という静的サイトジェネレータと GitHub Pages を使って作ってみた。
 3日坊主にならないことを祈る。
 しかし、このHugoというやつ結構楽しい。 まずはこれを使いこなせるようになりたい。。。</description>

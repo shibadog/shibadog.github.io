@@ -101,6 +101,104 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 		</item>
 		
 		<item>
+			<title>CentOSの事情</title>
+			<link>https://pages.shibadog.net/posts/009_centos/</link>
+			<pubDate>Fri, 03 Mar 2023 00:00:00 +0900</pubDate>
+			
+			<guid>https://pages.shibadog.net/posts/009_centos/</guid>
+			<description>背景 業務で利用するLinux Serverを新規で作成することになった。
+既存のLinux Serverの横に追加することになっているため、追加するサーバのOSも併せようと考えたが、現在CentOSはバージョンアップ方針が変わっており、そのまま採用すべきではないのではないか、となった。
+適切なOSを選定するとともに、CentOSの事情を把握しておきたいため、調査する。
+CentOSの事情 元々の流れ CentOSは Red Hat Enterprise Linux（以降RHEL）というディストリビューションの系列に属しており、RHELと機能的に互換性があることを目指したフリーのLinuxディストリビューションである。
+RHELに含まれているソフトウェアの中にはOSSで無償公開しているため、これをもとに、商標や商用パッケージをのぞいたものをリビルドして提供している。そのため、「RHELクローン」と呼ばれることもある。(CentOS自体は公式には否定している)
+最初期ではRHELを提供するレッドハットは関わっていなかったが、2014年からCentOSを正式に支援していくことを表明していた。
+しかし、2020/12/8にCentOSからCentOS Streamに開発の主軸を移動し、CentOS Linux 8のサポートを2021年に停止している。RHEL 9に対応するCentOS Linux 9は提供さず、今後はCentOS Stream 9の提供とする。
+Red Hat Enterprise Linux派生ディストリビューション Red Hat Enterprise Linux派生ディストリビューション
+RHELには様々なディストリビューションが存在する。大きくは、まず同社がメンテナを行っているFedora Linuxがある。これは、もともとはRHELの無償版であった。
+しかし、Fedoraはサポート期間が比較的短く、実験的なリリース方針であったため、長期サポートを望むユーザとしては利用に適していなかった。
+RHELはコンパイル済みのものを無償提供していないが、完全なソースコードを公開しているため、これを入手し再コンパイルすることで派生ディストリビューションの作成が行われている。
+CentOSのサポート情報 CentOS
+   Version  完全更新期限 メンテナス更新期限     6 6.10(最終) 2017年 Q2 2020/11/30   7 7.9-2009(最新) 2020年 Q4 2024/06/30   8 8.5.2111(最終) 2021年12月 2021/12/31    CentOS Stream CentOS StreamはRHELとFedora Linuxの中間を目指したディストリビューション。</description>
+			<content type="html"><![CDATA[<h2 id="heading">背景</h2>
+<p>業務で利用するLinux Serverを新規で作成することになった。<br>
+既存のLinux Serverの横に追加することになっているため、追加するサーバのOSも併せようと考えたが、現在CentOSはバージョンアップ方針が変わっており、そのまま採用すべきではないのではないか、となった。</p>
+<p>適切なOSを選定するとともに、CentOSの事情を把握しておきたいため、調査する。</p>
+<h2 id="centos">CentOSの事情</h2>
+<h3 id="heading-1">元々の流れ</h3>
+<p>CentOSは Red Hat Enterprise Linux（以降RHEL）というディストリビューションの系列に属しており、RHELと機能的に互換性があることを目指したフリーのLinuxディストリビューションである。</p>
+<p>RHELに含まれているソフトウェアの中にはOSSで無償公開しているため、これをもとに、商標や商用パッケージをのぞいたものをリビルドして提供している。そのため、「RHELクローン」と呼ばれることもある。(CentOS自体は公式には否定している)</p>
+<p>最初期ではRHELを提供するレッドハットは関わっていなかったが、2014年からCentOSを正式に支援していくことを表明していた。</p>
+<p>しかし、2020/12/8にCentOSからCentOS Streamに開発の主軸を移動し、CentOS Linux 8のサポートを2021年に停止している。RHEL 9に対応するCentOS Linux 9は提供さず、今後はCentOS Stream 9の提供とする。</p>
+<h4 id="red-hat-enterprise-linux">Red Hat Enterprise Linux派生ディストリビューション</h4>
+<p><a href="https://ja.wikipedia.org/wiki/Red_Hat_Enterprise_Linux%E6%B4%BE%E7%94%9F%E3%83%87%E3%82%A3%E3%82%B9%E3%83%88%E3%83%AA%E3%83%93%E3%83%A5%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">Red Hat Enterprise Linux派生ディストリビューション</a></p>
+<p>RHELには様々なディストリビューションが存在する。大きくは、まず同社がメンテナを行っているFedora Linuxがある。これは、もともとはRHELの無償版であった。</p>
+<p>しかし、Fedoraはサポート期間が比較的短く、実験的なリリース方針であったため、長期サポートを望むユーザとしては利用に適していなかった。</p>
+<p>RHELはコンパイル済みのものを無償提供していないが、完全なソースコードを公開しているため、これを入手し再コンパイルすることで派生ディストリビューションの作成が行われている。</p>
+<h4 id="centos-1">CentOSのサポート情報</h4>
+<p><a href="https://ja.wikipedia.org/wiki/CentOS">CentOS</a></p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th></th>
+<th>完全更新期限</th>
+<th>メンテナス更新期限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6</td>
+<td>6.10(最終)</td>
+<td>2017年 Q2</td>
+<td>2020/11/30</td>
+</tr>
+<tr>
+<td>7</td>
+<td>7.9-2009(最新)</td>
+<td>2020年 Q4</td>
+<td>2024/06/30</td>
+</tr>
+<tr>
+<td>8</td>
+<td>8.5.2111(最終)</td>
+<td>2021年12月</td>
+<td>2021/12/31</td>
+</tr>
+</tbody>
+</table>
+<h4 id="centos-stream">CentOS Stream</h4>
+<p>CentOS StreamはRHELとFedora Linuxの中間を目指したディストリビューション。</p>
+<p>Fedoraは実験的なリリースを取り込み、RHELの将来のメジャーリリースのベースとなるアップストリームプロジェクトであったが、CentOS StreamはRHELの次のバージョンとなる変更を取り入れたRHELのプレビューとなる。</p>
+<p>このような性質の変更があったため、重要なビジネスアプリケーションやプロダクション環境での使用は推奨されておらずRHELが進められる。</p>
+<p><img src="./image.drawio.png" alt="image"></p>
+<p>元々のCentOSの性質としては、他のRHELと同様にコードのリビルドから生成されたものであり、個別メンテナンスであったため、今回の変更で性質ががらりと変わる。</p>
+<p>やはり商用利用を考えた場合、（本質的にはRHELを使え、なのだが）あまり利用は推奨されるべきものではなくなるという見解があちらこちらで見られた。</p>
+<h2 id="heading-2">派生ディストリビューションについて</h2>
+<p>CentOSの事情を鑑み（結局ただ乗りになるのだが。。。）、同じ要件をかなえるためのディストリビューションが多数生まれている。</p>
+<p>もし、無償版を利用するならばこの中から選定すべきだと考えられる。</p>
+<h3 id="rocky-linux">Rocky Linux</h3>
+<p><a href="https://ja.wikipedia.org/wiki/Rocky_Linux">Rocky Linux</a><br>
+<a href="https://rockylinux.org/ja/">Rocky Linux</a></p>
+<p>RHELのソースコードを利用した、完全バイナリ互換性のあるリリースであることを意図しており、コミュニティがサポートする、商業品質の企業向けOSを提供することを目的としている。</p>
+<p>背景として、CentOS Streamが発表された後、CentOSの初代創設者である Gregory Kurtzer氏が、元のCentOSの目的を達成するために立ち上げたプロジェクトである。</p>
+<p>パートナー企業としては、ArmやVMWare、AWS、Google Cloudなども参加しており、従来のCentOSと同等のもののとなっている様子。</p>
+<h3 id="almalinux">AlmaLinux</h3>
+<p><a href="https://ja.wikipedia.org/wiki/AlmaLinux">AlmaLinux</a><br>
+<a href="https://almalinux.org/ja/">AlmaLinux OS - Forever-Free Enterprise-Grade Operating System</a></p>
+<p>Rocky Linuxと同様の動機と目的をもって開発されているディストリビューション。</p>
+<p>しかし、こちらは、CloudLinux OSというRHELベースの商用Linuxディストリビューションを開発しているCloudLinuxが作成している。</p>
+<p>また、このCloudLinuxは、別途AlmaLinux Open Source Foundationという非営利組織を設立し、AlmaLinuxの管理はこの組織に引き継いだ。</p>
+<h3 id="oracle-linux">Oracle Linux</h3>
+<p><a href="https://ja.wikipedia.org/wiki/Oracle_Linux">Oracle Linux</a><br>
+<a href="https://www.oracle.com/jp/linux/">Oracle Linux</a></p>
+<p>Oracle社によりRHELの商標やロゴの差し替えを行い、再構築したディストリビューション。</p>
+<p>Oracleへのユーザ登録を行うことで無料で利用することが可能。</p>
+<p>厳密には、RHELだけではなく、別のLinuxカーネルを含めたディストリビューションであり、Oracleにより一部強化されているため、完全互換ではないとレッドハットが公表している。</p>
+<p>しかし、AWSでも選択できるほか、Oracleが提供するOracle Cloudでは標準OSとして利用されるなど実績を持つ。</p>
+]]></content>
+		</item>
+		
+		<item>
 			<title>spring boot vault</title>
 			<link>https://pages.shibadog.net/posts/007_spring-vault/</link>
 			<pubDate>Tue, 22 Sep 2020 14:52:00 +0900</pubDate>

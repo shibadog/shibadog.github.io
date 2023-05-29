@@ -6,10 +6,31 @@
     <description>Recent content in memo on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Sat, 20 Jun 2020 00:26:00 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 03 Mar 2023 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://pages.shibadog.net/tags/memo/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>CentOSの事情</title>
+      <link>https://pages.shibadog.net/posts/009_centos/</link>
+      <pubDate>Fri, 03 Mar 2023 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/009_centos/</guid>
+      <description>背景 業務で利用するLinux Serverを新規で作成することになった。
+既存のLinux Serverの横に追加することになっているため、追加するサーバのOSも併せようと考えたが、現在CentOSはバージョンアップ方針が変わっており、そのまま採用すべきではないのではないか、となった。
+適切なOSを選定するとともに、CentOSの事情を把握しておきたいため、調査する。
+CentOSの事情 元々の流れ CentOSは Red Hat Enterprise Linux（以降RHEL）というディストリビューションの系列に属しており、RHELと機能的に互換性があることを目指したフリーのLinuxディストリビューションである。
+RHELに含まれているソフトウェアの中にはOSSで無償公開しているため、これをもとに、商標や商用パッケージをのぞいたものをリビルドして提供している。そのため、「RHELクローン」と呼ばれることもある。(CentOS自体は公式には否定している)
+最初期ではRHELを提供するレッドハットは関わっていなかったが、2014年からCentOSを正式に支援していくことを表明していた。
+しかし、2020/12/8にCentOSからCentOS Streamに開発の主軸を移動し、CentOS Linux 8のサポートを2021年に停止している。RHEL 9に対応するCentOS Linux 9は提供さず、今後はCentOS Stream 9の提供とする。
+Red Hat Enterprise Linux派生ディストリビューション Red Hat Enterprise Linux派生ディストリビューション
+RHELには様々なディストリビューションが存在する。大きくは、まず同社がメンテナを行っているFedora Linuxがある。これは、もともとはRHELの無償版であった。
+しかし、Fedoraはサポート期間が比較的短く、実験的なリリース方針であったため、長期サポートを望むユーザとしては利用に適していなかった。
+RHELはコンパイル済みのものを無償提供していないが、完全なソースコードを公開しているため、これを入手し再コンパイルすることで派生ディストリビューションの作成が行われている。
+CentOSのサポート情報 CentOS
+   Version  完全更新期限 メンテナス更新期限     6 6.10(最終) 2017年 Q2 2020/11/30   7 7.9-2009(最新) 2020年 Q4 2024/06/30   8 8.5.2111(最終) 2021年12月 2021/12/31    CentOS Stream CentOS StreamはRHELとFedora Linuxの中間を目指したディストリビューション。</description>
+    </item>
     
     <item>
       <title>最近気持ちが上がった話</title>

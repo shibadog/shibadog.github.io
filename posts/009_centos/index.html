@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta itemprop="name" content="CentOSの事情">
+<meta itemprop="description" content="背景 業務で利用するLinux Serverを新規で作成することになった。
+既存のLinux Serverの横に追加することになっているため、追加するサーバのOSも併せようと考えたが、現在CentOSはバージョンアップ方針が変わっており、そのまま採用すべきではないのではないか、となった。
+適切なOSを選定するとともに、CentOSの事情を把握しておきたいため、調査する。
+CentOSの事情 元々の流れ CentOSは Red Hat Enterprise Linux（以降RHEL）というディストリビューションの系列に属しており、RHELと機能的に互換性があることを目指したフリーのLinuxディストリビューションである。
+RHELに含まれているソフトウェアの中にはOSSで無償公開しているため、これをもとに、商標や商用パッケージをのぞいたものをリビルドして提供している。そのため、「RHELクローン」と呼ばれることもある。(CentOS自体は公式には否定している)
+最初期ではRHELを提供するレッドハットは関わっていなかったが、2014年からCentOSを正式に支援していくことを表明していた。
+しかし、2020/12/8にCentOSからCentOS Streamに開発の主軸を移動し、CentOS Linux 8のサポートを2021年に停止している。RHEL 9に対応するCentOS Linux 9は提供さず、今後はCentOS Stream 9の提供とする。
+Red Hat Enterprise Linux派生ディストリビューション Red Hat Enterprise Linux派生ディストリビューション
+RHELには様々なディストリビューションが存在する。大きくは、まず同社がメンテナを行っているFedora Linuxがある。これは、もともとはRHELの無償版であった。
+しかし、Fedoraはサポート期間が比較的短く、実験的なリリース方針であったため、長期サポートを望むユーザとしては利用に適していなかった。
+RHELはコンパイル済みのものを無償提供していないが、完全なソースコードを公開しているため、これを入手し再コンパイルすることで派生ディストリビューションの作成が行われている。
+CentOSのサポート情報 CentOS
+   Version  完全更新期限 メンテナス更新期限     6 6.10(最終) 2017年 Q2 2020/11/30   7 7.9-2009(最新) 2020年 Q4 2024/06/30   8 8.5.2111(最終) 2021年12月 2021/12/31    CentOS Stream CentOS StreamはRHELとFedora Linuxの中間を目指したディストリビューション。">
+<meta itemprop="datePublished" content="2023-03-03T00:00:00&#43;09:00" />
+<meta itemprop="dateModified" content="2023-03-03T00:00:00&#43;09:00" />
+<meta itemprop="wordCount" content="109">
+
+
+
+<meta itemprop="keywords" content="linux,memo," /><meta property="og:title" content="CentOSの事情" />
+<meta property="og:description" content="背景 業務で利用するLinux Serverを新規で作成することになった。
+既存のLinux Serverの横に追加することになっているため、追加するサーバのOSも併せようと考えたが、現在CentOSはバージョンアップ方針が変わっており、そのまま採用すべきではないのではないか、となった。
+適切なOSを選定するとともに、CentOSの事情を把握しておきたいため、調査する。
+CentOSの事情 元々の流れ CentOSは Red Hat Enterprise Linux（以降RHEL）というディストリビューションの系列に属しており、RHELと機能的に互換性があることを目指したフリーのLinuxディストリビューションである。
+RHELに含まれているソフトウェアの中にはOSSで無償公開しているため、これをもとに、商標や商用パッケージをのぞいたものをリビルドして提供している。そのため、「RHELクローン」と呼ばれることもある。(CentOS自体は公式には否定している)
+最初期ではRHELを提供するレッドハットは関わっていなかったが、2014年からCentOSを正式に支援していくことを表明していた。
+しかし、2020/12/8にCentOSからCentOS Streamに開発の主軸を移動し、CentOS Linux 8のサポートを2021年に停止している。RHEL 9に対応するCentOS Linux 9は提供さず、今後はCentOS Stream 9の提供とする。
+Red Hat Enterprise Linux派生ディストリビューション Red Hat Enterprise Linux派生ディストリビューション
+RHELには様々なディストリビューションが存在する。大きくは、まず同社がメンテナを行っているFedora Linuxがある。これは、もともとはRHELの無償版であった。
+しかし、Fedoraはサポート期間が比較的短く、実験的なリリース方針であったため、長期サポートを望むユーザとしては利用に適していなかった。
+RHELはコンパイル済みのものを無償提供していないが、完全なソースコードを公開しているため、これを入手し再コンパイルすることで派生ディストリビューションの作成が行われている。
+CentOSのサポート情報 CentOS
+   Version  完全更新期限 メンテナス更新期限     6 6.10(最終) 2017年 Q2 2020/11/30   7 7.9-2009(最新) 2020年 Q4 2024/06/30   8 8.5.2111(最終) 2021年12月 2021/12/31    CentOS Stream CentOS StreamはRHELとFedora Linuxの中間を目指したディストリビューション。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://pages.shibadog.net/posts/009_centos/" />
+<meta property="article:published_time" content="2023-03-03T00:00:00+09:00" />
+<meta property="article:modified_time" content="2023-03-03T00:00:00+09:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CentOSの事情"/>
+<meta name="twitter:description" content="背景 業務で利用するLinux Serverを新規で作成することになった。
+既存のLinux Serverの横に追加することになっているため、追加するサーバのOSも併せようと考えたが、現在CentOSはバージョンアップ方針が変わっており、そのまま採用すべきではないのではないか、となった。
+適切なOSを選定するとともに、CentOSの事情を把握しておきたいため、調査する。
+CentOSの事情 元々の流れ CentOSは Red Hat Enterprise Linux（以降RHEL）というディストリビューションの系列に属しており、RHELと機能的に互換性があることを目指したフリーのLinuxディストリビューションである。
+RHELに含まれているソフトウェアの中にはOSSで無償公開しているため、これをもとに、商標や商用パッケージをのぞいたものをリビルドして提供している。そのため、「RHELクローン」と呼ばれることもある。(CentOS自体は公式には否定している)
+最初期ではRHELを提供するレッドハットは関わっていなかったが、2014年からCentOSを正式に支援していくことを表明していた。
+しかし、2020/12/8にCentOSからCentOS Streamに開発の主軸を移動し、CentOS Linux 8のサポートを2021年に停止している。RHEL 9に対応するCentOS Linux 9は提供さず、今後はCentOS Stream 9の提供とする。
+Red Hat Enterprise Linux派生ディストリビューション Red Hat Enterprise Linux派生ディストリビューション
+RHELには様々なディストリビューションが存在する。大きくは、まず同社がメンテナを行っているFedora Linuxがある。これは、もともとはRHELの無償版であった。
+しかし、Fedoraはサポート期間が比較的短く、実験的なリリース方針であったため、長期サポートを望むユーザとしては利用に適していなかった。
+RHELはコンパイル済みのものを無償提供していないが、完全なソースコードを公開しているため、これを入手し再コンパイルすることで派生ディストリビューションの作成が行われている。
+CentOSのサポート情報 CentOS
+   Version  完全更新期限 メンテナス更新期限     6 6.10(最終) 2017年 Q2 2020/11/30   7 7.9-2009(最新) 2020年 Q4 2024/06/30   8 8.5.2111(最終) 2021年12月 2021/12/31    CentOS Stream CentOS StreamはRHELとFedora Linuxの中間を目指したディストリビューション。"/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>CentOSの事情</title>
+	<link rel="stylesheet" href="https://pages.shibadog.net/css/style.min.eac77496566fd7d5768fd650ddb0b2b181ca6a2d7c5fdd6fe6b8ba4bf47e566f.css" integrity="sha256-6sd0llZv19V2j9ZQ3bCysYHKai18X91v5ri6S/R+Vm8=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://pages.shibadog.net/">shibadog site</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://pages.shibadog.net/posts/">Posts</a>
+				<a href="https://pages.shibadog.net/about-hugo/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<button id="toc-btn" class="hdr-btn desktop-only-ib" title="Table of Contents"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg></button><span class="hdr-social hide-in-mobile"><a href="https://twitter.com/shiba_dog" target="_blank" rel="noopener me" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://github.com/shibadog" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://pages.shibadog.net/posts/">Posts</a></li>
+			<li><a href="https://pages.shibadog.net/about-hugo/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>Mar 3, 2023</span></div>
+				<h1>CentOSの事情</h1>
+			</header>
+			<div class="content">
+				<h2 id="heading">背景<a href="#heading" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>業務で利用するLinux Serverを新規で作成することになった。<br>
+既存のLinux Serverの横に追加することになっているため、追加するサーバのOSも併せようと考えたが、現在CentOSはバージョンアップ方針が変わっており、そのまま採用すべきではないのではないか、となった。</p>
+<p>適切なOSを選定するとともに、CentOSの事情を把握しておきたいため、調査する。</p>
+<h2 id="centos">CentOSの事情<a href="#centos" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h3 id="heading-1">元々の流れ<a href="#heading-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>CentOSは Red Hat Enterprise Linux（以降RHEL）というディストリビューションの系列に属しており、RHELと機能的に互換性があることを目指したフリーのLinuxディストリビューションである。</p>
+<p>RHELに含まれているソフトウェアの中にはOSSで無償公開しているため、これをもとに、商標や商用パッケージをのぞいたものをリビルドして提供している。そのため、「RHELクローン」と呼ばれることもある。(CentOS自体は公式には否定している)</p>
+<p>最初期ではRHELを提供するレッドハットは関わっていなかったが、2014年からCentOSを正式に支援していくことを表明していた。</p>
+<p>しかし、2020/12/8にCentOSからCentOS Streamに開発の主軸を移動し、CentOS Linux 8のサポートを2021年に停止している。RHEL 9に対応するCentOS Linux 9は提供さず、今後はCentOS Stream 9の提供とする。</p>
+<h4 id="red-hat-enterprise-linux">Red Hat Enterprise Linux派生ディストリビューション<a href="#red-hat-enterprise-linux" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p><a href="https://ja.wikipedia.org/wiki/Red_Hat_Enterprise_Linux%E6%B4%BE%E7%94%9F%E3%83%87%E3%82%A3%E3%82%B9%E3%83%88%E3%83%AA%E3%83%93%E3%83%A5%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">Red Hat Enterprise Linux派生ディストリビューション</a></p>
+<p>RHELには様々なディストリビューションが存在する。大きくは、まず同社がメンテナを行っているFedora Linuxがある。これは、もともとはRHELの無償版であった。</p>
+<p>しかし、Fedoraはサポート期間が比較的短く、実験的なリリース方針であったため、長期サポートを望むユーザとしては利用に適していなかった。</p>
+<p>RHELはコンパイル済みのものを無償提供していないが、完全なソースコードを公開しているため、これを入手し再コンパイルすることで派生ディストリビューションの作成が行われている。</p>
+<h4 id="centos-1">CentOSのサポート情報<a href="#centos-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p><a href="https://ja.wikipedia.org/wiki/CentOS">CentOS</a></p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th></th>
+<th>完全更新期限</th>
+<th>メンテナス更新期限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6</td>
+<td>6.10(最終)</td>
+<td>2017年 Q2</td>
+<td>2020/11/30</td>
+</tr>
+<tr>
+<td>7</td>
+<td>7.9-2009(最新)</td>
+<td>2020年 Q4</td>
+<td>2024/06/30</td>
+</tr>
+<tr>
+<td>8</td>
+<td>8.5.2111(最終)</td>
+<td>2021年12月</td>
+<td>2021/12/31</td>
+</tr>
+</tbody>
+</table>
+<h4 id="centos-stream">CentOS Stream<a href="#centos-stream" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>CentOS StreamはRHELとFedora Linuxの中間を目指したディストリビューション。</p>
+<p>Fedoraは実験的なリリースを取り込み、RHELの将来のメジャーリリースのベースとなるアップストリームプロジェクトであったが、CentOS StreamはRHELの次のバージョンとなる変更を取り入れたRHELのプレビューとなる。</p>
+<p>このような性質の変更があったため、重要なビジネスアプリケーションやプロダクション環境での使用は推奨されておらずRHELが進められる。</p>
+<p><img src="./image.drawio.png" alt="image"></p>
+<p>元々のCentOSの性質としては、他のRHELと同様にコードのリビルドから生成されたものであり、個別メンテナンスであったため、今回の変更で性質ががらりと変わる。</p>
+<p>やはり商用利用を考えた場合、（本質的にはRHELを使え、なのだが）あまり利用は推奨されるべきものではなくなるという見解があちらこちらで見られた。</p>
+<h2 id="heading-2">派生ディストリビューションについて<a href="#heading-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>CentOSの事情を鑑み（結局ただ乗りになるのだが。。。）、同じ要件をかなえるためのディストリビューションが多数生まれている。</p>
+<p>もし、無償版を利用するならばこの中から選定すべきだと考えられる。</p>
+<h3 id="rocky-linux">Rocky Linux<a href="#rocky-linux" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p><a href="https://ja.wikipedia.org/wiki/Rocky_Linux">Rocky Linux</a><br>
+<a href="https://rockylinux.org/ja/">Rocky Linux</a></p>
+<p>RHELのソースコードを利用した、完全バイナリ互換性のあるリリースであることを意図しており、コミュニティがサポートする、商業品質の企業向けOSを提供することを目的としている。</p>
+<p>背景として、CentOS Streamが発表された後、CentOSの初代創設者である Gregory Kurtzer氏が、元のCentOSの目的を達成するために立ち上げたプロジェクトである。</p>
+<p>パートナー企業としては、ArmやVMWare、AWS、Google Cloudなども参加しており、従来のCentOSと同等のもののとなっている様子。</p>
+<h3 id="almalinux">AlmaLinux<a href="#almalinux" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p><a href="https://ja.wikipedia.org/wiki/AlmaLinux">AlmaLinux</a><br>
+<a href="https://almalinux.org/ja/">AlmaLinux OS - Forever-Free Enterprise-Grade Operating System</a></p>
+<p>Rocky Linuxと同様の動機と目的をもって開発されているディストリビューション。</p>
+<p>しかし、こちらは、CloudLinux OSというRHELベースの商用Linuxディストリビューションを開発しているCloudLinuxが作成している。</p>
+<p>また、このCloudLinuxは、別途AlmaLinux Open Source Foundationという非営利組織を設立し、AlmaLinuxの管理はこの組織に引き継いだ。</p>
+<h3 id="oracle-linux">Oracle Linux<a href="#oracle-linux" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p><a href="https://ja.wikipedia.org/wiki/Oracle_Linux">Oracle Linux</a><br>
+<a href="https://www.oracle.com/jp/linux/">Oracle Linux</a></p>
+<p>Oracle社によりRHELの商標やロゴの差し替えを行い、再構築したディストリビューション。</p>
+<p>Oracleへのユーザ登録を行うことで無料で利用することが可能。</p>
+<p>厳密には、RHELだけではなく、別のLinuxカーネルを含めたディストリビューションであり、Oracleにより一部強化されているため、完全互換ではないとレッドハットが公表している。</p>
+<p>しかし、AWSでも選択できるほか、Oracleが提供するOracle Cloudでは標準OSとして利用されるなど実績を持つ。</p>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pages.shibadog.net/tags/linux">linux</a></span><span class="tag"><a href="https://pages.shibadog.net/tags/memo">memo</a></span>
+				</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>109 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2023-03-02T15:00:00&#43;0000</p>
+			</footer>
+		</article>
+		<aside id="toc">
+			<div class="toc-title">Table of Contents</div>
+			<nav id="TableOfContents">
+  <ul>
+    <li><a href="#heading">背景</a></li>
+    <li><a href="#centos">CentOSの事情</a>
+      <ul>
+        <li><a href="#heading-1">元々の流れ</a></li>
+      </ul>
+    </li>
+    <li><a href="#heading-2">派生ディストリビューションについて</a>
+      <ul>
+        <li><a href="#rocky-linux">Rocky Linux</a></li>
+        <li><a href="#almalinux">AlmaLinux</a></li>
+        <li><a href="#oracle-linux">Oracle Linux</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+		</aside>
+		<div class="post-nav thin">
+			<a class="next-post" href="https://pages.shibadog.net/posts/008_survery_results/">
+				<span class="post-nav-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>&nbsp;Newer</span><br><span>spring boot 3 trace</span>
+			</a>
+			<a class="prev-post" href="https://pages.shibadog.net/posts/007_spring-vault/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>spring boot vault</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+    <p>&copy; 2023 <a href="https://pages.shibadog.net/">shibadog</a></p>
+    <p>
+        Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://pages.shibadog.net/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    </p>
+</footer>
+<script src="/asset/mermaid/mermaid.js"></script>
+
+
+
+	<script src="https://pages.shibadog.net/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'G-1EGC7KVL3W', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>

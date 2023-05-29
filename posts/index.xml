@@ -5,8 +5,100 @@
 		<description>Recent content in Posts on shibadog site</description>
 		<generator>Hugo -- gohugo.io</generator>
 		<language>ja-jp</language>
-		<lastBuildDate>Tue, 22 Sep 2020 14:52:00 +0900</lastBuildDate>
+		<lastBuildDate>Wed, 17 May 2023 00:00:00 +0900</lastBuildDate>
 		<atom:link href="https://pages.shibadog.net/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>spring boot 3 trace</title>
+			<link>https://pages.shibadog.net/posts/008_survery_results/</link>
+			<pubDate>Wed, 17 May 2023 00:00:00 +0900</pubDate>
+			
+			<guid>https://pages.shibadog.net/posts/008_survery_results/</guid>
+			<description>背景 spring boot3になってからtraceの構成が変わった。
+sleuth から micrometer observationを使う用に代わり、opentelemetryが入ってきて関係性が変わったのでそれを把握したい。
+micrometer observationの解説は優秀なブログがすでにあるのでそちらに任せることにする。
+https://programacho.com/blog/a10b96ec9d79/
+ここでは、このmicrometerの裏側を把握することを目的とする。
+全体感から見た各種ライブラリの役割 ▲ なにかのdiagramのルールにのっとって書いているわけではなく、雰囲気で矢印と図形の形を変えている。
+意味はあるが公のルールではないのでご注意。
+tracer layerの詳細 この領域はトレーサー層と呼ぶらしい。
+ここは、exporter（braveではreporter）を使って実際のトレース情報を伝送する部分の実装であったり、アプリケーション間のトレース情報をつなぐための処理を行う実装が存在する。
+braveはもともとのspring cloudに存在する実装であり、zipkinのb3ヘッダのみに対応している。
+opentelemetryでは、opentelemetryが定義する伝送プロトコル（なんだっけ？）とb3のどちらにも対応しており、ここをpropagatorと呼んでおり差し替え可能となっている。
+ w3c → W3CTraceContextPropagator b3 → B3Propagator  opentelemetryを使った場合のexporter layer詳細 Opentelemetryに対応したトレース参照用のツールはいくつか存在する。
+これ以外にも、上記zipkinの例から以下のような構造になっていることが伺える。
+参考資料のmakingさんの資料にある通り、spring boot 3.0.Xまでは、exporterのauto configに対応している（つまり何もBean登録しなくても設定だけで使えるやつ）のはzipkinとwavefrontのみとなっている。
+しかし、opentelemetry自体はいろいろなexporterに対応しており、自力でBean登録をすることで異なるサービスにtraceを伝送することが可能になっている。
+braveを使った場合のexporter layer(reporter)詳細 tracerをopentelemetryではなく従来のbraveを選択することも可能となっている。
+この場合でも伝送先を切り替えることが可能となっている。
+Opentelemetryに対応しているElastic APMに入れてみる 本リポジトリでは、前章でまとめた依存のうち以下のような組み合わせでアプリケーションを作成している。
+ tracer layer -&amp;gt; opentelemetry exporter layer -&amp;gt; opentelemetry  tracerの記録先は Elastic APMを利用している。
+詳しくは ../../pom.xml を参照いただきたいが、traceにかかわる依存は以下の通り。
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;io.micrometer&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;micrometer-tracing-bridge-otel&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;io.opentelemetry&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;opentelemetry-exporter-otlp&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; spring bootに関しては、3.</description>
+			<content type="html"><![CDATA[<h2 id="heading">背景</h2>
+<p>spring boot3になってからtraceの構成が変わった。</p>
+<p>sleuth から micrometer observationを使う用に代わり、opentelemetryが入ってきて関係性が変わったのでそれを把握したい。</p>
+<p>micrometer observationの解説は優秀なブログがすでにあるのでそちらに任せることにする。</p>
+<p><a href="https://programacho.com/blog/a10b96ec9d79/">https://programacho.com/blog/a10b96ec9d79/</a></p>
+<p>ここでは、このmicrometerの裏側を把握することを目的とする。</p>
+<h2 id="heading-1">全体感から見た各種ライブラリの役割</h2>
+<p>▲ なにかのdiagramのルールにのっとって書いているわけではなく、雰囲気で矢印と図形の形を変えている。<br>
+意味はあるが公のルールではないのでご注意。</p>
+<p><img src="./dependency-overview.drawio.svg" alt="依存の関係性概要"></p>
+<h3 id="tracer-layer">tracer layerの詳細</h3>
+<p>この領域はトレーサー層と呼ぶらしい。<br>
+ここは、exporter（braveではreporter）を使って実際のトレース情報を伝送する部分の実装であったり、アプリケーション間のトレース情報をつなぐための処理を行う実装が存在する。</p>
+<p>braveはもともとのspring cloudに存在する実装であり、zipkinのb3ヘッダのみに対応している。</p>
+<p>opentelemetryでは、opentelemetryが定義する伝送プロトコル（なんだっけ？）とb3のどちらにも対応しており、ここをpropagatorと呼んでおり差し替え可能となっている。</p>
+<ul>
+<li>w3c → W3CTraceContextPropagator</li>
+<li>b3 → B3Propagator</li>
+</ul>
+<p><img src="./tracer-layer-dependency.drawio.svg" alt="tracer layer"></p>
+<h3 id="opentelemetryexporter-layer">opentelemetryを使った場合のexporter layer詳細</h3>
+<p>Opentelemetryに対応したトレース参照用のツールはいくつか存在する。</p>
+<p>これ以外にも、上記zipkinの例から以下のような構造になっていることが伺える。</p>
+<p><img src="./expoter-layer-dependency.drawio.svg" alt="exporter layer"></p>
+<p>参考資料のmakingさんの資料にある通り、spring boot 3.0.Xまでは、exporterのauto configに対応している（つまり何もBean登録しなくても設定だけで使えるやつ）のはzipkinとwavefrontのみとなっている。</p>
+<p>しかし、opentelemetry自体はいろいろなexporterに対応しており、自力でBean登録をすることで異なるサービスにtraceを伝送することが可能になっている。</p>
+<h3 id="braveexporter-layerreporter">braveを使った場合のexporter layer(reporter)詳細</h3>
+<p>tracerをopentelemetryではなく従来のbraveを選択することも可能となっている。<br>
+この場合でも伝送先を切り替えることが可能となっている。</p>
+<p><img src="./reporter-layer-dependency.drawio.svg" alt="reporter layer"></p>
+<h2 id="opentelemetryelastic-apm">Opentelemetryに対応しているElastic APMに入れてみる</h2>
+<p>本リポジトリでは、前章でまとめた依存のうち以下のような組み合わせでアプリケーションを作成している。</p>
+<ul>
+<li>tracer layer -&gt; opentelemetry</li>
+<li>exporter layer -&gt; opentelemetry</li>
+</ul>
+<p>tracerの記録先は Elastic APMを利用している。</p>
+<p>詳しくは <code>../../pom.xml</code> を参照いただきたいが、traceにかかわる依存は以下の通り。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">
+		<span style="color:#f92672">&lt;dependency</span><span style="color:#f92672">&gt;</span>
+			<span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>io.micrometer<span style="color:#f92672">&lt;/groupId&gt;</span>
+			<span style="color:#f92672">&lt;artifactId</span><span style="color:#f92672">&gt;</span>micrometer-tracing-bridge-otel<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;/dependency&gt;</span>
+
+		<span style="color:#f92672">&lt;dependency</span><span style="color:#f92672">&gt;</span>
+			<span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>io.opentelemetry<span style="color:#f92672">&lt;/groupId&gt;</span>
+			<span style="color:#f92672">&lt;artifactId</span><span style="color:#f92672">&gt;</span>opentelemetry-exporter-otlp<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;/dependency&gt;</span>
+
+</code></pre></div><p>spring bootに関しては、3.0.x系であるため、そのままではopentelemetry exporterのauto configに対応していない。</p>
+<p>このため、自分でBean登録を行った。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#a6e22e">@Bean</span>
+    SpanExporter <span style="color:#a6e22e">otlpHttpSpanExporter</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> OtlpHttpSpanExporter<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">setEndpoint</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://localhost:8200/v1/traces&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">// &lt;- elastic apm のエンドポイント
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><h2 id="heading-2">参考資料</h2>
+<h3 id="trace">Traceについての公式ドキュメントの記述</h3>
+<p><a href="https://docs.spring.io/spring-boot/docs/3.0.5/reference/htmlsingle/#actuator.micrometer-tracing">https://docs.spring.io/spring-boot/docs/3.0.5/reference/htmlsingle/#actuator.micrometer-tracing</a></p>
+<h3 id="making">makingさんの最強資料</h3>
+<p><a href="https://bit.ly/springboot2023">https://bit.ly/springboot2023</a></p>
+]]></content>
+		</item>
 		
 		<item>
 			<title>spring boot vault</title>

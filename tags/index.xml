@@ -6,7 +6,7 @@
     <description>Recent content in Tags on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Tue, 22 Sep 2020 14:52:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 17 May 2023 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://pages.shibadog.net/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>sample</title>
       <link>https://pages.shibadog.net/tags/sample/</link>
-      <pubDate>Tue, 22 Sep 2020 14:52:00 +0900</pubDate>
+      <pubDate>Wed, 17 May 2023 00:00:00 +0900</pubDate>
       
       <guid>https://pages.shibadog.net/tags/sample/</guid>
       <description></description>
@@ -23,9 +23,18 @@
     <item>
       <title>spring boot</title>
       <link>https://pages.shibadog.net/tags/spring-boot/</link>
-      <pubDate>Tue, 22 Sep 2020 14:52:00 +0900</pubDate>
+      <pubDate>Wed, 17 May 2023 00:00:00 +0900</pubDate>
       
       <guid>https://pages.shibadog.net/tags/spring-boot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>trace</title>
+      <link>https://pages.shibadog.net/tags/trace/</link>
+      <pubDate>Wed, 17 May 2023 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/tags/trace/</guid>
       <description></description>
     </item>
     

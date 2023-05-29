@@ -6,10 +6,39 @@
     <description>Recent content on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Tue, 22 Sep 2020 14:52:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 17 May 2023 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://pages.shibadog.net/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>spring boot 3 trace</title>
+      <link>https://pages.shibadog.net/posts/008_survery_results/</link>
+      <pubDate>Wed, 17 May 2023 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/008_survery_results/</guid>
+      <description>背景 spring boot3になってからtraceの構成が変わった。
+sleuth から micrometer observationを使う用に代わり、opentelemetryが入ってきて関係性が変わったのでそれを把握したい。
+micrometer observationの解説は優秀なブログがすでにあるのでそちらに任せることにする。
+https://programacho.com/blog/a10b96ec9d79/
+ここでは、このmicrometerの裏側を把握することを目的とする。
+全体感から見た各種ライブラリの役割 ▲ なにかのdiagramのルールにのっとって書いているわけではなく、雰囲気で矢印と図形の形を変えている。
+意味はあるが公のルールではないのでご注意。
+tracer layerの詳細 この領域はトレーサー層と呼ぶらしい。
+ここは、exporter（braveではreporter）を使って実際のトレース情報を伝送する部分の実装であったり、アプリケーション間のトレース情報をつなぐための処理を行う実装が存在する。
+braveはもともとのspring cloudに存在する実装であり、zipkinのb3ヘッダのみに対応している。
+opentelemetryでは、opentelemetryが定義する伝送プロトコル（なんだっけ？）とb3のどちらにも対応しており、ここをpropagatorと呼んでおり差し替え可能となっている。
+ w3c → W3CTraceContextPropagator b3 → B3Propagator  opentelemetryを使った場合のexporter layer詳細 Opentelemetryに対応したトレース参照用のツールはいくつか存在する。
+これ以外にも、上記zipkinの例から以下のような構造になっていることが伺える。
+参考資料のmakingさんの資料にある通り、spring boot 3.0.Xまでは、exporterのauto configに対応している（つまり何もBean登録しなくても設定だけで使えるやつ）のはzipkinとwavefrontのみとなっている。
+しかし、opentelemetry自体はいろいろなexporterに対応しており、自力でBean登録をすることで異なるサービスにtraceを伝送することが可能になっている。
+braveを使った場合のexporter layer(reporter)詳細 tracerをopentelemetryではなく従来のbraveを選択することも可能となっている。
+この場合でも伝送先を切り替えることが可能となっている。
+Opentelemetryに対応しているElastic APMに入れてみる 本リポジトリでは、前章でまとめた依存のうち以下のような組み合わせでアプリケーションを作成している。
+ tracer layer -&amp;gt; opentelemetry exporter layer -&amp;gt; opentelemetry  tracerの記録先は Elastic APMを利用している。
+詳しくは ../../pom.xml を参照いただきたいが、traceにかかわる依存は以下の通り。
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;io.micrometer&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;micrometer-tracing-bridge-otel&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;io.opentelemetry&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;opentelemetry-exporter-otlp&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; spring bootに関しては、3.</description>
+    </item>
     
     <item>
       <title>spring boot vault</title>

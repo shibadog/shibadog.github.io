@@ -33,7 +33,7 @@ braveを使った場合のexporter layer(reporter)詳細 tracerをopentelemetry�
 Opentelemetryに対応しているElastic APMに入れてみる 本リポジトリでは、前章でまとめた依存のうち以下のような組み合わせでアプリケーションを作成している。
  tracer layer -&amp;gt; opentelemetry exporter layer -&amp;gt; opentelemetry  tracerの記録先は Elastic APMを利用している。
 詳しくは ../../pom.xml を参照いただきたいが、traceにかかわる依存は以下の通り。
-&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;io.micrometer&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;micrometer-tracing-bridge-otel&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;io.opentelemetry&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;opentelemetry-exporter-otlp&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; spring bootに関しては、3.</description>
+ 	&amp;lt;dependency&amp;gt; 	&amp;lt;groupId&amp;gt;io.micrometer&amp;lt;/groupId&amp;gt; 	&amp;lt;artifactId&amp;gt;micrometer-tracing-bridge-otel&amp;lt;/artifactId&amp;gt; 	&amp;lt;/dependency&amp;gt;  	&amp;lt;dependency&amp;gt; 	&amp;lt;groupId&amp;gt;io.</description>
     </item>
     
     <item>

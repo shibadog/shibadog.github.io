@@ -130,17 +130,17 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 				<h1>spring boot 3 trace</h1>
 			</header>
 			<div class="content">
-				<h2 id="heading">背景<a href="#heading" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+				<h2 id="背景">背景<a href="#背景" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <p>spring boot3になってからtraceの構成が変わった。</p>
 <p>sleuth から micrometer observationを使う用に代わり、opentelemetryが入ってきて関係性が変わったのでそれを把握したい。</p>
 <p>micrometer observationの解説は優秀なブログがすでにあるのでそちらに任せることにする。</p>
 <p><a href="https://programacho.com/blog/a10b96ec9d79/">https://programacho.com/blog/a10b96ec9d79/</a></p>
 <p>ここでは、このmicrometerの裏側を把握することを目的とする。</p>
-<h2 id="heading-1">全体感から見た各種ライブラリの役割<a href="#heading-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h2 id="全体感から見た各種ライブラリの役割">全体感から見た各種ライブラリの役割<a href="#全体感から見た各種ライブラリの役割" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <p>▲ なにかのdiagramのルールにのっとって書いているわけではなく、雰囲気で矢印と図形の形を変えている。<br>
 意味はあるが公のルールではないのでご注意。</p>
 <p><img src="./dependency-overview.drawio.svg" alt="依存の関係性概要"></p>
-<h3 id="tracer-layer">tracer layerの詳細<a href="#tracer-layer" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<h3 id="tracer-layerの詳細">tracer layerの詳細<a href="#tracer-layerの詳細" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
 <p>この領域はトレーサー層と呼ぶらしい。<br>
 ここは、exporter（braveではreporter）を使って実際のトレース情報を伝送する部分の実装であったり、アプリケーション間のトレース情報をつなぐための処理を行う実装が存在する。</p>
 <p>braveはもともとのspring cloudに存在する実装であり、zipkinのb3ヘッダのみに対応している。</p>
@@ -150,17 +150,17 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 <li>b3 → B3Propagator</li>
 </ul>
 <p><img src="./tracer-layer-dependency.drawio.svg" alt="tracer layer"></p>
-<h3 id="opentelemetryexporter-layer">opentelemetryを使った場合のexporter layer詳細<a href="#opentelemetryexporter-layer" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<h3 id="opentelemetryを使った場合のexporter-layer詳細">opentelemetryを使った場合のexporter layer詳細<a href="#opentelemetryを使った場合のexporter-layer詳細" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
 <p>Opentelemetryに対応したトレース参照用のツールはいくつか存在する。</p>
 <p>これ以外にも、上記zipkinの例から以下のような構造になっていることが伺える。</p>
 <p><img src="./expoter-layer-dependency.drawio.svg" alt="exporter layer"></p>
 <p>参考資料のmakingさんの資料にある通り、spring boot 3.0.Xまでは、exporterのauto configに対応している（つまり何もBean登録しなくても設定だけで使えるやつ）のはzipkinとwavefrontのみとなっている。</p>
 <p>しかし、opentelemetry自体はいろいろなexporterに対応しており、自力でBean登録をすることで異なるサービスにtraceを伝送することが可能になっている。</p>
-<h3 id="braveexporter-layerreporter">braveを使った場合のexporter layer(reporter)詳細<a href="#braveexporter-layerreporter" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<h3 id="braveを使った場合のexporter-layerreporter詳細">braveを使った場合のexporter layer(reporter)詳細<a href="#braveを使った場合のexporter-layerreporter詳細" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
 <p>tracerをopentelemetryではなく従来のbraveを選択することも可能となっている。<br>
 この場合でも伝送先を切り替えることが可能となっている。</p>
 <p><img src="./reporter-layer-dependency.drawio.svg" alt="reporter layer"></p>
-<h2 id="opentelemetryelastic-apm">Opentelemetryに対応しているElastic APMに入れてみる<a href="#opentelemetryelastic-apm" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h2 id="opentelemetryに対応しているelastic-apmに入れてみる">Opentelemetryに対応しているElastic APMに入れてみる<a href="#opentelemetryに対応しているelastic-apmに入れてみる" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <p>本リポジトリでは、前章でまとめた依存のうち以下のような組み合わせでアプリケーションを作成している。</p>
 <ul>
 <li>tracer layer -&gt; opentelemetry</li>
@@ -187,10 +187,10 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
                 <span style="color:#f92672">.</span><span style="color:#a6e22e">setEndpoint</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://localhost:8200/v1/traces&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">// &lt;- elastic apm のエンドポイント
 </span><span style="color:#75715e"></span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
     <span style="color:#f92672">}</span>
-</code></pre></div><h2 id="heading-2">参考資料<a href="#heading-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
-<h3 id="trace">Traceについての公式ドキュメントの記述<a href="#trace" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+</code></pre></div><h2 id="参考資料">参考資料<a href="#参考資料" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h3 id="traceについての公式ドキュメントの記述">Traceについての公式ドキュメントの記述<a href="#traceについての公式ドキュメントの記述" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
 <p><a href="https://docs.spring.io/spring-boot/docs/3.0.5/reference/htmlsingle/#actuator.micrometer-tracing">https://docs.spring.io/spring-boot/docs/3.0.5/reference/htmlsingle/#actuator.micrometer-tracing</a></p>
-<h3 id="making">makingさんの最強資料<a href="#making" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<h3 id="makingさんの最強資料">makingさんの最強資料<a href="#makingさんの最強資料" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
 <p><a href="https://bit.ly/springboot2023">https://bit.ly/springboot2023</a></p>
 
 			</div>
@@ -207,19 +207,19 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 			<div class="toc-title">Table of Contents</div>
 			<nav id="TableOfContents">
   <ul>
-    <li><a href="#heading">背景</a></li>
-    <li><a href="#heading-1">全体感から見た各種ライブラリの役割</a>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#全体感から見た各種ライブラリの役割">全体感から見た各種ライブラリの役割</a>
       <ul>
-        <li><a href="#tracer-layer">tracer layerの詳細</a></li>
-        <li><a href="#opentelemetryexporter-layer">opentelemetryを使った場合のexporter layer詳細</a></li>
-        <li><a href="#braveexporter-layerreporter">braveを使った場合のexporter layer(reporter)詳細</a></li>
+        <li><a href="#tracer-layerの詳細">tracer layerの詳細</a></li>
+        <li><a href="#opentelemetryを使った場合のexporter-layer詳細">opentelemetryを使った場合のexporter layer詳細</a></li>
+        <li><a href="#braveを使った場合のexporter-layerreporter詳細">braveを使った場合のexporter layer(reporter)詳細</a></li>
       </ul>
     </li>
-    <li><a href="#opentelemetryelastic-apm">Opentelemetryに対応しているElastic APMに入れてみる</a></li>
-    <li><a href="#heading-2">参考資料</a>
+    <li><a href="#opentelemetryに対応しているelastic-apmに入れてみる">Opentelemetryに対応しているElastic APMに入れてみる</a></li>
+    <li><a href="#参考資料">参考資料</a>
       <ul>
-        <li><a href="#trace">Traceについての公式ドキュメントの記述</a></li>
-        <li><a href="#making">makingさんの最強資料</a></li>
+        <li><a href="#traceについての公式ドキュメントの記述">Traceについての公式ドキュメントの記述</a></li>
+        <li><a href="#makingさんの最強資料">makingさんの最強資料</a></li>
       </ul>
     </li>
   </ul>

@@ -106,22 +106,22 @@ CentOSのサポート情報 CentOS
 				<h1>CentOSの事情</h1>
 			</header>
 			<div class="content">
-				<h2 id="heading">背景<a href="#heading" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+				<h2 id="背景">背景<a href="#背景" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <p>業務で利用するLinux Serverを新規で作成することになった。<br>
 既存のLinux Serverの横に追加することになっているため、追加するサーバのOSも併せようと考えたが、現在CentOSはバージョンアップ方針が変わっており、そのまま採用すべきではないのではないか、となった。</p>
 <p>適切なOSを選定するとともに、CentOSの事情を把握しておきたいため、調査する。</p>
-<h2 id="centos">CentOSの事情<a href="#centos" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
-<h3 id="heading-1">元々の流れ<a href="#heading-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<h2 id="centosの事情">CentOSの事情<a href="#centosの事情" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h3 id="元々の流れ">元々の流れ<a href="#元々の流れ" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
 <p>CentOSは Red Hat Enterprise Linux（以降RHEL）というディストリビューションの系列に属しており、RHELと機能的に互換性があることを目指したフリーのLinuxディストリビューションである。</p>
 <p>RHELに含まれているソフトウェアの中にはOSSで無償公開しているため、これをもとに、商標や商用パッケージをのぞいたものをリビルドして提供している。そのため、「RHELクローン」と呼ばれることもある。(CentOS自体は公式には否定している)</p>
 <p>最初期ではRHELを提供するレッドハットは関わっていなかったが、2014年からCentOSを正式に支援していくことを表明していた。</p>
 <p>しかし、2020/12/8にCentOSからCentOS Streamに開発の主軸を移動し、CentOS Linux 8のサポートを2021年に停止している。RHEL 9に対応するCentOS Linux 9は提供さず、今後はCentOS Stream 9の提供とする。</p>
-<h4 id="red-hat-enterprise-linux">Red Hat Enterprise Linux派生ディストリビューション<a href="#red-hat-enterprise-linux" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<h4 id="red-hat-enterprise-linux派生ディストリビューション">Red Hat Enterprise Linux派生ディストリビューション<a href="#red-hat-enterprise-linux派生ディストリビューション" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
 <p><a href="https://ja.wikipedia.org/wiki/Red_Hat_Enterprise_Linux%E6%B4%BE%E7%94%9F%E3%83%87%E3%82%A3%E3%82%B9%E3%83%88%E3%83%AA%E3%83%93%E3%83%A5%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">Red Hat Enterprise Linux派生ディストリビューション</a></p>
 <p>RHELには様々なディストリビューションが存在する。大きくは、まず同社がメンテナを行っているFedora Linuxがある。これは、もともとはRHELの無償版であった。</p>
 <p>しかし、Fedoraはサポート期間が比較的短く、実験的なリリース方針であったため、長期サポートを望むユーザとしては利用に適していなかった。</p>
 <p>RHELはコンパイル済みのものを無償提供していないが、完全なソースコードを公開しているため、これを入手し再コンパイルすることで派生ディストリビューションの作成が行われている。</p>
-<h4 id="centos-1">CentOSのサポート情報<a href="#centos-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<h4 id="centosのサポート情報">CentOSのサポート情報<a href="#centosのサポート情報" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
 <p><a href="https://ja.wikipedia.org/wiki/CentOS">CentOS</a></p>
 <table>
 <thead>
@@ -160,7 +160,7 @@ CentOSのサポート情報 CentOS
 <p><img src="./image.drawio.png" alt="image"></p>
 <p>元々のCentOSの性質としては、他のRHELと同様にコードのリビルドから生成されたものであり、個別メンテナンスであったため、今回の変更で性質ががらりと変わる。</p>
 <p>やはり商用利用を考えた場合、（本質的にはRHELを使え、なのだが）あまり利用は推奨されるべきものではなくなるという見解があちらこちらで見られた。</p>
-<h2 id="heading-2">派生ディストリビューションについて<a href="#heading-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h2 id="派生ディストリビューションについて">派生ディストリビューションについて<a href="#派生ディストリビューションについて" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <p>CentOSの事情を鑑み（結局ただ乗りになるのだが。。。）、同じ要件をかなえるためのディストリビューションが多数生まれている。</p>
 <p>もし、無償版を利用するならばこの中から選定すべきだと考えられる。</p>
 <h3 id="rocky-linux">Rocky Linux<a href="#rocky-linux" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
@@ -197,13 +197,13 @@ CentOSのサポート情報 CentOS
 			<div class="toc-title">Table of Contents</div>
 			<nav id="TableOfContents">
   <ul>
-    <li><a href="#heading">背景</a></li>
-    <li><a href="#centos">CentOSの事情</a>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#centosの事情">CentOSの事情</a>
       <ul>
-        <li><a href="#heading-1">元々の流れ</a></li>
+        <li><a href="#元々の流れ">元々の流れ</a></li>
       </ul>
     </li>
-    <li><a href="#heading-2">派生ディストリビューションについて</a>
+    <li><a href="#派生ディストリビューションについて">派生ディストリビューションについて</a>
       <ul>
         <li><a href="#rocky-linux">Rocky Linux</a></li>
         <li><a href="#almalinux">AlmaLinux</a></li>

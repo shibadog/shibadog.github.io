@@ -102,11 +102,38 @@ K8Sな言葉がちょいちょい出てくるので何か想定する運用が�
     </item>
     
     <item>
-      <title>JavaFX 入門</title>
-      <link>https://pages.shibadog.net/013_cookie/</link>
+      <title>Browser Cache</title>
+      <link>https://pages.shibadog.net/posts/011_browser_cache/</link>
       <pubDate>Wed, 10 Jun 2020 00:00:00 +0900</pubDate>
       
-      <guid>https://pages.shibadog.net/013_cookie/</guid>
+      <guid>https://pages.shibadog.net/posts/011_browser_cache/</guid>
+      <description>overview 広義の意味では、動作の高速化を図るため、低速・安価な記憶領域から高速・高価な記憶領域へ一時的に情報を保持することを指す（と思う）。
+ブラウザキャッシュは主に、ブラウザの描画に使うリソース（HTML、JS、CSS、画像など）を一定期間ローカルに保持することにより、再度ネットワークアクセスを行った際に高速に表示させる機構を指す（はず）
+もちろん、昨今使われる動的ページ（Webシステムによるレスポンス）で生成されるHTMLなどのボディ部分に関しては、キャッシュする意味がないため、使用されない。
+しかし、ロゴなどの画像を動的に表示することは特定の状況下以外ではまれであるため、静的コンテンツなどと呼び、キャッシュ対象にする。
+また、JavaScriptによる動的描画を中心とした動的ページ（シングルページアプリケーション）は、ユーザ側（⇔サーバ側）であるブラウザによる描画になるため、ソースであるJavaScriptは静的コンテンツ扱いが可能になる。
+静的コンテンツを高速化する仕組みとして、一種のキャッシュシステムであるCDNというものもの存在する。
+ブラウザキャッシュとは異なるが、いわゆる広義のキャッシュという意味では同じ目的の仕組みになる。
+これはこれで話が長そうなので、また別途。 参考:さくらのナレッジ - CDNってそもそも何？なんかサーバの負荷が下がるって聞いたんだけど！〜Web制作/運営の幅が広がるCDNを知ろう第1回〜
+Browser Cacheのコントロール HTTPのレスポンスヘッダにより、サーバ側からリソースのキャッシュをコントロールすることができる。 https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Cache-Control
+cache-control というヘッダを用いる。
+キャッシュを抑止したい場合は、 cache-control: no-store を用いる。
+有効期限の設定 様々な指定の仕方で有効期限を設定することができる。 初めてキャッシュを行う時刻からの有効期限秒数を指定する。
+特定の日付で有効期限が切れる形式の場合は、このヘッダではなく専用の Expires ヘッダを用いる。
+https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Expires
+デフォルトの設定 springMVCで作られたwebシステムはもちろん動的サイトであるため、cacheしたくないはずだが、 デフォルトではどのような動きをするか？
+ChromeはDevToolを開いて通信をすると、 cache-control: max-age=0 でリクエストを飛ばすっポイ？
+これが原因かわからないけれども常にキャッシュされないし、レスポンスヘッダには cache-control は設定されない。
+自分で制御 ResponseEntityオブジェクトでキャッシュコントロールを明示することができる。
+@GetMapping(&amp;#34;/users/{name}&amp;#34;) public ResponseEntity&amp;lt;UserDto&amp;gt; getUser(@PathVariable String name) { return ResponseEntity.ok() .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)) .body(new UserDto(name)); } 動的レスポンスをキャッシュさせたい場合はまぁあれだけど、静的コンテンツをthymeleafでドウコウしたときのキャッシュってどうやって制御するんだろう？</description>
+    </item>
+    
+    <item>
+      <title>JavaFX 入門</title>
+      <link>https://pages.shibadog.net/posts/013_cookie/</link>
+      <pubDate>Wed, 10 Jun 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/013_cookie/</guid>
       <description>overview 正式名称は HTTP Cookie .
 端的に言うと、クライアントに情報を保持することができる仕組み。
 JavaScriptやサーバからのHTTPレスポンスにより保持させることができる。
@@ -253,33 +280,6 @@ Circuit Breakerとは、マイクロサービスで開発されたアプリケ�
       
       <guid>https://pages.shibadog.net/about-hugo/</guid>
       <description>経験言語 Java バックエンドWebシステム（リプレース開発） Swingを使ったクラサバ（リプレース開発） Spring Boot マイクロサービス（新規開発） C# Webシステム（保守・運用開発） WPFクラサバ（保守・運用開発） VBA/VBS Excel/Accessツール（設計・開発・導入・保守） バッチ（運用開発） PHP フレームワークなしのWebシステム（運用開発） テンプレートエンジンを使ったWebシステム（新規開発・運用保守） バッチ（新規開発） JavaScript WebPack + Vue.js 動的ページ（運用開発） JQueryの簡単なページ（新規開発） ミドルウェア Elasticsearch Elasticsearchを使ったログ収集 File =&amp;gt; Fluentd =&amp;gt; Elasticsearch =&amp;gt; kibana DB =&amp;gt; Logstash =&amp;gt; Elasticsearch =&amp;gt; kibana 資料 第39回Elasticsearch勉強会 2020.12.17 ecs-logging-javaつかってみた by @shibadog ElasticON Solution Seminar 2022.07.21 構造化ログ × elastic-agent by @shibadog </description>
-    </item>
-    
-    <item>
-      <title>Browser Cache</title>
-      <link>https://pages.shibadog.net/posts/011_browser_cache/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://pages.shibadog.net/posts/011_browser_cache/</guid>
-      <description>overview 広義の意味では、動作の高速化を図るため、低速・安価な記憶領域から高速・高価な記憶領域へ一時的に情報を保持することを指す（と思う）。
-ブラウザキャッシュは主に、ブラウザの描画に使うリソース（HTML、JS、CSS、画像など）を一定期間ローカルに保持することにより、再度ネットワークアクセスを行った際に高速に表示させる機構を指す（はず）
-もちろん、昨今使われる動的ページ（Webシステムによるレスポンス）で生成されるHTMLなどのボディ部分に関しては、キャッシュする意味がないため、使用されない。
-しかし、ロゴなどの画像を動的に表示することは特定の状況下以外ではまれであるため、静的コンテンツなどと呼び、キャッシュ対象にする。
-また、JavaScriptによる動的描画を中心とした動的ページ（シングルページアプリケーション）は、ユーザ側（⇔サーバ側）であるブラウザによる描画になるため、ソースであるJavaScriptは静的コンテンツ扱いが可能になる。
-静的コンテンツを高速化する仕組みとして、一種のキャッシュシステムであるCDNというものもの存在する。
-ブラウザキャッシュとは異なるが、いわゆる広義のキャッシュという意味では同じ目的の仕組みになる。
-これはこれで話が長そうなので、また別途。 参考:さくらのナレッジ - CDNってそもそも何？なんかサーバの負荷が下がるって聞いたんだけど！〜Web制作/運営の幅が広がるCDNを知ろう第1回〜
-Browser Cacheのコントロール HTTPのレスポンスヘッダにより、サーバ側からリソースのキャッシュをコントロールすることができる。 https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Cache-Control
-cache-control というヘッダを用いる。
-キャッシュを抑止したい場合は、 cache-control: no-store を用いる。
-有効期限の設定 様々な指定の仕方で有効期限を設定することができる。 初めてキャッシュを行う時刻からの有効期限秒数を指定する。
-特定の日付で有効期限が切れる形式の場合は、このヘッダではなく専用の Expires ヘッダを用いる。
-https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Expires
-デフォルトの設定 springMVCで作られたwebシステムはもちろん動的サイトであるため、cacheしたくないはずだが、 デフォルトではどのような動きをするか？
-ChromeはDevToolを開いて通信をすると、 cache-control: max-age=0 でリクエストを飛ばすっポイ？
-これが原因かわからないけれども常にキャッシュされないし、レスポンスヘッダには cache-control は設定されない。
-自分で制御 ResponseEntityオブジェクトでキャッシュコントロールを明示することができる。
-@GetMapping(&amp;#34;/users/{name}&amp;#34;) public ResponseEntity&amp;lt;UserDto&amp;gt; getUser(@PathVariable String name) { return ResponseEntity.ok() .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)) .body(new UserDto(name)); } 動的レスポンスをキャッシュさせたい場合はまぁあれだけど、静的コンテンツをthymeleafでドウコウしたときのキャッシュってどうやって制御するんだろう？</description>
     </item>
     
   </channel>

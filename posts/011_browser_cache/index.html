@@ -24,8 +24,8 @@ https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Expires
 ChromeはDevToolを開いて通信をすると、 cache-control: max-age=0 でリクエストを飛ばすっポイ？
 これが原因かわからないけれども常にキャッシュされないし、レスポンスヘッダには cache-control は設定されない。
 自分で制御 ResponseEntityオブジェクトでキャッシュコントロールを明示することができる。
-@GetMapping(&#34;/users/{name}&#34;) public ResponseEntity&lt;UserDto&gt; getUser(@PathVariable String name) { return ResponseEntity.ok() .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)) .body(new UserDto(name)); } 動的レスポンスをキャッシュさせたい場合はまぁあれだけど、静的コンテンツをthymeleafでドウコウしたときのキャッシュってどうやって制御するんだろう？">
-
+@GetMapping(&#34;/users/{name}&#34;) public ResponseEntity&lt;UserDto&gt; getUser(@PathVariable String name) { return ResponseEntity.ok() .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)) .body(new UserDto(name)); } 動的レスポンスをキャッシュさせたい場合はまぁあれだけど、静的コンテンツをthymeleafでドウコウしたときのキャッシュってどうやって制御するんだろう？"><meta itemprop="datePublished" content="2020-06-10T00:00:00+09:00" />
+<meta itemprop="dateModified" content="2020-06-10T00:00:00+09:00" />
 <meta itemprop="wordCount" content="56">
 <meta itemprop="keywords" content="browser,memo," /><meta property="og:title" content="Browser Cache" />
 <meta property="og:description" content="overview 広義の意味では、動作の高速化を図るため、低速・安価な記憶領域から高速・高価な記憶領域へ一時的に情報を保持することを指す（と思う）。
@@ -49,8 +49,8 @@ ChromeはDevToolを開いて通信をすると、 cache-control: max-age=0 で�
 @GetMapping(&#34;/users/{name}&#34;) public ResponseEntity&lt;UserDto&gt; getUser(@PathVariable String name) { return ResponseEntity.ok() .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)) .body(new UserDto(name)); } 動的レスポンスをキャッシュさせたい場合はまぁあれだけど、静的コンテンツをthymeleafでドウコウしたときのキャッシュってどうやって制御するんだろう？" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://pages.shibadog.net/posts/011_browser_cache/" /><meta property="article:section" content="posts" />
-
-
+<meta property="article:published_time" content="2020-06-10T00:00:00+09:00" />
+<meta property="article:modified_time" content="2020-06-10T00:00:00+09:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Browser Cache"/>
 <meta name="twitter:description" content="overview 広義の意味では、動作の高速化を図るため、低速・安価な記憶領域から高速・高価な記憶領域へ一時的に情報を保持することを指す（と思う）。
@@ -126,7 +126,7 @@ ChromeはDevToolを開いて通信をすると、 cache-control: max-age=0 で�
 	<main class="site-main section-inner animated fadeIn faster">
 		<article class="thin">
 			<header class="post-header">
-				<div class="post-meta"><span>Jan 1, 0001</span></div>
+				<div class="post-meta"><span>Jun 10, 2020</span></div>
 				<h1>Browser Cache</h1>
 			</header>
 			<div class="content">
@@ -172,7 +172,7 @@ ChromeはDevToolを開いて通信をすると、 cache-control: max-age=0 で�
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pages.shibadog.net/tags/browser">browser</a></span><span class="tag"><a href="https://pages.shibadog.net/tags/memo">memo</a></span>
 				</p>
 				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>56 Words</p>
-				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>0001-01-01T00:00:00&#43;0000</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-06-09T15:00:00&#43;0000</p>
 			</footer>
 		</article>
 		<aside id="toc">
@@ -188,8 +188,11 @@ ChromeはDevToolを開いて通信をすると、 cache-control: max-age=0 で�
 </nav>
 		</aside>
 		<div class="post-nav thin">
-			<a class="next-post" href="https://pages.shibadog.net/posts/my-first-post/">
-				<span class="post-nav-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>&nbsp;Newer</span><br><span>My First Post</span>
+			<a class="next-post" href="https://pages.shibadog.net/posts/006_moyat-ball-star/">
+				<span class="post-nav-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>&nbsp;Newer</span><br><span>もやもやボール</span>
+			</a>
+			<a class="prev-post" href="https://pages.shibadog.net/posts/013_cookie/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>JavaFX 入門</span>
 			</a>
 		</div>
 		<div id="comments" class="thin">

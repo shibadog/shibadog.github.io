@@ -9,10 +9,10 @@
     <lastBuildDate>Wed, 10 Jun 2020 00:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/web/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>JavaFX 入門</title>
-      <link>https://pages.shibadog.net/013_cookie/</link>
+      <link>https://pages.shibadog.net/posts/013_cookie/</link>
       <pubDate>Wed, 10 Jun 2020 00:00:00 +0900</pubDate>
       
-      <guid>https://pages.shibadog.net/013_cookie/</guid>
+      <guid>https://pages.shibadog.net/posts/013_cookie/</guid>
       <description>overview 正式名称は HTTP Cookie .
 端的に言うと、クライアントに情報を保持することができる仕組み。
 JavaScriptやサーバからのHTTPレスポンスにより保持させることができる。

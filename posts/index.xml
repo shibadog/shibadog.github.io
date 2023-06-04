@@ -205,6 +205,160 @@ Rocky Linux Rocky Linux</description>
 		</item>
 		
 		<item>
+			<title>【vscode】devcontainer最高やぞ、という話</title>
+			<link>https://pages.shibadog.net/posts/015_vscode_devcontainer01/</link>
+			<pubDate>Tue, 27 Dec 2022 00:00:00 +0900</pubDate>
+			
+			<guid>https://pages.shibadog.net/posts/015_vscode_devcontainer01/</guid>
+			<description>目次
+なんぞ？ 何がいいねん 使い方 ベースイメージ featureについて 拡張機能も宣言しよう 事前処理を記述する オリジナルfeatureの作成 テンプレートからの新規リポジトリ 開発環境構築 テストを試す GitHub Action 実際に組み込んでみる なんぞ？ Microsoft製のOSSエディタであるvscodeに追加された便利機能について。
+端的に言うと、コンテナ環境に開発環境を構築し、直接vscodeで開くことで開発専用のsandbox内で開発ができるという代物。
+決まり事である、 .devcontainer というフォルダや json の定義に開発環境の状態を記述することで、どの端末でも同一の環境をコンテナ上に作成し開発を行うことができる。
+各開発者の環境固有の設定などを排除することで環境差異を極力減らす事を目的としている。
+こっからポエム
+各個人の開発環境に対してこだわりを持っていくことはどの開発者でもわかると思う。しかし、開発環境の多機能化が進んでしまったことで開発用IDEの設定というものはかなり煩雑になってきている。いろいろな端末で自身のIDEの設定を同期させる拡張機能などは存在するもの、用途によって必要となる拡張機能は様々となる。必要な時に必要な拡張機能やツールを使うことでシンプルに環境を保つことは困難になる一方で、これを解決するため、各リポジトリ事に開発環境を持つ思想が生まれるのは必然ではないか。もはや、自身の環境は常に空っぽで、リポジトリ事に開発環境・ツールを整備すればすべてがシンプルになるのではないか？！と思った次第で、とても感銘を受けているからこれを書き始めた（オタク特有の早口）。
+何がいいねん 上で書いてしまっているが、開発者が持つ個人端末固有の設定に依存せず、常に同一の環境で開発を行事ができるため、ハマりずらくなる。
+また、クラウド上に開発環境を作成し、ブラウザで開発を行うスタイルの開発環境では、クラウドに作成する開発環境についても同様の設定で動作させることができる（と思う。試してない）。
+使い方 以下のようにワークスペース中に devcontainer.json を用意する。
+/root/ |-- .devcontainer/ | `-- devcontainer.json |-- src | |-- main | : : ルートまたは、 .devcontainer フォルダ配下に用意することで、vscodeを開いた際に通知にdevcontaerで開きなおすかどうかが聞かれる。
+または、このルートフォルダで、 devcontainer open . とコマンドを打つことで直接vscodeで開くことができる。
+この devcontainer コマンドは、vscode上のコマンドでインストールすることが可能。
+これらは、拡張機能のDev Containersを入れることで有効になる。
+ベースイメージ 拡張機能が入っていれば、vscode上で devcontainer.json を生成することも可能。
+そちらから作成すれば、ベースイメージは選択式で選ぶこともできる。
+このベースイメージは、多種多様のものがあり、シンプルな Ubuntu や、 Alpine から、RubyやJavaなど開発対象の言語に特化したものが存在する。</description>
+			<content type="html"><![CDATA[<p>目次</p>
+<ul>
+<li><a href="#%E3%81%AA%E3%82%93%E3%81%9E">なんぞ？</a></li>
+<li><a href="#%E4%BD%95%E3%81%8C%E3%81%84%E3%81%84%E3%81%AD%E3%82%93">何がいいねん</a></li>
+<li><a href="#%E4%BD%BF%E3%81%84%E6%96%B9">使い方</a>
+<ul>
+<li><a href="#%E3%83%99%E3%83%BC%E3%82%B9%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8">ベースイメージ</a></li>
+<li><a href="#feature%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">featureについて</a></li>
+<li><a href="#%E6%8B%A1%E5%BC%B5%E6%A9%9F%E8%83%BD%E3%82%82%E5%AE%A3%E8%A8%80%E3%81%97%E3%82%88%E3%81%86">拡張機能も宣言しよう</a></li>
+<li><a href="#%E4%BA%8B%E5%89%8D%E5%87%A6%E7%90%86%E3%82%92%E8%A8%98%E8%BF%B0%E3%81%99%E3%82%8B">事前処理を記述する</a></li>
+</ul>
+</li>
+<li><a href="#%E3%82%AA%E3%83%AA%E3%82%B8%E3%83%8A%E3%83%ABfeature%E3%81%AE%E4%BD%9C%E6%88%90">オリジナルfeatureの作成</a>
+<ul>
+<li><a href="#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%8B%E3%82%89%E3%81%AE%E6%96%B0%E8%A6%8F%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA">テンプレートからの新規リポジトリ</a></li>
+<li><a href="#%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89">開発環境構築</a></li>
+<li><a href="#%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E8%A9%A6%E3%81%99">テストを試す</a></li>
+<li><a href="#github-action">GitHub Action</a></li>
+<li><a href="#%E5%AE%9F%E9%9A%9B%E3%81%AB%E7%B5%84%E3%81%BF%E8%BE%BC%E3%82%93%E3%81%A7%E3%81%BF%E3%82%8B">実際に組み込んでみる</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="なんぞ">なんぞ？</h2>
+<p>Microsoft製のOSSエディタであるvscodeに追加された便利機能について。</p>
+<p>端的に言うと、コンテナ環境に開発環境を構築し、直接vscodeで開くことで開発専用のsandbox内で開発ができるという代物。</p>
+<p>決まり事である、 .devcontainer というフォルダや json の定義に開発環境の状態を記述することで、どの端末でも同一の環境をコンテナ上に作成し開発を行うことができる。</p>
+<p>各開発者の環境固有の設定などを排除することで環境差異を極力減らす事を目的としている。</p>
+<p>こっからポエム</p>
+<p>各個人の開発環境に対してこだわりを持っていくことはどの開発者でもわかると思う。しかし、開発環境の多機能化が進んでしまったことで開発用IDEの設定というものはかなり煩雑になってきている。いろいろな端末で自身のIDEの設定を同期させる拡張機能などは存在するもの、用途によって必要となる拡張機能は様々となる。必要な時に必要な拡張機能やツールを使うことでシンプルに環境を保つことは困難になる一方で、これを解決するため、各リポジトリ事に開発環境を持つ思想が生まれるのは必然ではないか。もはや、自身の環境は常に空っぽで、リポジトリ事に開発環境・ツールを整備すればすべてがシンプルになるのではないか？！と思った次第で、とても感銘を受けているからこれを書き始めた（オタク特有の早口）。</p>
+<h2 id="何がいいねん">何がいいねん</h2>
+<p>上で書いてしまっているが、開発者が持つ個人端末固有の設定に依存せず、常に同一の環境で開発を行事ができるため、ハマりずらくなる。</p>
+<p>また、クラウド上に開発環境を作成し、ブラウザで開発を行うスタイルの開発環境では、クラウドに作成する開発環境についても同様の設定で動作させることができる（と思う。試してない）。</p>
+<h2 id="使い方">使い方</h2>
+<p>以下のようにワークスペース中に <code>devcontainer.json</code> を用意する。</p>
+<pre tabindex="0"><code>/root/
+|-- .devcontainer/
+|   `-- devcontainer.json
+|-- src
+|   |-- main
+|   :
+:
+</code></pre><p>ルートまたは、 <code>.devcontainer</code> フォルダ配下に用意することで、vscodeを開いた際に通知にdevcontaerで開きなおすかどうかが聞かれる。</p>
+<p>または、このルートフォルダで、 <code>devcontainer open .</code> とコマンドを打つことで直接vscodeで開くことができる。</p>
+<p>この <code>devcontainer</code> コマンドは、vscode上のコマンドでインストールすることが可能。</p>
+<p><img src="./01_e0ce6d26-d805-4067-8504-3427086f1bed.png" alt=""></p>
+<p>これらは、拡張機能のDev Containersを入れることで有効になる。</p>
+<p><img src="./02_00619fab-a19c-4008-bc50-f6ed61cc60c1.png" alt=""></p>
+<h3 id="ベースイメージ">ベースイメージ</h3>
+<p>拡張機能が入っていれば、vscode上で <code>devcontainer.json</code> を生成することも可能。</p>
+<p>そちらから作成すれば、ベースイメージは選択式で選ぶこともできる。</p>
+<p><img src="./03_e90245dc-20bb-4c1b-b488-65b739056d76.png" alt=""></p>
+<p><img src="./04_5c9f3e32-cd61-480b-a76f-63fb0103e66e.png" alt=""></p>
+<p>このベースイメージは、多種多様のものがあり、シンプルな Ubuntu や、 Alpine から、RubyやJavaなど開発対象の言語に特化したものが存在する。</p>
+<p>また、docker-composeファイルにも対応しており、ベースイメージ＋composeで周辺ミドルウェアの立ち上げまで行うことができる。</p>
+<p>（もちろんcomposeで立ち上げるため同一ネットワークに所属させることも可能であるため、ホスト名でアクセスしやすくなる）</p>
+<h3 id="featureについて">featureについて</h3>
+<p>ベースイメージを選択した後に聞かれるのがfeatureになる。</p>
+<p>このfeatureは、ベースイメージの中にインストールするコマンドなどを管理するもの。</p>
+<p>Gitコマンドやjq、SDKMANやAnacondaなど開発に利用するコマンド類を最初からセットアップされた状態で使える。</p>
+<p><img src="./05_c17cdba0-8292-438e-8443-6e0f2f32c3ed.png" alt=""></p>
+<p>これらを選択すると生成される <code>devcontainer.json</code> では、どのベースイメージでfeatureを利用するかを定義することが可能となり、別のPCで同一の開発環境を構築することが可能となる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Docker in Docker&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&#34;image&#34;</span>: <span style="color:#e6db74">&#34;mcr.microsoft.com/devcontainers/base:buster&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&#34;features&#34;</span>: {
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/devcontainers/features/common-utils:1&#34;</span>: {
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;installZsh&#34;</span>: <span style="color:#e6db74">&#34;false&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;upgradePackages&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;uid&#34;</span>: <span style="color:#e6db74">&#34;1000&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;gid&#34;</span>: <span style="color:#e6db74">&#34;1000&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;installOhMyZsh&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;nonFreePackages&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/devcontainers/features/docker-from-docker:1&#34;</span>: {
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;latest&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;enableNonRootDocker&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;moby&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/devcontainers/features/docker-in-docker:1&#34;</span>: {},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/devcontainers/features/git:1&#34;</span>: {},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/devcontainers/features/java:1&#34;</span>: {},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/eitsupi/devcontainer-features/jq-likes:0&#34;</span>: {},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/devcontainers/features/terraform:1&#34;</span>: {},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/meaningful-ooo/devcontainer-features/homebrew:2&#34;</span>: {},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/shibadog/devcontainer-feature/graphviz:latest&#34;</span>: {}
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="拡張機能も宣言しよう">拡張機能も宣言しよう</h3>
+<p>devcontainerで開いたvscode上では拡張機能はホスト側から引き継がれたりはしない。<br>
+そのため、それぞれインストールの必要があるが、これを <code>devcontainer.json</code> に宣言することができる。<br>
+（つまり、最初からインストールされた状態で起動することもできる）</p>
+<p>これは、 <code>devcontainer.json</code> を直接編集して追加することもできるが、 <code>devcontainer</code> で起動したvscode上から拡張機能をインストールするタイミングで追加することも可能となっている。</p>
+<p><img src="./06_44bbc6ba-c1ca-4721-be6b-6f75a1412c6d.png" alt=""></p>
+<p>また、常に入れておきたい拡張機能は、 Dev Containers 拡張機能の設定で定義することができる。</p>
+<p><img src="./07_b5b2625f-d9cf-4da2-8078-608b5efb5535.png" alt=""></p>
+<h3 id="事前処理を記述する">事前処理を記述する</h3>
+<p>だいたいfeatureで必要な事前処理は行うことができるようになっているが、あまり一般的ではない、プロジェクト固有の前処理などがあった場合は、 <code>postCreateCommand</code> で事前処理を行うことが可能である。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Use &#39;postCreateCommand&#39; to run commands after the container is created.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#e6db74">&#34;postCreateCommand&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#e6db74">&#34;docker --version&#34;</span><span style="color:#960050;background-color:#1e0010">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">:</span>
+</span></span></code></pre></div><p>同じく、 <code>devcontainer.json</code> の中に、 <code>postCreateCommand</code> を用意しておくことで、任意のコマンドを実行することが可能となる。<br>
+ここで、事前処理などを行うことが可能となる。</p>
+<p>もちろん、コマンドのみならずシェルスクリプトなど実行ができるので <code>.devcontaier</code> フォルダに格納して管理することも可能である。</p>
+<h2 id="オリジナルfeatureの作成">オリジナルfeatureの作成</h2>
+<p>実はここで出てくる <code>feature</code> というものは簡単に自作することができる。</p>
+<p>これが実は真価を発揮する場面であり、今回最大に感動している点。</p>
+<p>こちらにテンプレートリポジトリが用意されており、これをもとに作成したリポジトリでオリジナルfeatureを作ることができる。</p>
+<p>また、nodeで開発された <code>devcontaer-cli</code> を使うことで、簡単にテストを記述することもでき、このテンプレートリポジトリには <code>devcontainer-cli</code> を用いたテストや Github Package を用いたパッケージ化の Github Action が含まれている。</p>
+<p>これを、 <code>devcontainer.json</code> の <code>feature</code> に追加することですぐに利用することができる。</p>
+<p>以下で簡単に自作した <code>feature</code> を追加してみる。</p>
+<h3 id="テンプレートからの新規リポジトリ">テンプレートからの新規リポジトリ</h3>
+<p>featureを作るにあたって、公式からテンプレートリポジトリが提供されている。</p>
+<p><a href="https://github.com/devcontainers/feature-starter">GitHub - devcontainers/feature-starter: A  bootstrap repo for self-authoring Dev Container Features</a></p>
+<p>これには、Github Actionsによるビルドとリリースのjobが定義されているため、定義追加後にGithub Actionsをそのまま実行することでfeature自体を利用することが可能となっている。</p>
+<p>実際に作成したリポジトリは以下の通り。</p>
+<p><a href="https://github.com/shibadog/devcontainer-feature">GitHub - shibadog/devcontainer-feature</a></p>
+<h3 id="開発環境構築">開発環境構築</h3>
+<p>テンプレートリポジトリから作成した場合、すでに devcontainer が用意されているため、vscodeで開くと devcontainer で開くことをを促される。</p>
+<p>これにより、devcontainer-cli が利用でき、dockerが利用できるコンテナで開発が行える。</p>
+<h3 id="テストを試す">テストを試す</h3>
+<p>基本的に devcontaer-cli を利用することでテストなどが簡単に行える。</p>
+<h3 id="github-action">GitHub Action</h3>
+<h3 id="実際に組み込んでみる">実際に組み込んでみる</h3>
+]]></content>
+		</item>
+		
+		<item>
 			<title>急にRubyについて学ぶ</title>
 			<link>https://pages.shibadog.net/posts/014_ruby/</link>
 			<pubDate>Fri, 01 Oct 2021 00:00:00 +0900</pubDate>

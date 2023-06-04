@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta itemprop="name" content="【vscode】devcontainer最高やぞ、という話">
+<meta itemprop="description" content="目次
+なんぞ？ 何がいいねん 使い方 ベースイメージ featureについて 拡張機能も宣言しよう 事前処理を記述する オリジナルfeatureの作成 テンプレートからの新規リポジトリ 開発環境構築 テストを試す GitHub Action 実際に組み込んでみる なんぞ？ Microsoft製のOSSエディタであるvscodeに追加された便利機能について。
+端的に言うと、コンテナ環境に開発環境を構築し、直接vscodeで開くことで開発専用のsandbox内で開発ができるという代物。
+決まり事である、 .devcontainer というフォルダや json の定義に開発環境の状態を記述することで、どの端末でも同一の環境をコンテナ上に作成し開発を行うことができる。
+各開発者の環境固有の設定などを排除することで環境差異を極力減らす事を目的としている。
+こっからポエム
+各個人の開発環境に対してこだわりを持っていくことはどの開発者でもわかると思う。しかし、開発環境の多機能化が進んでしまったことで開発用IDEの設定というものはかなり煩雑になってきている。いろいろな端末で自身のIDEの設定を同期させる拡張機能などは存在するもの、用途によって必要となる拡張機能は様々となる。必要な時に必要な拡張機能やツールを使うことでシンプルに環境を保つことは困難になる一方で、これを解決するため、各リポジトリ事に開発環境を持つ思想が生まれるのは必然ではないか。もはや、自身の環境は常に空っぽで、リポジトリ事に開発環境・ツールを整備すればすべてがシンプルになるのではないか？！と思った次第で、とても感銘を受けているからこれを書き始めた（オタク特有の早口）。
+何がいいねん 上で書いてしまっているが、開発者が持つ個人端末固有の設定に依存せず、常に同一の環境で開発を行事ができるため、ハマりずらくなる。
+また、クラウド上に開発環境を作成し、ブラウザで開発を行うスタイルの開発環境では、クラウドに作成する開発環境についても同様の設定で動作させることができる（と思う。試してない）。
+使い方 以下のようにワークスペース中に devcontainer.json を用意する。
+/root/ |-- .devcontainer/ | `-- devcontainer.json |-- src | |-- main | : : ルートまたは、 .devcontainer フォルダ配下に用意することで、vscodeを開いた際に通知にdevcontaerで開きなおすかどうかが聞かれる。
+または、このルートフォルダで、 devcontainer open . とコマンドを打つことで直接vscodeで開くことができる。
+この devcontainer コマンドは、vscode上のコマンドでインストールすることが可能。
+これらは、拡張機能のDev Containersを入れることで有効になる。
+ベースイメージ 拡張機能が入っていれば、vscode上で devcontainer.json を生成することも可能。
+そちらから作成すれば、ベースイメージは選択式で選ぶこともできる。
+このベースイメージは、多種多様のものがあり、シンプルな Ubuntu や、 Alpine から、RubyやJavaなど開発対象の言語に特化したものが存在する。"><meta itemprop="datePublished" content="2022-12-27T00:00:00+09:00" />
+<meta itemprop="dateModified" content="2022-12-27T00:00:00+09:00" />
+<meta itemprop="wordCount" content="236">
+<meta itemprop="keywords" content="vscode,devcontainer,docker," /><meta property="og:title" content="【vscode】devcontainer最高やぞ、という話" />
+<meta property="og:description" content="目次
+なんぞ？ 何がいいねん 使い方 ベースイメージ featureについて 拡張機能も宣言しよう 事前処理を記述する オリジナルfeatureの作成 テンプレートからの新規リポジトリ 開発環境構築 テストを試す GitHub Action 実際に組み込んでみる なんぞ？ Microsoft製のOSSエディタであるvscodeに追加された便利機能について。
+端的に言うと、コンテナ環境に開発環境を構築し、直接vscodeで開くことで開発専用のsandbox内で開発ができるという代物。
+決まり事である、 .devcontainer というフォルダや json の定義に開発環境の状態を記述することで、どの端末でも同一の環境をコンテナ上に作成し開発を行うことができる。
+各開発者の環境固有の設定などを排除することで環境差異を極力減らす事を目的としている。
+こっからポエム
+各個人の開発環境に対してこだわりを持っていくことはどの開発者でもわかると思う。しかし、開発環境の多機能化が進んでしまったことで開発用IDEの設定というものはかなり煩雑になってきている。いろいろな端末で自身のIDEの設定を同期させる拡張機能などは存在するもの、用途によって必要となる拡張機能は様々となる。必要な時に必要な拡張機能やツールを使うことでシンプルに環境を保つことは困難になる一方で、これを解決するため、各リポジトリ事に開発環境を持つ思想が生まれるのは必然ではないか。もはや、自身の環境は常に空っぽで、リポジトリ事に開発環境・ツールを整備すればすべてがシンプルになるのではないか？！と思った次第で、とても感銘を受けているからこれを書き始めた（オタク特有の早口）。
+何がいいねん 上で書いてしまっているが、開発者が持つ個人端末固有の設定に依存せず、常に同一の環境で開発を行事ができるため、ハマりずらくなる。
+また、クラウド上に開発環境を作成し、ブラウザで開発を行うスタイルの開発環境では、クラウドに作成する開発環境についても同様の設定で動作させることができる（と思う。試してない）。
+使い方 以下のようにワークスペース中に devcontainer.json を用意する。
+/root/ |-- .devcontainer/ | `-- devcontainer.json |-- src | |-- main | : : ルートまたは、 .devcontainer フォルダ配下に用意することで、vscodeを開いた際に通知にdevcontaerで開きなおすかどうかが聞かれる。
+または、このルートフォルダで、 devcontainer open . とコマンドを打つことで直接vscodeで開くことができる。
+この devcontainer コマンドは、vscode上のコマンドでインストールすることが可能。
+これらは、拡張機能のDev Containersを入れることで有効になる。
+ベースイメージ 拡張機能が入っていれば、vscode上で devcontainer.json を生成することも可能。
+そちらから作成すれば、ベースイメージは選択式で選ぶこともできる。
+このベースイメージは、多種多様のものがあり、シンプルな Ubuntu や、 Alpine から、RubyやJavaなど開発対象の言語に特化したものが存在する。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://pages.shibadog.net/posts/015_vscode_devcontainer01/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-27T00:00:00+09:00" />
+<meta property="article:modified_time" content="2022-12-27T00:00:00+09:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="【vscode】devcontainer最高やぞ、という話"/>
+<meta name="twitter:description" content="目次
+なんぞ？ 何がいいねん 使い方 ベースイメージ featureについて 拡張機能も宣言しよう 事前処理を記述する オリジナルfeatureの作成 テンプレートからの新規リポジトリ 開発環境構築 テストを試す GitHub Action 実際に組み込んでみる なんぞ？ Microsoft製のOSSエディタであるvscodeに追加された便利機能について。
+端的に言うと、コンテナ環境に開発環境を構築し、直接vscodeで開くことで開発専用のsandbox内で開発ができるという代物。
+決まり事である、 .devcontainer というフォルダや json の定義に開発環境の状態を記述することで、どの端末でも同一の環境をコンテナ上に作成し開発を行うことができる。
+各開発者の環境固有の設定などを排除することで環境差異を極力減らす事を目的としている。
+こっからポエム
+各個人の開発環境に対してこだわりを持っていくことはどの開発者でもわかると思う。しかし、開発環境の多機能化が進んでしまったことで開発用IDEの設定というものはかなり煩雑になってきている。いろいろな端末で自身のIDEの設定を同期させる拡張機能などは存在するもの、用途によって必要となる拡張機能は様々となる。必要な時に必要な拡張機能やツールを使うことでシンプルに環境を保つことは困難になる一方で、これを解決するため、各リポジトリ事に開発環境を持つ思想が生まれるのは必然ではないか。もはや、自身の環境は常に空っぽで、リポジトリ事に開発環境・ツールを整備すればすべてがシンプルになるのではないか？！と思った次第で、とても感銘を受けているからこれを書き始めた（オタク特有の早口）。
+何がいいねん 上で書いてしまっているが、開発者が持つ個人端末固有の設定に依存せず、常に同一の環境で開発を行事ができるため、ハマりずらくなる。
+また、クラウド上に開発環境を作成し、ブラウザで開発を行うスタイルの開発環境では、クラウドに作成する開発環境についても同様の設定で動作させることができる（と思う。試してない）。
+使い方 以下のようにワークスペース中に devcontainer.json を用意する。
+/root/ |-- .devcontainer/ | `-- devcontainer.json |-- src | |-- main | : : ルートまたは、 .devcontainer フォルダ配下に用意することで、vscodeを開いた際に通知にdevcontaerで開きなおすかどうかが聞かれる。
+または、このルートフォルダで、 devcontainer open . とコマンドを打つことで直接vscodeで開くことができる。
+この devcontainer コマンドは、vscode上のコマンドでインストールすることが可能。
+これらは、拡張機能のDev Containersを入れることで有効になる。
+ベースイメージ 拡張機能が入っていれば、vscode上で devcontainer.json を生成することも可能。
+そちらから作成すれば、ベースイメージは選択式で選ぶこともできる。
+このベースイメージは、多種多様のものがあり、シンプルな Ubuntu や、 Alpine から、RubyやJavaなど開発対象の言語に特化したものが存在する。"/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>【vscode】devcontainer最高やぞ、という話</title>
+	<link rel="stylesheet" href="https://pages.shibadog.net/css/style.min.eac77496566fd7d5768fd650ddb0b2b181ca6a2d7c5fdd6fe6b8ba4bf47e566f.css" integrity="sha256-6sd0llZv19V2j9ZQ3bCysYHKai18X91v5ri6S/R+Vm8=" crossorigin="anonymous">
+	
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1EGC7KVL3W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1EGC7KVL3W');
+</script>
+
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://pages.shibadog.net/">shibadog site</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://pages.shibadog.net/posts/">Posts</a>
+				<a href="https://pages.shibadog.net/about-hugo/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<button id="toc-btn" class="hdr-btn desktop-only-ib" title="Table of Contents"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg></button><span class="hdr-social hide-in-mobile"><a href="https://twitter.com/shiba_dog" target="_blank" rel="noopener me" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://github.com/shibadog" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://pages.shibadog.net/posts/">Posts</a></li>
+			<li><a href="https://pages.shibadog.net/about-hugo/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>Dec 27, 2022</span></div>
+				<h1>【vscode】devcontainer最高やぞ、という話</h1>
+			</header>
+			<div class="content">
+				<p>目次</p>
+<ul>
+<li><a href="#%E3%81%AA%E3%82%93%E3%81%9E">なんぞ？</a></li>
+<li><a href="#%E4%BD%95%E3%81%8C%E3%81%84%E3%81%84%E3%81%AD%E3%82%93">何がいいねん</a></li>
+<li><a href="#%E4%BD%BF%E3%81%84%E6%96%B9">使い方</a>
+<ul>
+<li><a href="#%E3%83%99%E3%83%BC%E3%82%B9%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8">ベースイメージ</a></li>
+<li><a href="#feature%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">featureについて</a></li>
+<li><a href="#%E6%8B%A1%E5%BC%B5%E6%A9%9F%E8%83%BD%E3%82%82%E5%AE%A3%E8%A8%80%E3%81%97%E3%82%88%E3%81%86">拡張機能も宣言しよう</a></li>
+<li><a href="#%E4%BA%8B%E5%89%8D%E5%87%A6%E7%90%86%E3%82%92%E8%A8%98%E8%BF%B0%E3%81%99%E3%82%8B">事前処理を記述する</a></li>
+</ul>
+</li>
+<li><a href="#%E3%82%AA%E3%83%AA%E3%82%B8%E3%83%8A%E3%83%ABfeature%E3%81%AE%E4%BD%9C%E6%88%90">オリジナルfeatureの作成</a>
+<ul>
+<li><a href="#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%8B%E3%82%89%E3%81%AE%E6%96%B0%E8%A6%8F%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA">テンプレートからの新規リポジトリ</a></li>
+<li><a href="#%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89">開発環境構築</a></li>
+<li><a href="#%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E8%A9%A6%E3%81%99">テストを試す</a></li>
+<li><a href="#github-action">GitHub Action</a></li>
+<li><a href="#%E5%AE%9F%E9%9A%9B%E3%81%AB%E7%B5%84%E3%81%BF%E8%BE%BC%E3%82%93%E3%81%A7%E3%81%BF%E3%82%8B">実際に組み込んでみる</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="なんぞ">なんぞ？<a href="#なんぞ" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>Microsoft製のOSSエディタであるvscodeに追加された便利機能について。</p>
+<p>端的に言うと、コンテナ環境に開発環境を構築し、直接vscodeで開くことで開発専用のsandbox内で開発ができるという代物。</p>
+<p>決まり事である、 .devcontainer というフォルダや json の定義に開発環境の状態を記述することで、どの端末でも同一の環境をコンテナ上に作成し開発を行うことができる。</p>
+<p>各開発者の環境固有の設定などを排除することで環境差異を極力減らす事を目的としている。</p>
+<p>こっからポエム</p>
+<p>各個人の開発環境に対してこだわりを持っていくことはどの開発者でもわかると思う。しかし、開発環境の多機能化が進んでしまったことで開発用IDEの設定というものはかなり煩雑になってきている。いろいろな端末で自身のIDEの設定を同期させる拡張機能などは存在するもの、用途によって必要となる拡張機能は様々となる。必要な時に必要な拡張機能やツールを使うことでシンプルに環境を保つことは困難になる一方で、これを解決するため、各リポジトリ事に開発環境を持つ思想が生まれるのは必然ではないか。もはや、自身の環境は常に空っぽで、リポジトリ事に開発環境・ツールを整備すればすべてがシンプルになるのではないか？！と思った次第で、とても感銘を受けているからこれを書き始めた（オタク特有の早口）。</p>
+<h2 id="何がいいねん">何がいいねん<a href="#何がいいねん" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>上で書いてしまっているが、開発者が持つ個人端末固有の設定に依存せず、常に同一の環境で開発を行事ができるため、ハマりずらくなる。</p>
+<p>また、クラウド上に開発環境を作成し、ブラウザで開発を行うスタイルの開発環境では、クラウドに作成する開発環境についても同様の設定で動作させることができる（と思う。試してない）。</p>
+<h2 id="使い方">使い方<a href="#使い方" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>以下のようにワークスペース中に <code>devcontainer.json</code> を用意する。</p>
+<pre tabindex="0"><code>/root/
+|-- .devcontainer/
+|   `-- devcontainer.json
+|-- src
+|   |-- main
+|   :
+:
+</code></pre><p>ルートまたは、 <code>.devcontainer</code> フォルダ配下に用意することで、vscodeを開いた際に通知にdevcontaerで開きなおすかどうかが聞かれる。</p>
+<p>または、このルートフォルダで、 <code>devcontainer open .</code> とコマンドを打つことで直接vscodeで開くことができる。</p>
+<p>この <code>devcontainer</code> コマンドは、vscode上のコマンドでインストールすることが可能。</p>
+<p><img src="./01_e0ce6d26-d805-4067-8504-3427086f1bed.png" alt=""></p>
+<p>これらは、拡張機能のDev Containersを入れることで有効になる。</p>
+<p><img src="./02_00619fab-a19c-4008-bc50-f6ed61cc60c1.png" alt=""></p>
+<h3 id="ベースイメージ">ベースイメージ<a href="#ベースイメージ" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>拡張機能が入っていれば、vscode上で <code>devcontainer.json</code> を生成することも可能。</p>
+<p>そちらから作成すれば、ベースイメージは選択式で選ぶこともできる。</p>
+<p><img src="./03_e90245dc-20bb-4c1b-b488-65b739056d76.png" alt=""></p>
+<p><img src="./04_5c9f3e32-cd61-480b-a76f-63fb0103e66e.png" alt=""></p>
+<p>このベースイメージは、多種多様のものがあり、シンプルな Ubuntu や、 Alpine から、RubyやJavaなど開発対象の言語に特化したものが存在する。</p>
+<p>また、docker-composeファイルにも対応しており、ベースイメージ＋composeで周辺ミドルウェアの立ち上げまで行うことができる。</p>
+<p>（もちろんcomposeで立ち上げるため同一ネットワークに所属させることも可能であるため、ホスト名でアクセスしやすくなる）</p>
+<h3 id="featureについて">featureについて<a href="#featureについて" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>ベースイメージを選択した後に聞かれるのがfeatureになる。</p>
+<p>このfeatureは、ベースイメージの中にインストールするコマンドなどを管理するもの。</p>
+<p>Gitコマンドやjq、SDKMANやAnacondaなど開発に利用するコマンド類を最初からセットアップされた状態で使える。</p>
+<p><img src="./05_c17cdba0-8292-438e-8443-6e0f2f32c3ed.png" alt=""></p>
+<p>これらを選択すると生成される <code>devcontainer.json</code> では、どのベースイメージでfeatureを利用するかを定義することが可能となり、別のPCで同一の開発環境を構築することが可能となる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Docker in Docker&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&#34;image&#34;</span>: <span style="color:#e6db74">&#34;mcr.microsoft.com/devcontainers/base:buster&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&#34;features&#34;</span>: {
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/devcontainers/features/common-utils:1&#34;</span>: {
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;installZsh&#34;</span>: <span style="color:#e6db74">&#34;false&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;upgradePackages&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;uid&#34;</span>: <span style="color:#e6db74">&#34;1000&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;gid&#34;</span>: <span style="color:#e6db74">&#34;1000&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;installOhMyZsh&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;nonFreePackages&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/devcontainers/features/docker-from-docker:1&#34;</span>: {
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;latest&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;enableNonRootDocker&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;moby&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/devcontainers/features/docker-in-docker:1&#34;</span>: {},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/devcontainers/features/git:1&#34;</span>: {},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/devcontainers/features/java:1&#34;</span>: {},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/eitsupi/devcontainer-features/jq-likes:0&#34;</span>: {},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/devcontainers/features/terraform:1&#34;</span>: {},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/meaningful-ooo/devcontainer-features/homebrew:2&#34;</span>: {},
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">&#34;ghcr.io/shibadog/devcontainer-feature/graphviz:latest&#34;</span>: {}
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="拡張機能も宣言しよう">拡張機能も宣言しよう<a href="#拡張機能も宣言しよう" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>devcontainerで開いたvscode上では拡張機能はホスト側から引き継がれたりはしない。<br>
+そのため、それぞれインストールの必要があるが、これを <code>devcontainer.json</code> に宣言することができる。<br>
+（つまり、最初からインストールされた状態で起動することもできる）</p>
+<p>これは、 <code>devcontainer.json</code> を直接編集して追加することもできるが、 <code>devcontainer</code> で起動したvscode上から拡張機能をインストールするタイミングで追加することも可能となっている。</p>
+<p><img src="./06_44bbc6ba-c1ca-4721-be6b-6f75a1412c6d.png" alt=""></p>
+<p>また、常に入れておきたい拡張機能は、 Dev Containers 拡張機能の設定で定義することができる。</p>
+<p><img src="./07_b5b2625f-d9cf-4da2-8078-608b5efb5535.png" alt=""></p>
+<h3 id="事前処理を記述する">事前処理を記述する<a href="#事前処理を記述する" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>だいたいfeatureで必要な事前処理は行うことができるようになっているが、あまり一般的ではない、プロジェクト固有の前処理などがあった場合は、 <code>postCreateCommand</code> で事前処理を行うことが可能である。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Use &#39;postCreateCommand&#39; to run commands after the container is created.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#e6db74">&#34;postCreateCommand&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#e6db74">&#34;docker --version&#34;</span><span style="color:#960050;background-color:#1e0010">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">:</span>
+</span></span></code></pre></div><p>同じく、 <code>devcontainer.json</code> の中に、 <code>postCreateCommand</code> を用意しておくことで、任意のコマンドを実行することが可能となる。<br>
+ここで、事前処理などを行うことが可能となる。</p>
+<p>もちろん、コマンドのみならずシェルスクリプトなど実行ができるので <code>.devcontaier</code> フォルダに格納して管理することも可能である。</p>
+<h2 id="オリジナルfeatureの作成">オリジナルfeatureの作成<a href="#オリジナルfeatureの作成" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>実はここで出てくる <code>feature</code> というものは簡単に自作することができる。</p>
+<p>これが実は真価を発揮する場面であり、今回最大に感動している点。</p>
+<p>こちらにテンプレートリポジトリが用意されており、これをもとに作成したリポジトリでオリジナルfeatureを作ることができる。</p>
+<p>また、nodeで開発された <code>devcontaer-cli</code> を使うことで、簡単にテストを記述することもでき、このテンプレートリポジトリには <code>devcontainer-cli</code> を用いたテストや Github Package を用いたパッケージ化の Github Action が含まれている。</p>
+<p>これを、 <code>devcontainer.json</code> の <code>feature</code> に追加することですぐに利用することができる。</p>
+<p>以下で簡単に自作した <code>feature</code> を追加してみる。</p>
+<h3 id="テンプレートからの新規リポジトリ">テンプレートからの新規リポジトリ<a href="#テンプレートからの新規リポジトリ" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>featureを作るにあたって、公式からテンプレートリポジトリが提供されている。</p>
+<p><a href="https://github.com/devcontainers/feature-starter">GitHub - devcontainers/feature-starter: A  bootstrap repo for self-authoring Dev Container Features</a></p>
+<p>これには、Github Actionsによるビルドとリリースのjobが定義されているため、定義追加後にGithub Actionsをそのまま実行することでfeature自体を利用することが可能となっている。</p>
+<p>実際に作成したリポジトリは以下の通り。</p>
+<p><a href="https://github.com/shibadog/devcontainer-feature">GitHub - shibadog/devcontainer-feature</a></p>
+<h3 id="開発環境構築">開発環境構築<a href="#開発環境構築" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>テンプレートリポジトリから作成した場合、すでに devcontainer が用意されているため、vscodeで開くと devcontainer で開くことをを促される。</p>
+<p>これにより、devcontainer-cli が利用でき、dockerが利用できるコンテナで開発が行える。</p>
+<h3 id="テストを試す">テストを試す<a href="#テストを試す" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>基本的に devcontaer-cli を利用することでテストなどが簡単に行える。</p>
+<h3 id="github-action">GitHub Action<a href="#github-action" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<h3 id="実際に組み込んでみる">実際に組み込んでみる<a href="#実際に組み込んでみる" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pages.shibadog.net/tags/vscode">vscode</a></span><span class="tag"><a href="https://pages.shibadog.net/tags/devcontainer">devcontainer</a></span><span class="tag"><a href="https://pages.shibadog.net/tags/docker">docker</a></span>
+				</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>236 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2022-12-26T15:00:00&#43;0000</p>
+			</footer>
+		</article>
+		<aside id="toc">
+			<div class="toc-title">Table of Contents</div>
+			<nav id="TableOfContents">
+  <ul>
+    <li><a href="#なんぞ">なんぞ？</a></li>
+    <li><a href="#何がいいねん">何がいいねん</a></li>
+    <li><a href="#使い方">使い方</a>
+      <ul>
+        <li><a href="#ベースイメージ">ベースイメージ</a></li>
+        <li><a href="#featureについて">featureについて</a></li>
+        <li><a href="#拡張機能も宣言しよう">拡張機能も宣言しよう</a></li>
+        <li><a href="#事前処理を記述する">事前処理を記述する</a></li>
+      </ul>
+    </li>
+    <li><a href="#オリジナルfeatureの作成">オリジナルfeatureの作成</a>
+      <ul>
+        <li><a href="#テンプレートからの新規リポジトリ">テンプレートからの新規リポジトリ</a></li>
+        <li><a href="#開発環境構築">開発環境構築</a></li>
+        <li><a href="#テストを試す">テストを試す</a></li>
+        <li><a href="#github-action">GitHub Action</a></li>
+        <li><a href="#実際に組み込んでみる">実際に組み込んでみる</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+		</aside>
+		<div class="post-nav thin">
+			<a class="next-post" href="https://pages.shibadog.net/posts/009_centos/">
+				<span class="post-nav-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>&nbsp;Newer</span><br><span>CentOSの事情</span>
+			</a>
+			<a class="prev-post" href="https://pages.shibadog.net/posts/014_ruby/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>急にRubyについて学ぶ</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+    <p>&copy; 2023 <a href="https://pages.shibadog.net/">shibadog</a></p>
+    <p>
+        Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://pages.shibadog.net/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    </p>
+</footer>
+<script src="/asset/mermaid/mermaid.js"></script>
+
+
+
+	<script src="https://pages.shibadog.net/js/bundle.min.580988ed2982bcbb74a1773c7abea97b43e4c43b9324e10cda0813ec6ec4bb67.js" integrity="sha256-WAmI7SmCvLt0oXc8er6pe0PkxDuTJOEM2ggT7G7Eu2c=" crossorigin="anonymous"></script>
+	
+
+</body>
+
+</html>

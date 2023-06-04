@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker on shibadog site</title>
+    <link>https://pages.shibadog.net/tags/docker/</link>
+    <description>Recent content in docker on shibadog site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Tue, 27 Dec 2022 00:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【vscode】devcontainer最高やぞ、という話</title>
+      <link>https://pages.shibadog.net/posts/015_vscode_devcontainer01/</link>
+      <pubDate>Tue, 27 Dec 2022 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/015_vscode_devcontainer01/</guid>
+      <description>目次
+なんぞ？ 何がいいねん 使い方 ベースイメージ featureについて 拡張機能も宣言しよう 事前処理を記述する オリジナルfeatureの作成 テンプレートからの新規リポジトリ 開発環境構築 テストを試す GitHub Action 実際に組み込んでみる なんぞ？ Microsoft製のOSSエディタであるvscodeに追加された便利機能について。
+端的に言うと、コンテナ環境に開発環境を構築し、直接vscodeで開くことで開発専用のsandbox内で開発ができるという代物。
+決まり事である、 .devcontainer というフォルダや json の定義に開発環境の状態を記述することで、どの端末でも同一の環境をコンテナ上に作成し開発を行うことができる。
+各開発者の環境固有の設定などを排除することで環境差異を極力減らす事を目的としている。
+こっからポエム
+各個人の開発環境に対してこだわりを持っていくことはどの開発者でもわかると思う。しかし、開発環境の多機能化が進んでしまったことで開発用IDEの設定というものはかなり煩雑になってきている。いろいろな端末で自身のIDEの設定を同期させる拡張機能などは存在するもの、用途によって必要となる拡張機能は様々となる。必要な時に必要な拡張機能やツールを使うことでシンプルに環境を保つことは困難になる一方で、これを解決するため、各リポジトリ事に開発環境を持つ思想が生まれるのは必然ではないか。もはや、自身の環境は常に空っぽで、リポジトリ事に開発環境・ツールを整備すればすべてがシンプルになるのではないか？！と思った次第で、とても感銘を受けているからこれを書き始めた（オタク特有の早口）。
+何がいいねん 上で書いてしまっているが、開発者が持つ個人端末固有の設定に依存せず、常に同一の環境で開発を行事ができるため、ハマりずらくなる。
+また、クラウド上に開発環境を作成し、ブラウザで開発を行うスタイルの開発環境では、クラウドに作成する開発環境についても同様の設定で動作させることができる（と思う。試してない）。
+使い方 以下のようにワークスペース中に devcontainer.json を用意する。
+/root/ |-- .devcontainer/ | `-- devcontainer.json |-- src | |-- main | : : ルートまたは、 .devcontainer フォルダ配下に用意することで、vscodeを開いた際に通知にdevcontaerで開きなおすかどうかが聞かれる。
+または、このルートフォルダで、 devcontainer open . とコマンドを打つことで直接vscodeで開くことができる。
+この devcontainer コマンドは、vscode上のコマンドでインストールすることが可能。
+これらは、拡張機能のDev Containersを入れることで有効になる。
+ベースイメージ 拡張機能が入っていれば、vscode上で devcontainer.json を生成することも可能。
+そちらから作成すれば、ベースイメージは選択式で選ぶこともできる。
+このベースイメージは、多種多様のものがあり、シンプルな Ubuntu や、 Alpine から、RubyやJavaなど開発対象の言語に特化したものが存在する。</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -8,11 +8,47 @@
     <language>ja-jp</language>
     <lastBuildDate>Wed, 17 May 2023 00:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>java</title>
+      <link>https://pages.shibadog.net/tags/java/</link>
+      <pubDate>Wed, 17 May 2023 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>micrometer</title>
+      <link>https://pages.shibadog.net/tags/micrometer/</link>
+      <pubDate>Wed, 17 May 2023 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/tags/micrometer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>opentelemetry</title>
+      <link>https://pages.shibadog.net/tags/opentelemetry/</link>
+      <pubDate>Wed, 17 May 2023 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/tags/opentelemetry/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>sample</title>
       <link>https://pages.shibadog.net/tags/sample/</link>
       <pubDate>Wed, 17 May 2023 00:00:00 +0900</pubDate>
       
       <guid>https://pages.shibadog.net/tags/sample/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spring</title>
+      <link>https://pages.shibadog.net/tags/spring/</link>
+      <pubDate>Wed, 17 May 2023 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/tags/spring/</guid>
       <description></description>
     </item>
     
@@ -107,6 +143,15 @@
     </item>
     
     <item>
+      <title>趣味</title>
+      <link>https://pages.shibadog.net/tags/%E8%B6%A3%E5%91%B3/</link>
+      <pubDate>Sun, 28 Jun 2020 09:45:32 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/tags/%E8%B6%A3%E5%91%B3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>browser</title>
       <link>https://pages.shibadog.net/tags/browser/</link>
       <pubDate>Wed, 10 Jun 2020 00:00:00 +0900</pubDate>
@@ -121,15 +166,6 @@
       <pubDate>Wed, 10 Jun 2020 00:00:00 +0900</pubDate>
       
       <guid>https://pages.shibadog.net/tags/web/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>java</title>
-      <link>https://pages.shibadog.net/tags/java/</link>
-      <pubDate>Sat, 23 May 2020 00:00:00 +0900</pubDate>
-      
-      <guid>https://pages.shibadog.net/tags/java/</guid>
       <description></description>
     </item>
     
@@ -175,15 +211,6 @@
       <pubDate>Thu, 17 Oct 2019 09:55:20 +0900</pubDate>
       
       <guid>https://pages.shibadog.net/tags/hugo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>note</title>
-      <link>https://pages.shibadog.net/tags/note/</link>
-      <pubDate>Tue, 15 Oct 2019 23:52:59 +0900</pubDate>
-      
-      <guid>https://pages.shibadog.net/tags/note/</guid>
       <description></description>
     </item>
     

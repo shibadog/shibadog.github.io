@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>趣味 on shibadog site</title>
+    <link>https://pages.shibadog.net/tags/%E8%B6%A3%E5%91%B3/</link>
+    <description>Recent content in 趣味 on shibadog site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Sun, 28 Jun 2020 09:45:32 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/%E8%B6%A3%E5%91%B3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>もやもやボール</title>
+      <link>https://pages.shibadog.net/posts/006_moyat-ball-star/</link>
+      <pubDate>Sun, 28 Jun 2020 09:45:32 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/006_moyat-ball-star/</guid>
+      <description>ユニット折り紙 イライラ、もやもやしたときにいつも作るユニット折り紙を並べて行こうという試み。
+今回、いつも使っているユニット折り紙の本以外から情報を得て作ったので、作り方を残しておくというのもある。
+完成図 作り方 思ったよりも、Draw.ioで折り紙書くの辛かった（何
+折り紙の図面は表裏がわかるように範囲色付けとか、変形させた際に微調整をするために、線同士の結合をしたまま移動させるとかの機能があったほうがいい。。。
+つまり、ちゃんとしたお絵かきソフトで作ったほうが断然効率がいいということが分かったorz
+でもちょっと面白かった</description>
+    </item>
+    
+    <item>
+      <title>JavaFX 入門</title>
+      <link>https://pages.shibadog.net/posts/012_javafx01/</link>
+      <pubDate>Sat, 23 May 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/012_javafx01/</guid>
+      <description>overview C#でWPFを使った開発を経験しているが、Javaでも同様の仕組みであるJavaFXが出たので、JavaFXが気になって仕方がない。
+いまさらながら、調べてみようという話
+現在SpringによるWebバックエンド開発が主な仕事なので、その辺の知識を生かしてうまいことJavaFXに適用できないかも模索してみる。
+完全にJavaFXは初心者である
+環境構築 JavaFXはJava11から本体から切り離された様子。 （この辺深堀している記事がありそうなので探そう。。。）
+取り急ぎ、ググった結果ぱっと出てきたGluonが出しているOpenJavaFX11の環境構築を行った。
+開発環境はもちろんWindowsなので、パッケージ管理にScoopを使う。
+scoopの公式拡張bucketのjava bucketを追加してインストールする。
+PS&amp;gt; scoop bucket add java PS&amp;gt; scoop update PS&amp;gt; scoop search javajfx &amp;#39;java&amp;#39; bucket: gluon-openjfx-jmods-ea (15-5) gluon-openjfx-jmods-lts (11.0.2) gluon-openjfx-jmods (14.0.1) gluon-openjfx-sdk-ea (15-5) gluon-openjfx-sdk-lts (11.0.2) gluon-openjfx-sdk (14.0.1) PS&amp;gt; scoop install gluon-openjfx-sdk-lts もちろん、javaも必要なのでインストールしておく
+PS&amp;gt; scoop install openjdk11 あと、画面を作成するためのXMLエディタとしてscene builderというものが存在する。
+WPFの画面作成のアレと同じことができる。
+これはscoopに存在しなかったので、適当に自分でscoop bucketを作ったので追加してインストール
+PS&amp;gt; scoop bucket add my-bucket https://github.com/shibadog/my-bucket.git PS&amp;gt; scoop update PS&amp;gt; scoop search scene-builder &amp;#39;my-bucket&amp;#39; bucket: gluon-scene-builder (11.0.0) PS&amp;gt; scoop install gluon-scene-builder これで実行環境と開発SDKのインストール完了。</description>
+    </item>
+    
+  </channel>
+</rss>

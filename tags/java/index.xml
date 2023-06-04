@@ -6,7 +6,36 @@
     <description>Recent content in java on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Sat, 23 May 2020 00:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 17 May 2023 00:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>spring boot 3 trace</title>
+      <link>https://pages.shibadog.net/posts/008_survery_results/</link>
+      <pubDate>Wed, 17 May 2023 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/008_survery_results/</guid>
+      <description>背景 spring boot3になってからtraceの構成が変わった。
+sleuth から micrometer observationを使う用に代わり、opentelemetryが入ってきて関係性が変わったのでそれを把握したい。
+micrometer observationの解説は優秀なブログがすでにあるのでそちらに任せることにする。
+https://programacho.com/blog/a10b96ec9d79/
+ここでは、このmicrometerの裏側を把握することを目的とする。
+全体感から見た各種ライブラリの役割 ▲ なにかのdiagramのルールにのっとって書いているわけではなく、雰囲気で矢印と図形の形を変えている。
+意味はあるが公のルールではないのでご注意。
+tracer layerの詳細 この領域はトレーサー層と呼ぶらしい。
+ここは、exporter（braveではreporter）を使って実際のトレース情報を伝送する部分の実装であったり、アプリケーション間のトレース情報をつなぐための処理を行う実装が存在する。
+braveはもともとのspring cloudに存在する実装であり、zipkinのb3ヘッダのみに対応している。
+opentelemetryでは、opentelemetryが定義する伝送プロトコル（なんだっけ？）とb3のどちらにも対応しており、ここをpropagatorと呼んでおり差し替え可能となっている。
+w3c → W3CTraceContextPropagator b3 → B3Propagator opentelemetryを使った場合のexporter layer詳細 Opentelemetryに対応したトレース参照用のツールはいくつか存在する。
+これ以外にも、上記zipkinの例から以下のような構造になっていることが伺える。
+参考資料のmakingさんの資料にある通り、spring boot 3.0.Xまでは、exporterのauto configに対応している（つまり何もBean登録しなくても設定だけで使えるやつ）のはzipkinとwavefrontのみとなっている。
+しかし、opentelemetry自体はいろいろなexporterに対応しており、自力でBean登録をすることで異なるサービスにtraceを伝送することが可能になっている。
+braveを使った場合のexporter layer(reporter)詳細 tracerをopentelemetryではなく従来のbraveを選択することも可能となっている。
+この場合でも伝送先を切り替えることが可能となっている。
+Opentelemetryに対応しているElastic APMに入れてみる 本リポジトリでは、前章でまとめた依存のうち以下のような組み合わせでアプリケーションを作成している。
+tracer layer -&amp;gt; opentelemetry exporter layer -&amp;gt; opentelemetry tracerの記録先は Elastic APMを利用している。
+詳しくは ../../pom.xml を参照いただきたいが、traceにかかわる依存は以下の通り。
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;io.micrometer&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;micrometer-tracing-bridge-otel&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;io.opentelemetry&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;opentelemetry-exporter-otlp&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; spring bootに関しては、3.0.x系であるため、そのままではopentelemetry exporterのauto configに対応していない。</description>
+    </item>
+    
     <item>
       <title>JavaFX 入門</title>
       <link>https://pages.shibadog.net/posts/012_javafx01/</link>
@@ -26,6 +55,50 @@ PS&amp;gt; scoop install openjdk11 あと、画面を作成するためのXMLエ
 WPFの画面作成のアレと同じことができる。
 これはscoopに存在しなかったので、適当に自分でscoop bucketを作ったので追加してインストール
 PS&amp;gt; scoop bucket add my-bucket https://github.com/shibadog/my-bucket.git PS&amp;gt; scoop update PS&amp;gt; scoop search scene-builder &amp;#39;my-bucket&amp;#39; bucket: gluon-scene-builder (11.0.0) PS&amp;gt; scoop install gluon-scene-builder これで実行環境と開発SDKのインストール完了。</description>
+    </item>
+    
+    <item>
+      <title>Hystrixを説明してみた２</title>
+      <link>https://pages.shibadog.net/posts/002_hystrix_02/</link>
+      <pubDate>Sat, 26 Oct 2019 13:17:15 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/002_hystrix_02/</guid>
+      <description>Hystrixを説明してみた の続き
+Hystrixの機能 Hystrixの機能紹介をしてみる。
+コマンド隔離 コマンドエラー検知 例外ハンドリング タイムアウトハンドリング コマンド同時実行数制限 コマンド隔離 Hystrixではコマンドの隔離が行える。
+具体的には、指定したメソッド一つが隔離対象となり、別名で隔離したメソッドと影響しあわないようにできる。
+例えば、以下のように2つのコマンドを定義したアプリの場合。 コマンドAからアクセスするAPIAがタイムアウトを頻発するような状況になってしまったとすると、
+コマンドAが即エラーを返すようなることで、リクエスト処理スレッドが占有されず、コマンドBは正常に処理が行われる。
+コマンドエラー検知 コマンド内で実行される処理でExceptionが発生した場合には、このExceptionを検知してフォールバック処理を行うことができる。
+また、コマンド内の処理のタイムアウトを測ることができ、指定時間を過ぎた場合に、HystrixのExceptionを発生させることができる。
+timeInMillisecondsの秒数内に、numBuckets分の記録用の箱があるイメージ。 例えば、10,000msで10Bucketsの場合、集計範囲は1,000msになる。
+circuitBreaker.errorThresholdPercentageで設定した割合でSuccess以外のエラー数となった場合に、ショートサーキット状態となる。
+参考：GitHub - Netflix/Hystrix wiki
+コマンド同時実行数制御 隔離されたコマンドは同時実行数の制御が行える。
+Hystrixは隔離方式を2種類用意しており、デフォルトでは独立Threadによる制御を行う。
+もう一つの制御方法として、セマフォ方式を持っている。
+若干飽きて適当になった（ぇ
+いったんこれまでにしておく。</description>
+    </item>
+    
+    <item>
+      <title>Hystrixを説明してみた</title>
+      <link>https://pages.shibadog.net/posts/001_hystrix_01/</link>
+      <pubDate>Sun, 20 Oct 2019 21:10:22 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/001_hystrix_01/</guid>
+      <description>Hystrixとは Netflixが開発したOSSで、Circuit Breakerの実装。
+Circuit Breakerとは、マイクロサービスで開発されたアプリケーション同士が、一つのアプリの障害で連鎖的に障害を発生させる状態を防止するための、ブレーカー的役割をする機能のこと。
+後続のアプリケーションが障害を起こした場合、当該アプリで即エラーを返すことでリクエストの流入を抑える。
+例えば、一番後続のアプリが障害を起こして、応答がなくなる。
+リクエストが流れ続けるため、障害を起こしたアプリを呼び出す前段のアプリが引きずられ、スレッド枯渇やGC頻発による応答不能が発生する（ことがある）。
+さらに、これを呼び出すアプリが同様に障害を起こすことで、正常なアプリへの呼び出しも行われなくなり、全体が障害となってしまう。
+もし、Hystrixがアプリに組み込まれていた場合。
+やはり、最下層のアプリに障害が発生し。。。
+しかし、前段のアプリで、障害を検知して後続が障害の場合のロジックを通って
+これによって、後続が障害により連続でエラーを返す状態になった場合にも、後続へのリクエストを中止し、負荷をかけないようにしたうえで、異常状態の対処を行う。
+これが相当に便利であり、しかも後続への無駄な負荷をかけずにすむという代物でした。
+今回はここまで。</description>
     </item>
     
   </channel>

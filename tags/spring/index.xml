@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>spring boot on shibadog site</title>
-    <link>https://pages.shibadog.net/tags/spring-boot/</link>
-    <description>Recent content in spring boot on shibadog site</description>
+    <title>spring on shibadog site</title>
+    <link>https://pages.shibadog.net/tags/spring/</link>
+    <description>Recent content in spring on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Wed, 17 May 2023 00:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/spring-boot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 17 May 2023 00:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/spring/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>spring boot 3 trace</title>
       <link>https://pages.shibadog.net/posts/008_survery_results/</link>

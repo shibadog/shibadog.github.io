@@ -36,6 +36,18 @@ Rocky Linux Rocky Linux</description>
     </item>
     
     <item>
+      <title>急にRubyについて学ぶ</title>
+      <link>https://pages.shibadog.net/posts/014_ruby/</link>
+      <pubDate>Fri, 01 Oct 2021 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/014_ruby/</guid>
+      <description>まずは Javaとの対比が一番わかりやすいのでいったん対比を書く
+# 項目 Java Ruby 備考 1 実行 java ruby ruby {rubyfile} 2 webフレームワーク spring ほか rails ? 3 テストフレームワーク junit minitest test-unit rspec ruby {testfile} 4 ビルドツール maven gradle rake rake {task} タスクの書き方は後述。 直接実行する場合は、グローバルインストールされていないといけない。 プロジェクト個別にインストールしたrakeを使う場合は以下のような感じ bundle exec rake {task} 5 依存解決 bundle bundle install bundle install &amp;ndash;path gems でプロジェクト個別に依存を収集できる 6 静的解析 findBugs ruboCop いろいろ使い方 シンタックス回り 変数 通常は何も書かずに代入で切るっぽい
+variable = &amp;#39;だいにゅうできるよ&amp;#39;; puts variable; ローカル変数を作りたければ以下。
+@variable = &amp;#39;ローカル変数！&amp;#39;; puts @variable; クラスの中でクラス変数を定義したい場合はアットが二つ</description>
+    </item>
+    
+    <item>
       <title>Browser Cache</title>
       <link>https://pages.shibadog.net/posts/011_browser_cache/</link>
       <pubDate>Wed, 10 Jun 2020 00:00:00 +0900</pubDate>
@@ -100,6 +112,17 @@ ChromeはDevToolを開いて通信をすると、 cache-control: max-age=0 で�
 これは、1bitや1byte単位でデータを暗号化でき、かつ、パターンを十分に増やせる。
 また、対象の平文の長さを気にしなくて済むため、SSL（HTTPS）や無線LAN（WEP）など、ネットワークトラフィックを暗号化するために利用されている。
 暗号化アルゴリズムの種類 暗号化アルゴリズム一覧 # 方式 暗号化方式 暗号アルゴリズム 信頼度 規格 備考 1 共通鍵 ブロック DES 低 RFC 2451 2 共通鍵 ブロック AES 中 3 共通鍵 ブロック Rijndael 高 4 共通鍵 ブロック Triple-DES 中 5 共通鍵 ブロック RC2 低 RFC 2268 6 共通鍵 ストリーム RC4 低 RFC 7465 7 公開鍵 - RSA 高 大きな数の素因数分解問題 8 公開鍵 - El Gamal 高 離散対数問題 9 公開鍵 - ECC 高 離散対数暗号方式に楕円曲線の点のグループを適用させた方式 暗号利用モード (Block cipher modes of opration) 暗号化のアルゴリズムとは別に、暗号化を行う手順についての規格（？）。</description>
+    </item>
+    
+    <item>
+      <title>My First Post</title>
+      <link>https://pages.shibadog.net/posts/my-first-post/</link>
+      <pubDate>Tue, 15 Oct 2019 23:52:59 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/my-first-post/</guid>
+      <description>ブログをまたやりたいと思い、 Hugo という静的サイトジェネレータと GitHub Pages を使って作ってみた。
+3日坊主にならないことを祈る。
+しかし、このHugoというやつ結構楽しい。 まずはこれを使いこなせるようになりたい。。。</description>
     </item>
     
   </channel>

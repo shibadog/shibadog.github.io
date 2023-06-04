@@ -274,6 +274,227 @@ K8Sな言葉がちょいちょい出てくるので何か想定する運用が�
 		</item>
 		
 		<item>
+			<title>JavaFX 入門</title>
+			<link>https://pages.shibadog.net/posts/012_javafx01/</link>
+			<pubDate>Sat, 23 May 2020 00:00:00 +0900</pubDate>
+			
+			<guid>https://pages.shibadog.net/posts/012_javafx01/</guid>
+			<description>overview C#でWPFを使った開発を経験しているが、Javaでも同様の仕組みであるJavaFXが出たので、JavaFXが気になって仕方がない。
+いまさらながら、調べてみようという話
+現在SpringによるWebバックエンド開発が主な仕事なので、その辺の知識を生かしてうまいことJavaFXに適用できないかも模索してみる。
+完全にJavaFXは初心者である
+環境構築 JavaFXはJava11から本体から切り離された様子。 （この辺深堀している記事がありそうなので探そう。。。）
+取り急ぎ、ググった結果ぱっと出てきたGluonが出しているOpenJavaFX11の環境構築を行った。
+開発環境はもちろんWindowsなので、パッケージ管理にScoopを使う。
+scoopの公式拡張bucketのjava bucketを追加してインストールする。
+PS&amp;gt; scoop bucket add java PS&amp;gt; scoop update PS&amp;gt; scoop search javajfx &amp;#39;java&amp;#39; bucket: gluon-openjfx-jmods-ea (15-5) gluon-openjfx-jmods-lts (11.0.2) gluon-openjfx-jmods (14.0.1) gluon-openjfx-sdk-ea (15-5) gluon-openjfx-sdk-lts (11.0.2) gluon-openjfx-sdk (14.0.1) PS&amp;gt; scoop install gluon-openjfx-sdk-lts もちろん、javaも必要なのでインストールしておく
+PS&amp;gt; scoop install openjdk11 あと、画面を作成するためのXMLエディタとしてscene builderというものが存在する。
+WPFの画面作成のアレと同じことができる。
+これはscoopに存在しなかったので、適当に自分でscoop bucketを作ったので追加してインストール
+PS&amp;gt; scoop bucket add my-bucket https://github.com/shibadog/my-bucket.git PS&amp;gt; scoop update PS&amp;gt; scoop search scene-builder &amp;#39;my-bucket&amp;#39; bucket: gluon-scene-builder (11.0.0) PS&amp;gt; scoop install gluon-scene-builder これで実行環境と開発SDKのインストール完了。</description>
+			<content type="html"><![CDATA[<h2 id="overview">overview</h2>
+<p>C#でWPFを使った開発を経験しているが、Javaでも同様の仕組みであるJavaFXが出たので、JavaFXが気になって仕方がない。</p>
+<p>いまさらながら、調べてみようという話</p>
+<p>現在SpringによるWebバックエンド開発が主な仕事なので、その辺の知識を生かしてうまいことJavaFXに適用できないかも模索してみる。</p>
+<p><strong>完全にJavaFXは初心者である</strong></p>
+<h2 id="環境構築">環境構築</h2>
+<p>JavaFXはJava11から本体から切り離された様子。
+（この辺深堀している記事がありそうなので探そう。。。）</p>
+<p>取り急ぎ、ググった結果ぱっと出てきたGluonが出しているOpenJavaFX11の環境構築を行った。</p>
+<p>開発環境はもちろんWindowsなので、パッケージ管理にScoopを使う。</p>
+<p>scoopの公式拡張bucketのjava bucketを追加してインストールする。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; scoop bucket add java
+</span></span><span style="display:flex;"><span>PS&gt; scoop update
+</span></span><span style="display:flex;"><span>PS&gt; scoop search javajfx
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;java&#39;</span> bucket<span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>    gluon-openjfx-jmods-ea (<span style="color:#ae81ff">15</span>-<span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>    gluon-openjfx-jmods-lts (<span style="color:#ae81ff">11.0</span>.<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>    gluon-openjfx-jmods (<span style="color:#ae81ff">14.0</span>.<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    gluon-openjfx-sdk-ea (<span style="color:#ae81ff">15</span>-<span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>    gluon-openjfx-sdk-lts (<span style="color:#ae81ff">11.0</span>.<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>    gluon-openjfx-sdk (<span style="color:#ae81ff">14.0</span>.<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>PS&gt; scoop install gluon-openjfx-sdk-lts
+</span></span></code></pre></div><p>もちろん、javaも必要なのでインストールしておく</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; scoop install openjdk11
+</span></span></code></pre></div><p>あと、画面を作成するためのXMLエディタとしてscene builderというものが存在する。</p>
+<p>WPFの画面作成のアレと同じことができる。</p>
+<p>これはscoopに存在しなかったので、適当に自分でscoop bucketを作ったので追加してインストール</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; scoop bucket add my-bucket https<span style="color:#960050;background-color:#1e0010">:</span>//github.com/shibadog/my-bucket.git
+</span></span><span style="display:flex;"><span>PS&gt; scoop update
+</span></span><span style="display:flex;"><span>PS&gt; scoop search scene-builder
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;my-bucket&#39;</span> bucket<span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>    gluon-scene-builder (<span style="color:#ae81ff">11.0</span>.<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>PS&gt; scoop install gluon-scene-builder
+</span></span></code></pre></div><p>これで実行環境と開発SDKのインストール完了。</p>
+<p>エディタはvscodeを使う</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; scoop search vscode
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;extras&#39;</span> bucket<span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>    vscode-insiders-portable (nightly)
+</span></span><span style="display:flex;"><span>    vscode-insiders (nightly)
+</span></span><span style="display:flex;"><span>    vscode-portable (<span style="color:#ae81ff">1.45</span>.<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    vscode (<span style="color:#ae81ff">1.45</span>.<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;main&#39;</span> bucket<span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>    llvm (<span style="color:#ae81ff">10.0</span>.<span style="color:#ae81ff">0</span>) --&gt; includes <span style="color:#e6db74">&#39;lldb-vscode.exe&#39;</span>
+</span></span><span style="display:flex;"><span>    winpython (<span style="color:#ae81ff">3.8</span>.2.<span style="color:#ae81ff">0</span>) --&gt; includes <span style="color:#e6db74">&#39;winvscode.bat&#39;</span>
+</span></span><span style="display:flex;"><span>PS&gt; scoop bucket add extras
+</span></span><span style="display:flex;"><span>PS&gt; scoop update
+</span></span><span style="display:flex;"><span>PS&gt; scoop install vscode
+</span></span></code></pre></div><p>あ、ビルドツールはmavenを使うので、これもscoopで入れておく。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; scoop search maven
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;main&#39;</span> bucket<span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>    maven (<span style="color:#ae81ff">3.6</span>.<span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>PS&gt; scoop install maven
+</span></span></code></pre></div><p>vscodeには、諸々Java開発のための拡張機能など入れておいてね。</p>
+<h2 id="vscodeでの環境構築">vscodeでの環境構築</h2>
+<p>取り急ぎ、mavenプロジェクトを作ってから開発しないといかんので、諸々ベースを作る。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; mvn archetype<span style="color:#960050;background-color:#1e0010">:</span>generate
+</span></span><span style="display:flex;"><span>Choose a number or apply <span style="color:#66d9ef">filter</span> (format<span style="color:#960050;background-color:#1e0010">:</span> [groupId<span style="color:#960050;background-color:#1e0010">:</span>]artifactId, case sensitive contains)<span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#ae81ff">1605</span><span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>Choose a number<span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#ae81ff">8</span><span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>Define value <span style="color:#66d9ef">for</span> property <span style="color:#e6db74">&#39;groupId&#39;</span><span style="color:#960050;background-color:#1e0010">:</span> com.github.shibadog
+</span></span><span style="display:flex;"><span>Define value <span style="color:#66d9ef">for</span> property <span style="color:#e6db74">&#39;artifactId&#39;</span><span style="color:#960050;background-color:#1e0010">:</span> javafx-test
+</span></span><span style="display:flex;"><span>Define value <span style="color:#66d9ef">for</span> property <span style="color:#e6db74">&#39;version&#39;</span> <span style="color:#ae81ff">1.0</span>-SNAPSHOT: <span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span>Define value <span style="color:#66d9ef">for</span> property <span style="color:#e6db74">&#39;package&#39;</span> com.github.shibadog<span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#960050;background-color:#1e0010">:</span>
+</span></span><span style="display:flex;"><span> Y: <span style="color:#960050;background-color:#1e0010">:</span> y
+</span></span><span style="display:flex;"><span>PS&gt; ls
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Mode                LastWriteTime        Length Name
+</span></span><span style="display:flex;"><span>----                -------------         ------ ----
+</span></span><span style="display:flex;"><span>d-----       <span style="color:#ae81ff">2020</span>/<span style="color:#ae81ff">05</span>/<span style="color:#ae81ff">23</span>     <span style="color:#ae81ff">22</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">32</span>                javafx-test
+</span></span></code></pre></div><p>あとラッパも作っておく</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; cd javafx-test
+</span></span><span style="display:flex;"><span>PS&gt; mvn -N io.takari<span style="color:#960050;background-color:#1e0010">:</span>maven<span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">0.7</span>.<span style="color:#ae81ff">6</span><span style="color:#960050;background-color:#1e0010">:</span>wrapper
+</span></span></code></pre></div><p>giboで適当にignore作っておく</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>PS&gt; gibo dump VisualStudioCode Maven Java Eclipse &gt;.gitignore
+</span></span></code></pre></div><p>powershellだとUTF-16になっちゃうので（これなんとかならんのかいな）、vscodeで開いて文字コードをUTF-8に変えておく。</p>
+<p>pomのjdkバージョンを11に変更</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>diff --git a/pom.xml b/pom.xml
+</span></span><span style="display:flex;"><span>index 4c0c6e2..e9aed17 100644
+</span></span><span style="display:flex;"><span><span style="color:#f92672">--- a/pom.xml
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+++ b/pom.xml
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#75715e">@@ -14,8 +14,8 @@
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>   &lt;properties&gt;
+</span></span><span style="display:flex;"><span>     &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-    &lt;maven.compiler.source&gt;1.7&lt;/maven.compiler.source&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">-    &lt;maven.compiler.target&gt;1.7&lt;/maven.compiler.target&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+    &lt;maven.compiler.source&gt;11&lt;/maven.compiler.source&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+    &lt;maven.compiler.target&gt;11&lt;/maven.compiler.target&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span>   &lt;/properties&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   &lt;dependencies&gt;
+</span></span></code></pre></div><p>肝心のjavaFxの依存を追加</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>diff --git a/pom.xml b/pom.xml
+</span></span><span style="display:flex;"><span>index e9aed17..b2a3002 100644
+</span></span><span style="display:flex;"><span><span style="color:#f92672">--- a/pom.xml
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+++ b/pom.xml
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#75715e">@@ -19,6 +19,16 @@
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   &lt;/properties&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   &lt;dependencies&gt;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">+    &lt;dependency&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+      &lt;groupId&gt;org.openjfx&lt;/groupId&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+      &lt;artifactId&gt;javafx-controls&lt;/artifactId&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+      &lt;version&gt;11.0.2&lt;/version&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+    &lt;/dependency&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+    &lt;dependency&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+      &lt;groupId&gt;org.openjfx&lt;/groupId&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+      &lt;artifactId&gt;javafx-fxml&lt;/artifactId&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+      &lt;version&gt;11.0.2&lt;/version&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+    &lt;/dependency&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span>     &lt;dependency&gt;
+</span></span><span style="display:flex;"><span>       &lt;groupId&gt;junit&lt;/groupId&gt;
+</span></span><span style="display:flex;"><span>       &lt;artifactId&gt;junit&lt;/artifactId&gt;
+</span></span></code></pre></div><p>これでもう作れるはず。
+とりあえずMainクラスをJavaFXに改造</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>diff --git a/src/main/java/com/github/shibadog/App.java b/src/main/java/com/github/shibadog/App.java
+</span></span><span style="display:flex;"><span>index 351a4f4..afe5546 100644
+</span></span><span style="display:flex;"><span><span style="color:#f92672">--- a/src/main/java/com/github/shibadog/App.java
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+++ b/src/main/java/com/github/shibadog/App.java
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#75715e">@@ -1,13 +1,20 @@
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> package com.github.shibadog;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-/**
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">- * Hello world!
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">- *
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">- */
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">-public class App
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">-{
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">-    public static void main( String[] args )
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">-    {
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">-        System.out.println( &#34;Hello World!&#34; );
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+import javafx.application.Application;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+import javafx.stage.Stage;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+public class App extends Application {
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+    @Override
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+    public void start(final Stage stage) {
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+        try {
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+            stage.show();
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+        } catch (final Exception e) {
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+            e.printStackTrace();
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+        }
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+    }
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+    public static void main(final String... args) {
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+        Application.launch(args);
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span>     }
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-}
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+}
+</span></span></span></code></pre></div><p>実行の時にミソ。vscodeのlaunch.jsonでjavaFx用のモジュールを指定して実行するように設定を入れる。</p>
+<p>vscodeのデフォルト設定でlaunch.jsonを作成する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// IntelliSense を使用して利用可能な属性を学べます。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 既存の属性の説明をホバーして表示します。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;configurations&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Debug (Launch) - Current File&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;launch&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;mainClass&#34;</span>: <span style="color:#e6db74">&#34;${file}&#34;</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;java&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Debug (Launch)-App&lt;javafx-test&gt;&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;launch&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;mainClass&#34;</span>: <span style="color:#e6db74">&#34;com.github.shibadog.App&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;projectName&#34;</span>: <span style="color:#e6db74">&#34;javafx-test&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>このあと、モジュール追加</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>diff --git a/.vscode/launch.json b/.vscode/launch.json
+</span></span><span style="display:flex;"><span>index c0f83a8..8e410e4 100644
+</span></span><span style="display:flex;"><span><span style="color:#f92672">--- a/.vscode/launch.json
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+++ b/.vscode/launch.json
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#75715e">@@ -8,14 +8,16 @@
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>             &#34;type&#34;: &#34;java&#34;,
+</span></span><span style="display:flex;"><span>             &#34;name&#34;: &#34;Debug (Launch) - Current File&#34;,
+</span></span><span style="display:flex;"><span>             &#34;request&#34;: &#34;launch&#34;,
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-            &#34;mainClass&#34;: &#34;${file}&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+            &#34;mainClass&#34;: &#34;${file}&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+            &#34;vmArgs&#34;: &#34;--module-path ${env:USERPROFILE}\\scoop\\apps\\gluon-openjfx-sdk-lts\\current\\lib --add-modules javafx.controls,javafx.fxml&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span>         },
+</span></span><span style="display:flex;"><span>         {
+</span></span><span style="display:flex;"><span>             &#34;type&#34;: &#34;java&#34;,
+</span></span><span style="display:flex;"><span>             &#34;name&#34;: &#34;Debug (Launch)-App&lt;javafx-test&gt;&#34;,
+</span></span><span style="display:flex;"><span>             &#34;request&#34;: &#34;launch&#34;,
+</span></span><span style="display:flex;"><span>             &#34;mainClass&#34;: &#34;com.github.shibadog.App&#34;,
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-            &#34;projectName&#34;: &#34;javafx-test&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+            &#34;projectName&#34;: &#34;javafx-test&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+            &#34;vmArgs&#34;: &#34;--module-path ${env:USERPROFILE}\\scoop\\apps\\gluon-openjfx-sdk-lts\\current\\lib --add-modules javafx.controls,javafx.fxml&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span>         }
+</span></span><span style="display:flex;"><span>     ]
+</span></span><span style="display:flex;"><span> }
+</span></span></code></pre></div><p>これでやっとvscodeから起動ができる。</p>
+<p>開発環境の構築完成！！</p>
+]]></content>
+		</item>
+		
+		<item>
 			<title>暗号化/ハッシュ化について調べた</title>
 			<link>https://pages.shibadog.net/posts/003_encript/</link>
 			<pubDate>Mon, 04 Nov 2019 22:54:02 +0900</pubDate>
@@ -791,6 +1012,68 @@ Circuit Breakerとは、マイクロサービスで開発されたアプリケ�
 <p>3日坊主にならないことを祈る。</p>
 <p>しかし、このHugoというやつ結構楽しい。
 まずはこれを使いこなせるようになりたい。。。</p>
+]]></content>
+		</item>
+		
+		<item>
+			<title>Browser Cache</title>
+			<link>https://pages.shibadog.net/posts/011_browser_cache/</link>
+			<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+			
+			<guid>https://pages.shibadog.net/posts/011_browser_cache/</guid>
+			<description>overview 広義の意味では、動作の高速化を図るため、低速・安価な記憶領域から高速・高価な記憶領域へ一時的に情報を保持することを指す（と思う）。
+ブラウザキャッシュは主に、ブラウザの描画に使うリソース（HTML、JS、CSS、画像など）を一定期間ローカルに保持することにより、再度ネットワークアクセスを行った際に高速に表示させる機構を指す（はず）
+もちろん、昨今使われる動的ページ（Webシステムによるレスポンス）で生成されるHTMLなどのボディ部分に関しては、キャッシュする意味がないため、使用されない。
+しかし、ロゴなどの画像を動的に表示することは特定の状況下以外ではまれであるため、静的コンテンツなどと呼び、キャッシュ対象にする。
+また、JavaScriptによる動的描画を中心とした動的ページ（シングルページアプリケーション）は、ユーザ側（⇔サーバ側）であるブラウザによる描画になるため、ソースであるJavaScriptは静的コンテンツ扱いが可能になる。
+静的コンテンツを高速化する仕組みとして、一種のキャッシュシステムであるCDNというものもの存在する。
+ブラウザキャッシュとは異なるが、いわゆる広義のキャッシュという意味では同じ目的の仕組みになる。
+これはこれで話が長そうなので、また別途。 参考:さくらのナレッジ - CDNってそもそも何？なんかサーバの負荷が下がるって聞いたんだけど！〜Web制作/運営の幅が広がるCDNを知ろう第1回〜
+Browser Cacheのコントロール HTTPのレスポンスヘッダにより、サーバ側からリソースのキャッシュをコントロールすることができる。 https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Cache-Control
+cache-control というヘッダを用いる。
+キャッシュを抑止したい場合は、 cache-control: no-store を用いる。
+有効期限の設定 様々な指定の仕方で有効期限を設定することができる。 初めてキャッシュを行う時刻からの有効期限秒数を指定する。
+特定の日付で有効期限が切れる形式の場合は、このヘッダではなく専用の Expires ヘッダを用いる。
+https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Expires
+デフォルトの設定 springMVCで作られたwebシステムはもちろん動的サイトであるため、cacheしたくないはずだが、 デフォルトではどのような動きをするか？
+ChromeはDevToolを開いて通信をすると、 cache-control: max-age=0 でリクエストを飛ばすっポイ？
+これが原因かわからないけれども常にキャッシュされないし、レスポンスヘッダには cache-control は設定されない。
+自分で制御 ResponseEntityオブジェクトでキャッシュコントロールを明示することができる。
+@GetMapping(&amp;#34;/users/{name}&amp;#34;) public ResponseEntity&amp;lt;UserDto&amp;gt; getUser(@PathVariable String name) { return ResponseEntity.ok() .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)) .body(new UserDto(name)); } 動的レスポンスをキャッシュさせたい場合はまぁあれだけど、静的コンテンツをthymeleafでドウコウしたときのキャッシュってどうやって制御するんだろう？</description>
+			<content type="html"><![CDATA[<h2 id="overview">overview</h2>
+<p>広義の意味では、動作の高速化を図るため、低速・安価な記憶領域から高速・高価な記憶領域へ一時的に情報を保持することを指す（と思う）。</p>
+<p>ブラウザキャッシュは主に、ブラウザの描画に使うリソース（HTML、JS、CSS、画像など）を一定期間ローカルに保持することにより、再度ネットワークアクセスを行った際に高速に表示させる機構を指す（はず）</p>
+<p>もちろん、昨今使われる動的ページ（Webシステムによるレスポンス）で生成されるHTMLなどのボディ部分に関しては、キャッシュする意味がないため、使用されない。<br>
+しかし、ロゴなどの画像を動的に表示することは特定の状況下以外ではまれであるため、静的コンテンツなどと呼び、キャッシュ対象にする。</p>
+<p>また、JavaScriptによる動的描画を中心とした動的ページ（シングルページアプリケーション）は、ユーザ側（⇔サーバ側）であるブラウザによる描画になるため、ソースであるJavaScriptは静的コンテンツ扱いが可能になる。</p>
+<p>静的コンテンツを高速化する仕組みとして、一種のキャッシュシステムであるCDNというものもの存在する。<br>
+ブラウザキャッシュとは異なるが、いわゆる広義のキャッシュという意味では同じ目的の仕組みになる。</p>
+<p>これはこれで話が長そうなので、また別途。
+参考:<a href="https://knowledge.sakura.ad.jp/19191/">さくらのナレッジ - CDNってそもそも何？なんかサーバの負荷が下がるって聞いたんだけど！〜Web制作/運営の幅が広がるCDNを知ろう第1回〜</a></p>
+<h2 id="browser-cacheのコントロール">Browser Cacheのコントロール</h2>
+<p>HTTPのレスポンスヘッダにより、サーバ側からリソースのキャッシュをコントロールすることができる。
+<a href="https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Cache-Control">https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Cache-Control</a></p>
+<p><code>cache-control</code> というヘッダを用いる。</p>
+<p>キャッシュを抑止したい場合は、 <code>cache-control: no-store</code> を用いる。</p>
+<h2 id="有効期限の設定">有効期限の設定</h2>
+<p>様々な指定の仕方で有効期限を設定することができる。
+初めてキャッシュを行う時刻からの有効期限秒数を指定する。</p>
+<p>特定の日付で有効期限が切れる形式の場合は、このヘッダではなく専用の <code>Expires</code> ヘッダを用いる。</p>
+<p><a href="https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Expires">https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Expires</a></p>
+<h2 id="デフォルトの設定">デフォルトの設定</h2>
+<p>springMVCで作られたwebシステムはもちろん動的サイトであるため、cacheしたくないはずだが、
+デフォルトではどのような動きをするか？</p>
+<p>ChromeはDevToolを開いて通信をすると、 <code>cache-control: max-age=0</code> でリクエストを飛ばすっポイ？<br>
+これが原因かわからないけれども常にキャッシュされないし、レスポンスヘッダには <code>cache-control</code> は設定されない。</p>
+<h2 id="自分で制御">自分で制御</h2>
+<p>ResponseEntityオブジェクトでキャッシュコントロールを明示することができる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@GetMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/users/{name}&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> ResponseEntity<span style="color:#f92672">&lt;</span>UserDto<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getUser</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@PathVariable</span> String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ResponseEntity<span style="color:#f92672">.</span><span style="color:#a6e22e">ok</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">.</span><span style="color:#a6e22e">cacheControl</span><span style="color:#f92672">(</span>CacheControl<span style="color:#f92672">.</span><span style="color:#a6e22e">maxAge</span><span style="color:#f92672">(</span><span style="color:#ae81ff">60</span><span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">SECONDS</span><span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">.</span><span style="color:#a6e22e">body</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> UserDto<span style="color:#f92672">(</span>name<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>動的レスポンスをキャッシュさせたい場合はまぁあれだけど、静的コンテンツをthymeleafでドウコウしたときのキャッシュってどうやって制御するんだろう？</p>
 ]]></content>
 		</item>
 		

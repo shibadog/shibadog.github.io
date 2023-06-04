@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>browser on shibadog site</title>
+    <link>https://pages.shibadog.net/tags/browser/</link>
+    <description>Recent content in browser on shibadog site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Wed, 10 Jun 2020 00:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/browser/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JavaFX 入門</title>
+      <link>https://pages.shibadog.net/013_cookie/</link>
+      <pubDate>Wed, 10 Jun 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/013_cookie/</guid>
+      <description>overview 正式名称は HTTP Cookie .
+端的に言うと、クライアントに情報を保持することができる仕組み。
+JavaScriptやサーバからのHTTPレスポンスにより保持させることができる。
+また、JavaScriptならロジックで読み取りが可能で、HTTPサーバ通信の場合は、許可されているCookieを通信の際に自動付与して送信する。
+ServerからCookieを設定する場合は、レスポンスヘッダに Set-Cookei を付与することで設定できる。
+JavaScriptの場合 document.cookie でアクセスできる。
+保持可能情報 # 項目 内容 1 name Cookie名（キー） 2 value Cookieがもつ値 3 Domain 発行元ドメイン 4 Path パス 5 Expires 有効期限 6 max-age 有効期限２（寿命） 7 HttpOnly サーバ送信にしか使えなくする。つまりJavaScriptから見れなくする 8 Secure HTTPS(SSL)通信の場合だけ送信するようにする。 9 SameSite None、Lax、Strictがあり、ドメイン間のCookie参照に関する設定となる 10 Priority 容量による制限でCookieを削除する際に消す際の優先度となる。低いほうから消す。 SameSiteとは？ 設定値 効果 Strict Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含めない（Cookieを使用しない） Lax Aサイトに対し、BサイトからのGETリクエストのみCookieヘッダーへ含める（Cookieを使用する）。これ以外のリクエストは含めない None Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含める (Cookieを使用する) 参考資料 Qiita - Chrome 80が密かに呼び寄せる地獄 ～ SameSite属性のデフォルト変更を調べてみた(@ahera) 有効期限 Session Cookie 有効期限など指定しない場合は大体のブラウザがこの挙動となる。
+ブラウザ（タブ？）が閉じられない間は保持し続ける。</description>
+    </item>
+    
+    <item>
+      <title>Browser Cache</title>
+      <link>https://pages.shibadog.net/posts/011_browser_cache/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/011_browser_cache/</guid>
+      <description>overview 広義の意味では、動作の高速化を図るため、低速・安価な記憶領域から高速・高価な記憶領域へ一時的に情報を保持することを指す（と思う）。
+ブラウザキャッシュは主に、ブラウザの描画に使うリソース（HTML、JS、CSS、画像など）を一定期間ローカルに保持することにより、再度ネットワークアクセスを行った際に高速に表示させる機構を指す（はず）
+もちろん、昨今使われる動的ページ（Webシステムによるレスポンス）で生成されるHTMLなどのボディ部分に関しては、キャッシュする意味がないため、使用されない。
+しかし、ロゴなどの画像を動的に表示することは特定の状況下以外ではまれであるため、静的コンテンツなどと呼び、キャッシュ対象にする。
+また、JavaScriptによる動的描画を中心とした動的ページ（シングルページアプリケーション）は、ユーザ側（⇔サーバ側）であるブラウザによる描画になるため、ソースであるJavaScriptは静的コンテンツ扱いが可能になる。
+静的コンテンツを高速化する仕組みとして、一種のキャッシュシステムであるCDNというものもの存在する。
+ブラウザキャッシュとは異なるが、いわゆる広義のキャッシュという意味では同じ目的の仕組みになる。
+これはこれで話が長そうなので、また別途。 参考:さくらのナレッジ - CDNってそもそも何？なんかサーバの負荷が下がるって聞いたんだけど！〜Web制作/運営の幅が広がるCDNを知ろう第1回〜
+Browser Cacheのコントロール HTTPのレスポンスヘッダにより、サーバ側からリソースのキャッシュをコントロールすることができる。 https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Cache-Control
+cache-control というヘッダを用いる。
+キャッシュを抑止したい場合は、 cache-control: no-store を用いる。
+有効期限の設定 様々な指定の仕方で有効期限を設定することができる。 初めてキャッシュを行う時刻からの有効期限秒数を指定する。
+特定の日付で有効期限が切れる形式の場合は、このヘッダではなく専用の Expires ヘッダを用いる。
+https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Expires
+デフォルトの設定 springMVCで作られたwebシステムはもちろん動的サイトであるため、cacheしたくないはずだが、 デフォルトではどのような動きをするか？
+ChromeはDevToolを開いて通信をすると、 cache-control: max-age=0 でリクエストを飛ばすっポイ？
+これが原因かわからないけれども常にキャッシュされないし、レスポンスヘッダには cache-control は設定されない。
+自分で制御 ResponseEntityオブジェクトでキャッシュコントロールを明示することができる。
+@GetMapping(&amp;#34;/users/{name}&amp;#34;) public ResponseEntity&amp;lt;UserDto&amp;gt; getUser(@PathVariable String name) { return ResponseEntity.ok() .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)) .body(new UserDto(name)); } 動的レスポンスをキャッシュさせたい場合はまぁあれだけど、静的コンテンツをthymeleafでドウコウしたときのキャッシュってどうやって制御するんだろう？</description>
+    </item>
+    
+  </channel>
+</rss>

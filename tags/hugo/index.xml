@@ -21,7 +21,7 @@
 1. google analyticsにログイン 2. 新規プロパティを作成 ハマったこと ウェブを選択。
 アプリとウェブだとうまくできなかった（よくよめよ）
 3. トラッキングIDをコピー プロパティのメニューから選ぶ
-4. config.toml に追加 baseURL = &amp;#34;https://shibadog.github.io/&amp;#34; languageCode = &amp;#34;ja-jp&amp;#34; title = &amp;#34;shibadog site&amp;#34; theme = &amp;#34;hermit&amp;#34; googleAnalytics = &amp;#34;UA-999999999-9&amp;#34; [author] name = &amp;#34;shibadog&amp;#34; : : 参考  AGO&#39;s page - hugoにgoogle アナリティクスを導入した話 なかけんのHugoノート - 画像を追加しよう  </description>
+4. config.toml に追加 baseURL = &amp;#34;https://shibadog.github.io/&amp;#34; languageCode = &amp;#34;ja-jp&amp;#34; title = &amp;#34;shibadog site&amp;#34; theme = &amp;#34;hermit&amp;#34; googleAnalytics = &amp;#34;UA-999999999-9&amp;#34; [author] name = &amp;#34;shibadog&amp;#34; : : 参考  AGO&amp;rsquo;s page - hugoにgoogle アナリティクスを導入した話 なかけんのHugoノート - 画像を追加しよう  </description>
     </item>
     
   </channel>

@@ -169,23 +169,23 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 <p>tracerの記録先は Elastic APMを利用している。</p>
 <p>詳しくは <code>../../pom.xml</code> を参照いただきたいが、traceにかかわる依存は以下の通り。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">
-		<span style="color:#f92672">&lt;dependency</span><span style="color:#f92672">&gt;</span>
-			<span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>io.micrometer<span style="color:#f92672">&lt;/groupId&gt;</span>
-			<span style="color:#f92672">&lt;artifactId</span><span style="color:#f92672">&gt;</span>micrometer-tracing-bridge-otel<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;dependency&gt;</span>
+			<span style="color:#f92672">&lt;groupId&gt;</span>io.micrometer<span style="color:#f92672">&lt;/groupId&gt;</span>
+			<span style="color:#f92672">&lt;artifactId&gt;</span>micrometer-tracing-bridge-otel<span style="color:#f92672">&lt;/artifactId&gt;</span>
 		<span style="color:#f92672">&lt;/dependency&gt;</span>
 
-		<span style="color:#f92672">&lt;dependency</span><span style="color:#f92672">&gt;</span>
-			<span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>io.opentelemetry<span style="color:#f92672">&lt;/groupId&gt;</span>
-			<span style="color:#f92672">&lt;artifactId</span><span style="color:#f92672">&gt;</span>opentelemetry-exporter-otlp<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;dependency&gt;</span>
+			<span style="color:#f92672">&lt;groupId&gt;</span>io.opentelemetry<span style="color:#f92672">&lt;/groupId&gt;</span>
+			<span style="color:#f92672">&lt;artifactId&gt;</span>opentelemetry-exporter-otlp<span style="color:#f92672">&lt;/artifactId&gt;</span>
 		<span style="color:#f92672">&lt;/dependency&gt;</span>
 
 </code></pre></div><p>spring bootに関しては、3.0.x系であるため、そのままではopentelemetry exporterのauto configに対応していない。</p>
 <p>このため、自分でBean登録を行った。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#a6e22e">@Bean</span>
-    SpanExporter <span style="color:#a6e22e">otlpHttpSpanExporter</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> OtlpHttpSpanExporter<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+    SpanExporter <span style="color:#a6e22e">otlpHttpSpanExporter</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> OtlpHttpSpanExporter<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">()</span>
                 <span style="color:#f92672">.</span><span style="color:#a6e22e">setEndpoint</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://localhost:8200/v1/traces&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">// &lt;- elastic apm のエンドポイント
-</span><span style="color:#75715e"></span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
     <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="参考資料">参考資料<a href="#参考資料" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <h3 id="traceについての公式ドキュメントの記述">Traceについての公式ドキュメントの記述<a href="#traceについての公式ドキュメントの記述" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>

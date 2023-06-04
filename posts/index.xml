@@ -74,23 +74,23 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 <p>tracerの記録先は Elastic APMを利用している。</p>
 <p>詳しくは <code>../../pom.xml</code> を参照いただきたいが、traceにかかわる依存は以下の通り。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">
-		<span style="color:#f92672">&lt;dependency</span><span style="color:#f92672">&gt;</span>
-			<span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>io.micrometer<span style="color:#f92672">&lt;/groupId&gt;</span>
-			<span style="color:#f92672">&lt;artifactId</span><span style="color:#f92672">&gt;</span>micrometer-tracing-bridge-otel<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;dependency&gt;</span>
+			<span style="color:#f92672">&lt;groupId&gt;</span>io.micrometer<span style="color:#f92672">&lt;/groupId&gt;</span>
+			<span style="color:#f92672">&lt;artifactId&gt;</span>micrometer-tracing-bridge-otel<span style="color:#f92672">&lt;/artifactId&gt;</span>
 		<span style="color:#f92672">&lt;/dependency&gt;</span>
 
-		<span style="color:#f92672">&lt;dependency</span><span style="color:#f92672">&gt;</span>
-			<span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>io.opentelemetry<span style="color:#f92672">&lt;/groupId&gt;</span>
-			<span style="color:#f92672">&lt;artifactId</span><span style="color:#f92672">&gt;</span>opentelemetry-exporter-otlp<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;dependency&gt;</span>
+			<span style="color:#f92672">&lt;groupId&gt;</span>io.opentelemetry<span style="color:#f92672">&lt;/groupId&gt;</span>
+			<span style="color:#f92672">&lt;artifactId&gt;</span>opentelemetry-exporter-otlp<span style="color:#f92672">&lt;/artifactId&gt;</span>
 		<span style="color:#f92672">&lt;/dependency&gt;</span>
 
 </code></pre></div><p>spring bootに関しては、3.0.x系であるため、そのままではopentelemetry exporterのauto configに対応していない。</p>
 <p>このため、自分でBean登録を行った。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#a6e22e">@Bean</span>
-    SpanExporter <span style="color:#a6e22e">otlpHttpSpanExporter</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> OtlpHttpSpanExporter<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+    SpanExporter <span style="color:#a6e22e">otlpHttpSpanExporter</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> OtlpHttpSpanExporter<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">()</span>
                 <span style="color:#f92672">.</span><span style="color:#a6e22e">setEndpoint</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://localhost:8200/v1/traces&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">// &lt;- elastic apm のエンドポイント
-</span><span style="color:#75715e"></span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
     <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="参考資料">参考資料</h2>
 <h3 id="traceについての公式ドキュメントの記述">Traceについての公式ドキュメントの記述</h3>
@@ -775,7 +775,7 @@ Circuit Breakerとは、マイクロサービスで開発されたアプリケ�
 1. google analyticsにログイン 2. 新規プロパティを作成 ハマったこと ウェブを選択。
 アプリとウェブだとうまくできなかった（よくよめよ）
 3. トラッキングIDをコピー プロパティのメニューから選ぶ
-4. config.toml に追加 baseURL = &amp;#34;https://shibadog.github.io/&amp;#34; languageCode = &amp;#34;ja-jp&amp;#34; title = &amp;#34;shibadog site&amp;#34; theme = &amp;#34;hermit&amp;#34; googleAnalytics = &amp;#34;UA-999999999-9&amp;#34; [author] name = &amp;#34;shibadog&amp;#34; : : 参考  AGO&#39;s page - hugoにgoogle アナリティクスを導入した話 なかけんのHugoノート - 画像を追加しよう  </description>
+4. config.toml に追加 baseURL = &amp;#34;https://shibadog.github.io/&amp;#34; languageCode = &amp;#34;ja-jp&amp;#34; title = &amp;#34;shibadog site&amp;#34; theme = &amp;#34;hermit&amp;#34; googleAnalytics = &amp;#34;UA-999999999-9&amp;#34; [author] name = &amp;#34;shibadog&amp;#34; : : 参考  AGO&amp;rsquo;s page - hugoにgoogle アナリティクスを導入した話 なかけんのHugoノート - 画像を追加しよう  </description>
 			<content type="html"><![CDATA[<p>とりあえずgoogle analyticsが標準対応との記述を<a href="https://gohugo.io/templates/internal/#google-analytics">公式ドキュメント</a>で見つけたのでやっておく。</p>
 <h2 id="1-google-analyticsにログイン">1. google analyticsにログイン</h2>
 <h2 id="2-新規プロパティを作成">2. 新規プロパティを作成</h2>
@@ -800,7 +800,7 @@ Circuit Breakerとは、マイクロサービスで開発されたアプリケ�
 <span style="color:#960050;background-color:#1e0010">:</span>
 </code></pre></div><h2 id="参考">参考</h2>
 <ul>
-<li><a href="https://agodoriru.github.io/post/20171218/">AGO's page - hugoにgoogle アナリティクスを導入した話</a></li>
+<li><a href="https://agodoriru.github.io/post/20171218/">AGO&rsquo;s page - hugoにgoogle アナリティクスを導入した話</a></li>
 <li><a href="https://hugo.nakaken88.com/use/image/">なかけんのHugoノート - 画像を追加しよう</a></li>
 </ul>
 ]]></content>

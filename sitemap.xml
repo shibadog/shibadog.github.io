@@ -13,11 +13,6 @@
   </url>
   
   <url>
-    <loc>https://pages.shibadog.net/</loc>
-    <lastmod>2023-05-17T00:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://pages.shibadog.net/tags/spring-boot/</loc>
     <lastmod>2023-05-17T00:00:00+09:00</lastmod>
   </url>
@@ -134,6 +129,11 @@
   
   <url>
     <loc>https://pages.shibadog.net/about-hugo/</loc>
+    <lastmod>2019-10-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pages.shibadog.net/</loc>
     <lastmod>2019-10-15T00:00:00+00:00</lastmod>
   </url>
   

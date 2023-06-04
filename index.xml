@@ -65,6 +65,18 @@ Rocky Linux Rocky Linux</description>
     </item>
     
     <item>
+      <title>急にRubyについて学ぶ</title>
+      <link>https://pages.shibadog.net/posts/014_ruby/</link>
+      <pubDate>Fri, 01 Oct 2021 00:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/014_ruby/</guid>
+      <description>まずは Javaとの対比が一番わかりやすいのでいったん対比を書く
+# 項目 Java Ruby 備考 1 実行 java ruby ruby {rubyfile} 2 webフレームワーク spring ほか rails ? 3 テストフレームワーク junit minitest test-unit rspec ruby {testfile} 4 ビルドツール maven gradle rake rake {task} タスクの書き方は後述。 直接実行する場合は、グローバルインストールされていないといけない。 プロジェクト個別にインストールしたrakeを使う場合は以下のような感じ bundle exec rake {task} 5 依存解決 bundle bundle install bundle install &amp;ndash;path gems でプロジェクト個別に依存を収集できる 6 静的解析 findBugs ruboCop いろいろ使い方 シンタックス回り 変数 通常は何も書かずに代入で切るっぽい
+variable = &amp;#39;だいにゅうできるよ&amp;#39;; puts variable; ローカル変数を作りたければ以下。
+@variable = &amp;#39;ローカル変数！&amp;#39;; puts @variable; クラスの中でクラス変数を定義したい場合はアットが二つ</description>
+    </item>
+    
+    <item>
       <title>spring boot vault</title>
       <link>https://pages.shibadog.net/posts/007_spring-vault/</link>
       <pubDate>Tue, 22 Sep 2020 14:52:00 +0900</pubDate>

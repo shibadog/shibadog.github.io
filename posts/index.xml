@@ -205,6 +205,103 @@ Rocky Linux Rocky Linux</description>
 		</item>
 		
 		<item>
+			<title>急にRubyについて学ぶ</title>
+			<link>https://pages.shibadog.net/posts/014_ruby/</link>
+			<pubDate>Fri, 01 Oct 2021 00:00:00 +0900</pubDate>
+			
+			<guid>https://pages.shibadog.net/posts/014_ruby/</guid>
+			<description>まずは Javaとの対比が一番わかりやすいのでいったん対比を書く
+# 項目 Java Ruby 備考 1 実行 java ruby ruby {rubyfile} 2 webフレームワーク spring ほか rails ? 3 テストフレームワーク junit minitest test-unit rspec ruby {testfile} 4 ビルドツール maven gradle rake rake {task} タスクの書き方は後述。 直接実行する場合は、グローバルインストールされていないといけない。 プロジェクト個別にインストールしたrakeを使う場合は以下のような感じ bundle exec rake {task} 5 依存解決 bundle bundle install bundle install &amp;ndash;path gems でプロジェクト個別に依存を収集できる 6 静的解析 findBugs ruboCop いろいろ使い方 シンタックス回り 変数 通常は何も書かずに代入で切るっぽい
+variable = &amp;#39;だいにゅうできるよ&amp;#39;; puts variable; ローカル変数を作りたければ以下。
+@variable = &amp;#39;ローカル変数！&amp;#39;; puts @variable; クラスの中でクラス変数を定義したい場合はアットが二つ</description>
+			<content type="html"><![CDATA[<h2 id="まずは">まずは</h2>
+<p>Javaとの対比が一番わかりやすいのでいったん対比を書く</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>Java</th>
+<th>Ruby</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>実行</td>
+<td>java</td>
+<td>ruby</td>
+<td>ruby {rubyfile}</td>
+</tr>
+<tr>
+<td>2</td>
+<td>webフレームワーク</td>
+<td>spring ほか</td>
+<td>rails</td>
+<td>?</td>
+</tr>
+<tr>
+<td>3</td>
+<td>テストフレームワーク</td>
+<td>junit</td>
+<td>minitest test-unit rspec</td>
+<td>ruby {testfile}</td>
+</tr>
+<tr>
+<td>4</td>
+<td>ビルドツール</td>
+<td>maven gradle</td>
+<td>rake</td>
+<td>rake {task} タスクの書き方は後述。 直接実行する場合は、グローバルインストールされていないといけない。 プロジェクト個別にインストールしたrakeを使う場合は以下のような感じ bundle exec rake {task}</td>
+</tr>
+<tr>
+<td>5</td>
+<td>依存解決</td>
+<td></td>
+<td>bundle</td>
+<td>bundle install bundle install &ndash;path gems でプロジェクト個別に依存を収集できる</td>
+</tr>
+<tr>
+<td>6</td>
+<td>静的解析</td>
+<td>findBugs</td>
+<td>ruboCop</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="いろいろ使い方">いろいろ使い方</h2>
+<h3 id="シンタックス回り">シンタックス回り</h3>
+<h4 id="変数">変数</h4>
+<p>通常は何も書かずに代入で切るっぽい</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>variable <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;だいにゅうできるよ&#39;</span>;
+</span></span><span style="display:flex;"><span>puts variable;
+</span></span></code></pre></div><p>ローカル変数を作りたければ以下。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>@variable <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ローカル変数！&#39;</span>;
+</span></span><span style="display:flex;"><span>puts @variable;
+</span></span></code></pre></div><p>クラスの中でクラス変数を定義したい場合はアットが二つ</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Clazz</span>
+</span></span><span style="display:flex;"><span>    @@field <span style="color:#f92672">=</span> <span style="color:#66d9ef">nil</span>;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">method_dayo</span>
+</span></span><span style="display:flex;"><span>        @@field <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;フィールドだよ&#39;</span>;
+</span></span><span style="display:flex;"><span>        puts @@field;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>スクリプトとして使う場合はグローバル変数なんてのもあったね。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>$variable <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ぐろーばるなかんじ&#39;</span>;
+</span></span><span style="display:flex;"><span>puts $variable;
+</span></span></code></pre></div><h4 id="ビルド">ビルド</h4>
+<p>bundlerだったりrakeだったりminitestだったりとツールがパラパラと存在していて、それぞれ別で実行するのは嫌になる。。。</p>
+<p>node周りと同じように、ルートになるツールは何を使うべきか調べてみたけど、どうやらbundlerを使うスタイルが多そう。</p>
+<p>（でも、rakeがビルドツールなのだからrakeから全部やりたくなるんだけどできないのか？）</p>
+<p><img src="./kousei.drawio.svg" alt="構成"></p>
+]]></content>
+		</item>
+		
+		<item>
 			<title>spring boot vault</title>
 			<link>https://pages.shibadog.net/posts/007_spring-vault/</link>
 			<pubDate>Tue, 22 Sep 2020 14:52:00 +0900</pubDate>

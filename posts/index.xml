@@ -73,7 +73,7 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 </ul>
 <p>tracerの記録先は Elastic APMを利用している。</p>
 <p>詳しくは <code>../../pom.xml</code> を参照いただきたいが、traceにかかわる依存は以下の通り。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">
 		<span style="color:#f92672">&lt;dependency&gt;</span>
 			<span style="color:#f92672">&lt;groupId&gt;</span>io.micrometer<span style="color:#f92672">&lt;/groupId&gt;</span>
 			<span style="color:#f92672">&lt;artifactId&gt;</span>micrometer-tracing-bridge-otel<span style="color:#f92672">&lt;/artifactId&gt;</span>
@@ -86,7 +86,7 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 
 </code></pre></div><p>spring bootに関しては、3.0.x系であるため、そのままではopentelemetry exporterのauto configに対応していない。</p>
 <p>このため、自分でBean登録を行った。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#a6e22e">@Bean</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#a6e22e">@Bean</span>
     SpanExporter <span style="color:#a6e22e">otlpHttpSpanExporter</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
         <span style="color:#66d9ef">return</span> OtlpHttpSpanExporter<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">()</span>
                 <span style="color:#f92672">.</span><span style="color:#a6e22e">setEndpoint</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://localhost:8200/v1/traces&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">// &lt;- elastic apm のエンドポイント
@@ -787,7 +787,7 @@ Circuit Breakerとは、マイクロサービスで開発されたアプリケ�
 <p>プロパティのメニューから選ぶ</p>
 <p><img src="./image2.png" alt="トラッキングIDの場所"></p>
 <h2 id="4-configtoml-に追加">4. <code>config.toml</code> に追加</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-config.toml" data-lang="config.toml"><span style="color:#a6e22e">baseURL</span> = <span style="color:#e6db74">&#34;https://shibadog.github.io/&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-config.toml" data-lang="config.toml"><span style="color:#a6e22e">baseURL</span> = <span style="color:#e6db74">&#34;https://shibadog.github.io/&#34;</span>
 <span style="color:#a6e22e">languageCode</span> = <span style="color:#e6db74">&#34;ja-jp&#34;</span>
 <span style="color:#a6e22e">title</span> = <span style="color:#e6db74">&#34;shibadog site&#34;</span>
 <span style="color:#a6e22e">theme</span> = <span style="color:#e6db74">&#34;hermit&#34;</span>

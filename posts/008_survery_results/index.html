@@ -26,15 +26,10 @@ braveを使った場合のexporter layer(reporter)詳細 tracerをopentelemetry�
 Opentelemetryに対応しているElastic APMに入れてみる 本リポジトリでは、前章でまとめた依存のうち以下のような組み合わせでアプリケーションを作成している。
  tracer layer -&gt; opentelemetry exporter layer -&gt; opentelemetry  tracerの記録先は Elastic APMを利用している。
 詳しくは ../../pom.xml を参照いただきたいが、traceにかかわる依存は以下の通り。
-&lt;dependency&gt; &lt;groupId&gt;io.micrometer&lt;/groupId&gt; &lt;artifactId&gt;micrometer-tracing-bridge-otel&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;io.opentelemetry&lt;/groupId&gt; &lt;artifactId&gt;opentelemetry-exporter-otlp&lt;/artifactId&gt; &lt;/dependency&gt; spring bootに関しては、3.">
-<meta itemprop="datePublished" content="2023-05-17T00:00:00+09:00" />
+&lt;dependency&gt; &lt;groupId&gt;io.micrometer&lt;/groupId&gt; &lt;artifactId&gt;micrometer-tracing-bridge-otel&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;io.opentelemetry&lt;/groupId&gt; &lt;artifactId&gt;opentelemetry-exporter-otlp&lt;/artifactId&gt; &lt;/dependency&gt; spring bootに関しては、3."><meta itemprop="datePublished" content="2023-05-17T00:00:00+09:00" />
 <meta itemprop="dateModified" content="2023-05-17T00:00:00+09:00" />
 <meta itemprop="wordCount" content="90">
-
-
-
-<meta itemprop="keywords" content="spring boot,trace,sample," />
-<meta property="og:title" content="spring boot 3 trace" />
+<meta itemprop="keywords" content="spring boot,trace,sample," /><meta property="og:title" content="spring boot 3 trace" />
 <meta property="og:description" content="背景 spring boot3になってからtraceの構成が変わった。
 sleuth から micrometer observationを使う用に代わり、opentelemetryが入ってきて関係性が変わったのでそれを把握したい。
 micrometer observationの解説は優秀なブログがすでにあるのでそちらに任せることにする。
@@ -57,9 +52,10 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 詳しくは ../../pom.xml を参照いただきたいが、traceにかかわる依存は以下の通り。
 &lt;dependency&gt; &lt;groupId&gt;io.micrometer&lt;/groupId&gt; &lt;artifactId&gt;micrometer-tracing-bridge-otel&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;io.opentelemetry&lt;/groupId&gt; &lt;artifactId&gt;opentelemetry-exporter-otlp&lt;/artifactId&gt; &lt;/dependency&gt; spring bootに関しては、3." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://pages.shibadog.net/posts/008_survery_results/" />
+<meta property="og:url" content="https://pages.shibadog.net/posts/008_survery_results/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-05-17T00:00:00+09:00" />
 <meta property="article:modified_time" content="2023-05-17T00:00:00+09:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="spring boot 3 trace"/>
 <meta name="twitter:description" content="背景 spring boot3になってからtraceの構成が変わった。
@@ -169,7 +165,7 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 </ul>
 <p>tracerの記録先は Elastic APMを利用している。</p>
 <p>詳しくは <code>../../pom.xml</code> を参照いただきたいが、traceにかかわる依存は以下の通り。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">
 		<span style="color:#f92672">&lt;dependency&gt;</span>
 			<span style="color:#f92672">&lt;groupId&gt;</span>io.micrometer<span style="color:#f92672">&lt;/groupId&gt;</span>
 			<span style="color:#f92672">&lt;artifactId&gt;</span>micrometer-tracing-bridge-otel<span style="color:#f92672">&lt;/artifactId&gt;</span>
@@ -182,7 +178,7 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 
 </code></pre></div><p>spring bootに関しては、3.0.x系であるため、そのままではopentelemetry exporterのauto configに対応していない。</p>
 <p>このため、自分でBean登録を行った。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#a6e22e">@Bean</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#a6e22e">@Bean</span>
     SpanExporter <span style="color:#a6e22e">otlpHttpSpanExporter</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
         <span style="color:#66d9ef">return</span> OtlpHttpSpanExporter<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">()</span>
                 <span style="color:#f92672">.</span><span style="color:#a6e22e">setEndpoint</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://localhost:8200/v1/traces&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">// &lt;- elastic apm のエンドポイント
@@ -245,7 +241,7 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 
 
 
-	<script src="https://pages.shibadog.net/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	<script src="https://pages.shibadog.net/js/bundle.min.7d8545daa55d62427355498dd8da13f98ff79a7938ce7d2a5e2ae1ec0de3beb8.js" integrity="sha256-fYVF2qVdYkJzVUmN2NoT+Y/3mnk4zn0qXirh7A3jvrg=" crossorigin="anonymous"></script>
 	
 <script type="application/javascript">
 var doNotTrack = false;

@@ -1,144 +1,88 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://pages.shibadog.net/posts/</loc>
     <lastmod>2023-05-17T00:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/sample/</loc>
     <lastmod>2023-05-17T00:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/</loc>
     <lastmod>2023-05-17T00:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/spring-boot/</loc>
     <lastmod>2023-05-17T00:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/posts/008_survery_results/</loc>
     <lastmod>2023-05-17T00:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/</loc>
     <lastmod>2023-05-17T00:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/trace/</loc>
     <lastmod>2023-05-17T00:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/posts/009_centos/</loc>
     <lastmod>2023-03-03T00:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/linux/</loc>
     <lastmod>2023-03-03T00:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/memo/</loc>
     <lastmod>2023-03-03T00:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/posts/007_spring-vault/</loc>
     <lastmod>2020-09-22T14:52:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/vault/</loc>
     <lastmod>2020-09-22T14:52:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/unit-origami/</loc>
     <lastmod>2020-06-28T09:45:32+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/posts/006_moyat-ball-star/</loc>
     <lastmod>2020-06-28T09:45:32+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/posts/005_%E6%9C%80%E8%BF%91%E6%B0%97%E6%8C%81%E3%81%A1%E3%81%8C%E4%B8%8A%E3%81%8C%E3%81%A3%E3%81%9F%E8%A9%B1/</loc>
     <lastmod>2020-06-20T00:26:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/encrypt/</loc>
     <lastmod>2019-11-04T22:54:02+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/posts/003_encript/</loc>
     <lastmod>2019-11-04T22:54:02+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/circuit_breaker/</loc>
     <lastmod>2019-10-26T13:17:15+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/hystrix/</loc>
     <lastmod>2019-10-26T13:17:15+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/posts/002_hystrix_02/</loc>
     <lastmod>2019-10-26T13:17:15+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/posts/001_hystrix_01/</loc>
     <lastmod>2019-10-20T21:10:22+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/hugo/</loc>
     <lastmod>2019-10-17T09:55:20+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/posts/hugo_analytics/</loc>
     <lastmod>2019-10-17T09:55:20+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/tags/note/</loc>
     <lastmod>2019-10-16T22:12:21+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/posts/blog_neta/</loc>
     <lastmod>2019-10-16T22:12:21+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/posts/my-first-post/</loc>
     <lastmod>2019-10-15T23:52:59+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/about-hugo/</loc>
     <lastmod>2019-10-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://pages.shibadog.net/categories/</loc>
   </url>
-  
 </urlset>

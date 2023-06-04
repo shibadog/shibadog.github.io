@@ -12,10 +12,15 @@ JavaScriptやサーバからのHTTPレスポンスにより保持させること
 また、JavaScriptならロジックで読み取りが可能で、HTTPサーバ通信の場合は、許可されているCookieを通信の際に自動付与して送信する。
 ServerからCookieを設定する場合は、レスポンスヘッダに Set-Cookei を付与することで設定できる。
 JavaScriptの場合 document.cookie でアクセスできる。
-保持可能情報 # 項目 内容 1 name Cookie名（キー） 2 value Cookieがもつ値 3 Domain 発行元ドメイン 4 Path パス 5 Expires 有効期限 6 max-age 有効期限２（寿命） 7 HttpOnly サーバ送信にしか使えなくする。つまりJavaScriptから見れなくする 8 Secure HTTPS(SSL)通信の場合だけ送信するようにする。 9 SameSite None、Lax、Strictがあり、ドメイン間のCookie参照に関する設定となる 10 Priority 容量による制限でCookieを削除する際に消す際の優先度となる。低いほうから消す。 SameSiteとは？ 設定値 効果 Strict Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含めない（Cookieを使用しない） Lax Aサイトに対し、BサイトからのGETリクエストのみCookieヘッダーへ含める（Cookieを使用する）。これ以外のリクエストは含めない None Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含める (Cookieを使用する) 参考資料 Qiita - Chrome 80が密かに呼び寄せる地獄 ～ SameSite属性のデフォルト変更を調べてみた(@ahera) 有効期限 Session Cookie 有効期限など指定しない場合は大体のブラウザがこの挙動となる。
-ブラウザ（タブ？）が閉じられない間は保持し続ける。"><meta itemprop="datePublished" content="2020-06-10T00:00:00+09:00" />
+保持可能情報 # 項目 内容 1 name Cookie名（キー） 2 value Cookieがもつ値 3 Domain 発行元ドメイン 4 Path パス 5 Expires 有効期限 6 max-age 有効期限２（寿命） 7 HttpOnly サーバ送信にしか使えなくする。つまりJavaScriptから見れなくする 8 Secure HTTPS(SSL)通信の場合だけ送信するようにする。 9 SameSite None、Lax、Strictがあり、ドメイン間のCookie参照に関する設定となる 10 Priority 容量による制限でCookieを削除する際に消す際の優先度となる。低いほうから消す。 SameSiteとは？ 設定値 効果 Strict Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含めない（Cookieを使用しない） Lax Aサイトに対し、BサイトからのGETリクエストのみCookieヘッダーへ含める（Cookieを使用する）。これ以外のリクエストは含めない None Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含める (Cookieを使用する) 有効期限 Session Cookie 有効期限など指定しない場合は大体のブラウザがこの挙動となる。
+ブラウザ（タブ？）が閉じられない間は保持し続ける。
+ブラウザ側でよく出てくる「セッションの復元」をすると復元される。
+持続的Cookie 有効期限を設定して設定した場合の挙動。
+ブラウザ（タブ？）を閉じたとしても保持し続ける。
+有効期限または指定した期間に到達した場合に無効になる。
+参考資料 MDN - HTTP Cookie MDN - Set-Cookie Qiita - Chrome 80が密かに呼び寄せる地獄 ～ SameSite属性のデフォルト変更を調べてみた(@ahera) "><meta itemprop="datePublished" content="2020-06-10T00:00:00+09:00" />
 <meta itemprop="dateModified" content="2020-06-10T00:00:00+09:00" />
-<meta itemprop="wordCount" content="83">
+<meta itemprop="wordCount" content="82">
 <meta itemprop="keywords" content="browser,web," /><meta property="og:title" content="Cookie" />
 <meta property="og:description" content="overview 正式名称は HTTP Cookie .
 端的に言うと、クライアントに情報を保持することができる仕組み。
@@ -23,8 +28,13 @@ JavaScriptやサーバからのHTTPレスポンスにより保持させること
 また、JavaScriptならロジックで読み取りが可能で、HTTPサーバ通信の場合は、許可されているCookieを通信の際に自動付与して送信する。
 ServerからCookieを設定する場合は、レスポンスヘッダに Set-Cookei を付与することで設定できる。
 JavaScriptの場合 document.cookie でアクセスできる。
-保持可能情報 # 項目 内容 1 name Cookie名（キー） 2 value Cookieがもつ値 3 Domain 発行元ドメイン 4 Path パス 5 Expires 有効期限 6 max-age 有効期限２（寿命） 7 HttpOnly サーバ送信にしか使えなくする。つまりJavaScriptから見れなくする 8 Secure HTTPS(SSL)通信の場合だけ送信するようにする。 9 SameSite None、Lax、Strictがあり、ドメイン間のCookie参照に関する設定となる 10 Priority 容量による制限でCookieを削除する際に消す際の優先度となる。低いほうから消す。 SameSiteとは？ 設定値 効果 Strict Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含めない（Cookieを使用しない） Lax Aサイトに対し、BサイトからのGETリクエストのみCookieヘッダーへ含める（Cookieを使用する）。これ以外のリクエストは含めない None Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含める (Cookieを使用する) 参考資料 Qiita - Chrome 80が密かに呼び寄せる地獄 ～ SameSite属性のデフォルト変更を調べてみた(@ahera) 有効期限 Session Cookie 有効期限など指定しない場合は大体のブラウザがこの挙動となる。
-ブラウザ（タブ？）が閉じられない間は保持し続ける。" />
+保持可能情報 # 項目 内容 1 name Cookie名（キー） 2 value Cookieがもつ値 3 Domain 発行元ドメイン 4 Path パス 5 Expires 有効期限 6 max-age 有効期限２（寿命） 7 HttpOnly サーバ送信にしか使えなくする。つまりJavaScriptから見れなくする 8 Secure HTTPS(SSL)通信の場合だけ送信するようにする。 9 SameSite None、Lax、Strictがあり、ドメイン間のCookie参照に関する設定となる 10 Priority 容量による制限でCookieを削除する際に消す際の優先度となる。低いほうから消す。 SameSiteとは？ 設定値 効果 Strict Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含めない（Cookieを使用しない） Lax Aサイトに対し、BサイトからのGETリクエストのみCookieヘッダーへ含める（Cookieを使用する）。これ以外のリクエストは含めない None Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含める (Cookieを使用する) 有効期限 Session Cookie 有効期限など指定しない場合は大体のブラウザがこの挙動となる。
+ブラウザ（タブ？）が閉じられない間は保持し続ける。
+ブラウザ側でよく出てくる「セッションの復元」をすると復元される。
+持続的Cookie 有効期限を設定して設定した場合の挙動。
+ブラウザ（タブ？）を閉じたとしても保持し続ける。
+有効期限または指定した期間に到達した場合に無効になる。
+参考資料 MDN - HTTP Cookie MDN - Set-Cookie Qiita - Chrome 80が密かに呼び寄せる地獄 ～ SameSite属性のデフォルト変更を調べてみた(@ahera) " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://pages.shibadog.net/posts/013_cookie/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-06-10T00:00:00+09:00" />
@@ -37,8 +47,13 @@ JavaScriptやサーバからのHTTPレスポンスにより保持させること
 また、JavaScriptならロジックで読み取りが可能で、HTTPサーバ通信の場合は、許可されているCookieを通信の際に自動付与して送信する。
 ServerからCookieを設定する場合は、レスポンスヘッダに Set-Cookei を付与することで設定できる。
 JavaScriptの場合 document.cookie でアクセスできる。
-保持可能情報 # 項目 内容 1 name Cookie名（キー） 2 value Cookieがもつ値 3 Domain 発行元ドメイン 4 Path パス 5 Expires 有効期限 6 max-age 有効期限２（寿命） 7 HttpOnly サーバ送信にしか使えなくする。つまりJavaScriptから見れなくする 8 Secure HTTPS(SSL)通信の場合だけ送信するようにする。 9 SameSite None、Lax、Strictがあり、ドメイン間のCookie参照に関する設定となる 10 Priority 容量による制限でCookieを削除する際に消す際の優先度となる。低いほうから消す。 SameSiteとは？ 設定値 効果 Strict Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含めない（Cookieを使用しない） Lax Aサイトに対し、BサイトからのGETリクエストのみCookieヘッダーへ含める（Cookieを使用する）。これ以外のリクエストは含めない None Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含める (Cookieを使用する) 参考資料 Qiita - Chrome 80が密かに呼び寄せる地獄 ～ SameSite属性のデフォルト変更を調べてみた(@ahera) 有効期限 Session Cookie 有効期限など指定しない場合は大体のブラウザがこの挙動となる。
-ブラウザ（タブ？）が閉じられない間は保持し続ける。"/>
+保持可能情報 # 項目 内容 1 name Cookie名（キー） 2 value Cookieがもつ値 3 Domain 発行元ドメイン 4 Path パス 5 Expires 有効期限 6 max-age 有効期限２（寿命） 7 HttpOnly サーバ送信にしか使えなくする。つまりJavaScriptから見れなくする 8 Secure HTTPS(SSL)通信の場合だけ送信するようにする。 9 SameSite None、Lax、Strictがあり、ドメイン間のCookie参照に関する設定となる 10 Priority 容量による制限でCookieを削除する際に消す際の優先度となる。低いほうから消す。 SameSiteとは？ 設定値 効果 Strict Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含めない（Cookieを使用しない） Lax Aサイトに対し、BサイトからのGETリクエストのみCookieヘッダーへ含める（Cookieを使用する）。これ以外のリクエストは含めない None Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含める (Cookieを使用する) 有効期限 Session Cookie 有効期限など指定しない場合は大体のブラウザがこの挙動となる。
+ブラウザ（タブ？）が閉じられない間は保持し続ける。
+ブラウザ側でよく出てくる「セッションの復元」をすると復元される。
+持続的Cookie 有効期限を設定して設定した場合の挙動。
+ブラウザ（タブ？）を閉じたとしても保持し続ける。
+有効期限または指定した期間に到達した場合に無効になる。
+参考資料 MDN - HTTP Cookie MDN - Set-Cookie Qiita - Chrome 80が密かに呼び寄せる地獄 ～ SameSite属性のデフォルト変更を調べてみた(@ahera) "/>
 
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -189,10 +204,6 @@ JavaScriptの場合 <code>document.cookie</code> でアクセスできる。</p>
 </tr>
 </tbody>
 </table>
-<h3 id="参考資料">参考資料<a href="#参考資料" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
-<ul>
-<li><a href="https://qiita.com/ahera/items/0c8276da6b0bed2b580c">Qiita - Chrome 80が密かに呼び寄せる地獄 ～ SameSite属性のデフォルト変更を調べてみた(@ahera)</a></li>
-</ul>
 <h2 id="有効期限">有効期限<a href="#有効期限" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <h3 id="session-cookie">Session Cookie<a href="#session-cookie" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
 <p>有効期限など指定しない場合は大体のブラウザがこの挙動となる。<br>
@@ -202,10 +213,11 @@ JavaScriptの場合 <code>document.cookie</code> でアクセスできる。</p>
 <p>有効期限を設定して設定した場合の挙動。<br>
 ブラウザ（タブ？）を閉じたとしても保持し続ける。<br>
 有効期限または指定した期間に到達した場合に無効になる。</p>
-<h2 id="参考資料-1">参考資料<a href="#参考資料-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h2 id="参考資料">参考資料<a href="#参考資料" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <ul>
 <li><a href="https://developer.mozilla.org/ja/docs/Web/HTTP/Cookies">MDN - HTTP Cookie</a></li>
 <li><a href="https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Set-Cookie">MDN - Set-Cookie</a></li>
+<li><a href="https://qiita.com/ahera/items/0c8276da6b0bed2b580c">Qiita - Chrome 80が密かに呼び寄せる地獄 ～ SameSite属性のデフォルト変更を調べてみた(@ahera)</a></li>
 </ul>
 
 			</div>
@@ -214,7 +226,7 @@ JavaScriptの場合 <code>document.cookie</code> でアクセスできる。</p>
 				<p>
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pages.shibadog.net/tags/browser">browser</a></span><span class="tag"><a href="https://pages.shibadog.net/tags/web">web</a></span>
 				</p>
-				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>83 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>82 Words</p>
 				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-06-09T15:00:00&#43;0000</p>
 			</footer>
 		</article>
@@ -224,18 +236,14 @@ JavaScriptの場合 <code>document.cookie</code> でアクセスできる。</p>
   <ul>
     <li><a href="#overview">overview</a></li>
     <li><a href="#保持可能情報">保持可能情報</a></li>
-    <li><a href="#samesiteとは">SameSiteとは？</a>
-      <ul>
-        <li><a href="#参考資料">参考資料</a></li>
-      </ul>
-    </li>
+    <li><a href="#samesiteとは">SameSiteとは？</a></li>
     <li><a href="#有効期限">有効期限</a>
       <ul>
         <li><a href="#session-cookie">Session Cookie</a></li>
         <li><a href="#持続的cookie">持続的Cookie</a></li>
       </ul>
     </li>
-    <li><a href="#参考資料-1">参考資料</a></li>
+    <li><a href="#参考資料">参考資料</a></li>
   </ul>
 </nav>
 		</aside>

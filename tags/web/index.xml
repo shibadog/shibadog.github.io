@@ -19,8 +19,13 @@ JavaScriptやサーバからのHTTPレスポンスにより保持させること
 また、JavaScriptならロジックで読み取りが可能で、HTTPサーバ通信の場合は、許可されているCookieを通信の際に自動付与して送信する。
 ServerからCookieを設定する場合は、レスポンスヘッダに Set-Cookei を付与することで設定できる。
 JavaScriptの場合 document.cookie でアクセスできる。
-保持可能情報 # 項目 内容 1 name Cookie名（キー） 2 value Cookieがもつ値 3 Domain 発行元ドメイン 4 Path パス 5 Expires 有効期限 6 max-age 有効期限２（寿命） 7 HttpOnly サーバ送信にしか使えなくする。つまりJavaScriptから見れなくする 8 Secure HTTPS(SSL)通信の場合だけ送信するようにする。 9 SameSite None、Lax、Strictがあり、ドメイン間のCookie参照に関する設定となる 10 Priority 容量による制限でCookieを削除する際に消す際の優先度となる。低いほうから消す。 SameSiteとは？ 設定値 効果 Strict Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含めない（Cookieを使用しない） Lax Aサイトに対し、BサイトからのGETリクエストのみCookieヘッダーへ含める（Cookieを使用する）。これ以外のリクエストは含めない None Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含める (Cookieを使用する) 参考資料 Qiita - Chrome 80が密かに呼び寄せる地獄 ～ SameSite属性のデフォルト変更を調べてみた(@ahera) 有効期限 Session Cookie 有効期限など指定しない場合は大体のブラウザがこの挙動となる。
-ブラウザ（タブ？）が閉じられない間は保持し続ける。</description>
+保持可能情報 # 項目 内容 1 name Cookie名（キー） 2 value Cookieがもつ値 3 Domain 発行元ドメイン 4 Path パス 5 Expires 有効期限 6 max-age 有効期限２（寿命） 7 HttpOnly サーバ送信にしか使えなくする。つまりJavaScriptから見れなくする 8 Secure HTTPS(SSL)通信の場合だけ送信するようにする。 9 SameSite None、Lax、Strictがあり、ドメイン間のCookie参照に関する設定となる 10 Priority 容量による制限でCookieを削除する際に消す際の優先度となる。低いほうから消す。 SameSiteとは？ 設定値 効果 Strict Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含めない（Cookieを使用しない） Lax Aサイトに対し、BサイトからのGETリクエストのみCookieヘッダーへ含める（Cookieを使用する）。これ以外のリクエストは含めない None Aサイトに対し、Bサイトからどのようなリクエストがあっても、発行したサイトでCookieヘッダーに含める (Cookieを使用する) 有効期限 Session Cookie 有効期限など指定しない場合は大体のブラウザがこの挙動となる。
+ブラウザ（タブ？）が閉じられない間は保持し続ける。
+ブラウザ側でよく出てくる「セッションの復元」をすると復元される。
+持続的Cookie 有効期限を設定して設定した場合の挙動。
+ブラウザ（タブ？）を閉じたとしても保持し続ける。
+有効期限または指定した期間に到達した場合に無効になる。
+参考資料 MDN - HTTP Cookie MDN - Set-Cookie Qiita - Chrome 80が密かに呼び寄せる地獄 ～ SameSite属性のデフォルト変更を調べてみた(@ahera) </description>
     </item>
     
   </channel>

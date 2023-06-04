@@ -140,7 +140,8 @@ Hystrixは隔離方式を2種類用意しており、デフォルトでは独立
 <p>例えば、以下のように2つのコマンドを定義したアプリの場合。
 コマンドAからアクセスするAPIAがタイムアウトを頻発するような状況になってしまったとすると、<br>
 コマンドAが即エラーを返すようなることで、リクエスト処理スレッドが占有されず、コマンドBは正常に処理が行われる。</p>
-<!-- raw HTML omitted -->
+<div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;page&quot;:0,&quot;toolbar&quot;:&quot;pages zoom layers lightbox&quot;,&quot;edit&quot;:&quot;_blank&quot;,&quot;url&quot;:&quot;https://drive.google.com/uc?id=1mWn5fHltGC2OvDTEekX06TUGgJboxkYB&amp;export=download&quot;}"></div>
+<script type="text/javascript" src="https://www.draw.io/embed2.js?&fetch=https%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1mWn5fHltGC2OvDTEekX06TUGgJboxkYB%26export%3Ddownload"></script>
 <h2 id="コマンドエラー検知">コマンドエラー検知<a href="#コマンドエラー検知" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <p>コマンド内で実行される処理でExceptionが発生した場合には、このExceptionを検知してフォールバック処理を行うことができる。</p>
 <p>また、コマンド内の処理のタイムアウトを測ることができ、指定時間を過ぎた場合に、HystrixのExceptionを発生させることができる。</p>

@@ -17,16 +17,16 @@ tracer layerの詳細 この領域はトレーサー層と呼ぶらしい。
 ここは、exporter（braveではreporter）を使って実際のトレース情報を伝送する部分の実装であったり、アプリケーション間のトレース情報をつなぐための処理を行う実装が存在する。
 braveはもともとのspring cloudに存在する実装であり、zipkinのb3ヘッダのみに対応している。
 opentelemetryでは、opentelemetryが定義する伝送プロトコル（なんだっけ？）とb3のどちらにも対応しており、ここをpropagatorと呼んでおり差し替え可能となっている。
- w3c → W3CTraceContextPropagator b3 → B3Propagator  opentelemetryを使った場合のexporter layer詳細 Opentelemetryに対応したトレース参照用のツールはいくつか存在する。
+w3c → W3CTraceContextPropagator b3 → B3Propagator opentelemetryを使った場合のexporter layer詳細 Opentelemetryに対応したトレース参照用のツールはいくつか存在する。
 これ以外にも、上記zipkinの例から以下のような構造になっていることが伺える。
 参考資料のmakingさんの資料にある通り、spring boot 3.0.Xまでは、exporterのauto configに対応している（つまり何もBean登録しなくても設定だけで使えるやつ）のはzipkinとwavefrontのみとなっている。
 しかし、opentelemetry自体はいろいろなexporterに対応しており、自力でBean登録をすることで異なるサービスにtraceを伝送することが可能になっている。
 braveを使った場合のexporter layer(reporter)詳細 tracerをopentelemetryではなく従来のbraveを選択することも可能となっている。
 この場合でも伝送先を切り替えることが可能となっている。
 Opentelemetryに対応しているElastic APMに入れてみる 本リポジトリでは、前章でまとめた依存のうち以下のような組み合わせでアプリケーションを作成している。
- tracer layer -&gt; opentelemetry exporter layer -&gt; opentelemetry  tracerの記録先は Elastic APMを利用している。
+tracer layer -&gt; opentelemetry exporter layer -&gt; opentelemetry tracerの記録先は Elastic APMを利用している。
 詳しくは ../../pom.xml を参照いただきたいが、traceにかかわる依存は以下の通り。
- 	&lt;dependency&gt; 	&lt;groupId&gt;io.micrometer&lt;/groupId&gt; 	&lt;artifactId&gt;micrometer-tracing-bridge-otel&lt;/artifactId&gt; 	&lt;/dependency&gt;  	&lt;dependency&gt; 	&lt;groupId&gt;io."><meta itemprop="datePublished" content="2023-05-17T00:00:00+09:00" />
+&lt;dependency&gt; &lt;groupId&gt;io.micrometer&lt;/groupId&gt; &lt;artifactId&gt;micrometer-tracing-bridge-otel&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;io.opentelemetry&lt;/groupId&gt; &lt;artifactId&gt;opentelemetry-exporter-otlp&lt;/artifactId&gt; &lt;/dependency&gt; spring bootに関しては、3.0.x系であるため、そのままではopentelemetry exporterのauto configに対応していない。"><meta itemprop="datePublished" content="2023-05-17T00:00:00+09:00" />
 <meta itemprop="dateModified" content="2023-05-17T00:00:00+09:00" />
 <meta itemprop="wordCount" content="90">
 <meta itemprop="keywords" content="spring boot,trace,sample," /><meta property="og:title" content="spring boot 3 trace" />
@@ -41,16 +41,16 @@ tracer layerの詳細 この領域はトレーサー層と呼ぶらしい。
 ここは、exporter（braveではreporter）を使って実際のトレース情報を伝送する部分の実装であったり、アプリケーション間のトレース情報をつなぐための処理を行う実装が存在する。
 braveはもともとのspring cloudに存在する実装であり、zipkinのb3ヘッダのみに対応している。
 opentelemetryでは、opentelemetryが定義する伝送プロトコル（なんだっけ？）とb3のどちらにも対応しており、ここをpropagatorと呼んでおり差し替え可能となっている。
- w3c → W3CTraceContextPropagator b3 → B3Propagator  opentelemetryを使った場合のexporter layer詳細 Opentelemetryに対応したトレース参照用のツールはいくつか存在する。
+w3c → W3CTraceContextPropagator b3 → B3Propagator opentelemetryを使った場合のexporter layer詳細 Opentelemetryに対応したトレース参照用のツールはいくつか存在する。
 これ以外にも、上記zipkinの例から以下のような構造になっていることが伺える。
 参考資料のmakingさんの資料にある通り、spring boot 3.0.Xまでは、exporterのauto configに対応している（つまり何もBean登録しなくても設定だけで使えるやつ）のはzipkinとwavefrontのみとなっている。
 しかし、opentelemetry自体はいろいろなexporterに対応しており、自力でBean登録をすることで異なるサービスにtraceを伝送することが可能になっている。
 braveを使った場合のexporter layer(reporter)詳細 tracerをopentelemetryではなく従来のbraveを選択することも可能となっている。
 この場合でも伝送先を切り替えることが可能となっている。
 Opentelemetryに対応しているElastic APMに入れてみる 本リポジトリでは、前章でまとめた依存のうち以下のような組み合わせでアプリケーションを作成している。
- tracer layer -&gt; opentelemetry exporter layer -&gt; opentelemetry  tracerの記録先は Elastic APMを利用している。
+tracer layer -&gt; opentelemetry exporter layer -&gt; opentelemetry tracerの記録先は Elastic APMを利用している。
 詳しくは ../../pom.xml を参照いただきたいが、traceにかかわる依存は以下の通り。
- 	&lt;dependency&gt; 	&lt;groupId&gt;io.micrometer&lt;/groupId&gt; 	&lt;artifactId&gt;micrometer-tracing-bridge-otel&lt;/artifactId&gt; 	&lt;/dependency&gt;  	&lt;dependency&gt; 	&lt;groupId&gt;io." />
+&lt;dependency&gt; &lt;groupId&gt;io.micrometer&lt;/groupId&gt; &lt;artifactId&gt;micrometer-tracing-bridge-otel&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;io.opentelemetry&lt;/groupId&gt; &lt;artifactId&gt;opentelemetry-exporter-otlp&lt;/artifactId&gt; &lt;/dependency&gt; spring bootに関しては、3.0.x系であるため、そのままではopentelemetry exporterのauto configに対応していない。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://pages.shibadog.net/posts/008_survery_results/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-05-17T00:00:00+09:00" />
@@ -69,16 +69,16 @@ tracer layerの詳細 この領域はトレーサー層と呼ぶらしい。
 ここは、exporter（braveではreporter）を使って実際のトレース情報を伝送する部分の実装であったり、アプリケーション間のトレース情報をつなぐための処理を行う実装が存在する。
 braveはもともとのspring cloudに存在する実装であり、zipkinのb3ヘッダのみに対応している。
 opentelemetryでは、opentelemetryが定義する伝送プロトコル（なんだっけ？）とb3のどちらにも対応しており、ここをpropagatorと呼んでおり差し替え可能となっている。
- w3c → W3CTraceContextPropagator b3 → B3Propagator  opentelemetryを使った場合のexporter layer詳細 Opentelemetryに対応したトレース参照用のツールはいくつか存在する。
+w3c → W3CTraceContextPropagator b3 → B3Propagator opentelemetryを使った場合のexporter layer詳細 Opentelemetryに対応したトレース参照用のツールはいくつか存在する。
 これ以外にも、上記zipkinの例から以下のような構造になっていることが伺える。
 参考資料のmakingさんの資料にある通り、spring boot 3.0.Xまでは、exporterのauto configに対応している（つまり何もBean登録しなくても設定だけで使えるやつ）のはzipkinとwavefrontのみとなっている。
 しかし、opentelemetry自体はいろいろなexporterに対応しており、自力でBean登録をすることで異なるサービスにtraceを伝送することが可能になっている。
 braveを使った場合のexporter layer(reporter)詳細 tracerをopentelemetryではなく従来のbraveを選択することも可能となっている。
 この場合でも伝送先を切り替えることが可能となっている。
 Opentelemetryに対応しているElastic APMに入れてみる 本リポジトリでは、前章でまとめた依存のうち以下のような組み合わせでアプリケーションを作成している。
- tracer layer -&gt; opentelemetry exporter layer -&gt; opentelemetry  tracerの記録先は Elastic APMを利用している。
+tracer layer -&gt; opentelemetry exporter layer -&gt; opentelemetry tracerの記録先は Elastic APMを利用している。
 詳しくは ../../pom.xml を参照いただきたいが、traceにかかわる依存は以下の通り。
- 	&lt;dependency&gt; 	&lt;groupId&gt;io.micrometer&lt;/groupId&gt; 	&lt;artifactId&gt;micrometer-tracing-bridge-otel&lt;/artifactId&gt; 	&lt;/dependency&gt;  	&lt;dependency&gt; 	&lt;groupId&gt;io."/>
+&lt;dependency&gt; &lt;groupId&gt;io.micrometer&lt;/groupId&gt; &lt;artifactId&gt;micrometer-tracing-bridge-otel&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;io.opentelemetry&lt;/groupId&gt; &lt;artifactId&gt;opentelemetry-exporter-otlp&lt;/artifactId&gt; &lt;/dependency&gt; spring bootに関しては、3.0.x系であるため、そのままではopentelemetry exporterのauto configに対応していない。"/>
 
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -240,7 +240,7 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
 
 
 
-	<script src="https://pages.shibadog.net/js/bundle.min.8256b8724b9578bbdf6d6f04c894255bc760e78e8a2d60ec0a91ea993acd3b77.js" integrity="sha256-gla4ckuVeLvfbW8EyJQlW8dg546KLWDsCpHqmTrNO3c=" crossorigin="anonymous"></script>
+	<script src="https://pages.shibadog.net/js/bundle.min.580988ed2982bcbb74a1773c7abea97b43e4c43b9324e10cda0813ec6ec4bb67.js" integrity="sha256-WAmI7SmCvLt0oXc8er6pe0PkxDuTJOEM2ggT7G7Eu2c=" crossorigin="anonymous"></script>
 	
 <script type="application/javascript">
 var doNotTrack = false;

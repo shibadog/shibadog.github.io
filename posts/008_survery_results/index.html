@@ -27,13 +27,14 @@ Opentelemetryに対応しているElastic APMに入れてみる 本リポジト�
  tracer layer -&gt; opentelemetry exporter layer -&gt; opentelemetry  tracerの記録先は Elastic APMを利用している。
 詳しくは ../../pom.xml を参照いただきたいが、traceにかかわる依存は以下の通り。
 &lt;dependency&gt; &lt;groupId&gt;io.micrometer&lt;/groupId&gt; &lt;artifactId&gt;micrometer-tracing-bridge-otel&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;io.opentelemetry&lt;/groupId&gt; &lt;artifactId&gt;opentelemetry-exporter-otlp&lt;/artifactId&gt; &lt;/dependency&gt; spring bootに関しては、3.">
-<meta itemprop="datePublished" content="2023-05-17T00:00:00&#43;09:00" />
-<meta itemprop="dateModified" content="2023-05-17T00:00:00&#43;09:00" />
+<meta itemprop="datePublished" content="2023-05-17T00:00:00+09:00" />
+<meta itemprop="dateModified" content="2023-05-17T00:00:00+09:00" />
 <meta itemprop="wordCount" content="90">
 
 
 
-<meta itemprop="keywords" content="spring boot,trace,sample," /><meta property="og:title" content="spring boot 3 trace" />
+<meta itemprop="keywords" content="spring boot,trace,sample," />
+<meta property="og:title" content="spring boot 3 trace" />
 <meta property="og:description" content="背景 spring boot3になってからtraceの構成が変わった。
 sleuth から micrometer observationを使う用に代わり、opentelemetryが入ってきて関係性が変わったのでそれを把握したい。
 micrometer observationの解説は優秀なブログがすでにあるのでそちらに任せることにする。

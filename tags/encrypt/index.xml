@@ -6,11 +6,7 @@
     <description>Recent content in encrypt on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Mon, 04 Nov 2019 22:54:02 +0900</lastBuildDate>
-    
-	<atom:link href="https://pages.shibadog.net/tags/encrypt/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 04 Nov 2019 22:54:02 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/encrypt/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>暗号化/ハッシュ化について調べた</title>
       <link>https://pages.shibadog.net/posts/003_encript/</link>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta itemprop="name" content="spring boot log4j2のログローテーション">
+<meta itemprop="description" content="目次
+まとめ なんでこんなこと ということで、サンプル こまけぇことはいいから、どうなったん？ ちなみに 参考資料 まとめ log4j2ならば、柔軟なローテション設定ができる 起動時にすでにある場合のローテーション ログ出力サイズによるログローテーション（今回はこれ） 時間によるログローテーション などなど log4j2ならば、ロールオーバーも簡単設定 保持期限によるロールオーバー(今回はこれ) なんでこんなこと オンプレミスでのアプリケーションではログはローカルのディスクに書き込むことになる。（多分それ以外の方法もいっぱいあるんだろうけど、おそらく一番ベターでしょ）
+この場合、バッチやら、logrotateでいい感じにローテートしたり、自動削除などを行うのが割と古くからされてる方法ではあると思うが、最新のログライブラリではその辺カバーすることが出来ると思いお試しをしてみた。
+ということで、サンプル サンプルアプリケーションとしては、spring bootの現時点（2023/06/25）での最新である、 3.1.1 を利用して、標準であるlogbackからlog4j2に変更した状態とした。
+処理内容は、一定間隔でログを出し続けるコマンドラインアプリケーション。（つまり、何にもしないし、Webでさえない）
+ソースはここ
+こまけぇことはいいから、どうなったん？ 今回目指したのは、ログを容量によってローテーションして、一定期間でロールオーバーする状況。
+つまり、ログを別の機構で バックアップ or ログ基盤への転送 をする想定で、一定容量のみローカルには保持するような状態とした。
+（バックアップさえできれば無運用）
+手元で試すため、時間や容量は小さい状態で試している。
+ちゃんと、一定のログ容量でローテーション＆ロールオーバーがなされていることを確認した。
+以下log4j2のconfig。
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;Configuration strict=&#34;true&#34; xmlns=&#34;http://logging.apache.org/log4j/2.0/config&#34; xmlns:xsi=&#34;http://www.w3.org/2001/XMLSchema-instance&#34; xsi:schemaLocation=&#34;http://logging.apache.org/log4j/2.0/config https://raw.githubusercontent.com/apache/logging-log4j2/main/log4j-core/src/main/resources/Log4j-config.xsd&#34;&gt; &lt;Properties&gt; &lt;Property name=&#34;baseDir&#34;&gt;logs&lt;/Property&gt; &lt;/Properties&gt; &lt;Appenders&gt; &lt;Console name=&#34;Console&#34; target=&#34;SYSTEM_OUT&#34;&gt; &lt;PatternLayout pattern=&#34;%d{yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ} %highlight{%-5level}[%style{$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}}{blue}][%style{%t}{bright,blue}] %style{%C}{bright,yellow}: %m%n&#34;/&gt; &lt;/Console&gt; &lt;RollingFile name=&#34;ApplicationLog&#34; fileName=&#34;${baseDir}/app.log&#34; filePattern=&#34;${baseDir}/$${date:yyyy-MM}/app-%d{yyyyMMdd-hhmmss}.log.gz&#34;&gt; &lt;PatternLayout pattern=&#34;%d{yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ} %-5level[$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}][%t] %C: %m%n&#34;/&gt; &lt;Policies&gt;&lt;!-- Policiesは必須。 ローテーションポリシー --&gt; &lt;OnStartupTriggeringPolicy /&gt; &lt;!"><meta itemprop="datePublished" content="2023-06-23T20:00:00+09:00" />
+<meta itemprop="dateModified" content="2023-06-23T20:00:00+09:00" />
+<meta itemprop="wordCount" content="166"><meta itemprop="image" content="https://pages.shibadog.net/eye_catch.png">
+<meta itemprop="keywords" content="java,spring,spring boot,log4j2," /><meta property="og:title" content="spring boot log4j2のログローテーション" />
+<meta property="og:description" content="目次
+まとめ なんでこんなこと ということで、サンプル こまけぇことはいいから、どうなったん？ ちなみに 参考資料 まとめ log4j2ならば、柔軟なローテション設定ができる 起動時にすでにある場合のローテーション ログ出力サイズによるログローテーション（今回はこれ） 時間によるログローテーション などなど log4j2ならば、ロールオーバーも簡単設定 保持期限によるロールオーバー(今回はこれ) なんでこんなこと オンプレミスでのアプリケーションではログはローカルのディスクに書き込むことになる。（多分それ以外の方法もいっぱいあるんだろうけど、おそらく一番ベターでしょ）
+この場合、バッチやら、logrotateでいい感じにローテートしたり、自動削除などを行うのが割と古くからされてる方法ではあると思うが、最新のログライブラリではその辺カバーすることが出来ると思いお試しをしてみた。
+ということで、サンプル サンプルアプリケーションとしては、spring bootの現時点（2023/06/25）での最新である、 3.1.1 を利用して、標準であるlogbackからlog4j2に変更した状態とした。
+処理内容は、一定間隔でログを出し続けるコマンドラインアプリケーション。（つまり、何にもしないし、Webでさえない）
+ソースはここ
+こまけぇことはいいから、どうなったん？ 今回目指したのは、ログを容量によってローテーションして、一定期間でロールオーバーする状況。
+つまり、ログを別の機構で バックアップ or ログ基盤への転送 をする想定で、一定容量のみローカルには保持するような状態とした。
+（バックアップさえできれば無運用）
+手元で試すため、時間や容量は小さい状態で試している。
+ちゃんと、一定のログ容量でローテーション＆ロールオーバーがなされていることを確認した。
+以下log4j2のconfig。
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;Configuration strict=&#34;true&#34; xmlns=&#34;http://logging.apache.org/log4j/2.0/config&#34; xmlns:xsi=&#34;http://www.w3.org/2001/XMLSchema-instance&#34; xsi:schemaLocation=&#34;http://logging.apache.org/log4j/2.0/config https://raw.githubusercontent.com/apache/logging-log4j2/main/log4j-core/src/main/resources/Log4j-config.xsd&#34;&gt; &lt;Properties&gt; &lt;Property name=&#34;baseDir&#34;&gt;logs&lt;/Property&gt; &lt;/Properties&gt; &lt;Appenders&gt; &lt;Console name=&#34;Console&#34; target=&#34;SYSTEM_OUT&#34;&gt; &lt;PatternLayout pattern=&#34;%d{yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ} %highlight{%-5level}[%style{$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}}{blue}][%style{%t}{bright,blue}] %style{%C}{bright,yellow}: %m%n&#34;/&gt; &lt;/Console&gt; &lt;RollingFile name=&#34;ApplicationLog&#34; fileName=&#34;${baseDir}/app.log&#34; filePattern=&#34;${baseDir}/$${date:yyyy-MM}/app-%d{yyyyMMdd-hhmmss}.log.gz&#34;&gt; &lt;PatternLayout pattern=&#34;%d{yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ} %-5level[$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}][%t] %C: %m%n&#34;/&gt; &lt;Policies&gt;&lt;!-- Policiesは必須。 ローテーションポリシー --&gt; &lt;OnStartupTriggeringPolicy /&gt; &lt;!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://pages.shibadog.net/posts/016_log4j2_rotate/" /><meta property="og:image" content="https://pages.shibadog.net/eye_catch.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-06-23T20:00:00+09:00" />
+<meta property="article:modified_time" content="2023-06-23T20:00:00+09:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://pages.shibadog.net/eye_catch.png"/>
+
+<meta name="twitter:title" content="spring boot log4j2のログローテーション"/>
+<meta name="twitter:description" content="目次
+まとめ なんでこんなこと ということで、サンプル こまけぇことはいいから、どうなったん？ ちなみに 参考資料 まとめ log4j2ならば、柔軟なローテション設定ができる 起動時にすでにある場合のローテーション ログ出力サイズによるログローテーション（今回はこれ） 時間によるログローテーション などなど log4j2ならば、ロールオーバーも簡単設定 保持期限によるロールオーバー(今回はこれ) なんでこんなこと オンプレミスでのアプリケーションではログはローカルのディスクに書き込むことになる。（多分それ以外の方法もいっぱいあるんだろうけど、おそらく一番ベターでしょ）
+この場合、バッチやら、logrotateでいい感じにローテートしたり、自動削除などを行うのが割と古くからされてる方法ではあると思うが、最新のログライブラリではその辺カバーすることが出来ると思いお試しをしてみた。
+ということで、サンプル サンプルアプリケーションとしては、spring bootの現時点（2023/06/25）での最新である、 3.1.1 を利用して、標準であるlogbackからlog4j2に変更した状態とした。
+処理内容は、一定間隔でログを出し続けるコマンドラインアプリケーション。（つまり、何にもしないし、Webでさえない）
+ソースはここ
+こまけぇことはいいから、どうなったん？ 今回目指したのは、ログを容量によってローテーションして、一定期間でロールオーバーする状況。
+つまり、ログを別の機構で バックアップ or ログ基盤への転送 をする想定で、一定容量のみローカルには保持するような状態とした。
+（バックアップさえできれば無運用）
+手元で試すため、時間や容量は小さい状態で試している。
+ちゃんと、一定のログ容量でローテーション＆ロールオーバーがなされていることを確認した。
+以下log4j2のconfig。
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;Configuration strict=&#34;true&#34; xmlns=&#34;http://logging.apache.org/log4j/2.0/config&#34; xmlns:xsi=&#34;http://www.w3.org/2001/XMLSchema-instance&#34; xsi:schemaLocation=&#34;http://logging.apache.org/log4j/2.0/config https://raw.githubusercontent.com/apache/logging-log4j2/main/log4j-core/src/main/resources/Log4j-config.xsd&#34;&gt; &lt;Properties&gt; &lt;Property name=&#34;baseDir&#34;&gt;logs&lt;/Property&gt; &lt;/Properties&gt; &lt;Appenders&gt; &lt;Console name=&#34;Console&#34; target=&#34;SYSTEM_OUT&#34;&gt; &lt;PatternLayout pattern=&#34;%d{yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ} %highlight{%-5level}[%style{$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}}{blue}][%style{%t}{bright,blue}] %style{%C}{bright,yellow}: %m%n&#34;/&gt; &lt;/Console&gt; &lt;RollingFile name=&#34;ApplicationLog&#34; fileName=&#34;${baseDir}/app.log&#34; filePattern=&#34;${baseDir}/$${date:yyyy-MM}/app-%d{yyyyMMdd-hhmmss}.log.gz&#34;&gt; &lt;PatternLayout pattern=&#34;%d{yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ} %-5level[$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}][%t] %C: %m%n&#34;/&gt; &lt;Policies&gt;&lt;!-- Policiesは必須。 ローテーションポリシー --&gt; &lt;OnStartupTriggeringPolicy /&gt; &lt;!"/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>spring boot log4j2のログローテーション</title>
+	<link rel="stylesheet" href="https://pages.shibadog.net/css/style.min.eac77496566fd7d5768fd650ddb0b2b181ca6a2d7c5fdd6fe6b8ba4bf47e566f.css" integrity="sha256-6sd0llZv19V2j9ZQ3bCysYHKai18X91v5ri6S/R+Vm8=" crossorigin="anonymous">
+	<style>.bg-img {background-image: url('https://pages.shibadog.net/eye_catch.png');}</style>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1EGC7KVL3W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1EGC7KVL3W');
+</script>
+
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://pages.shibadog.net/">shibadog site</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://pages.shibadog.net/posts/">Posts</a>
+				<a href="https://pages.shibadog.net/about-hugo/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<button id="img-btn" class="hdr-btn" title="Featured Image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg></button><button id="toc-btn" class="hdr-btn desktop-only-ib" title="Table of Contents"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg></button><span class="hdr-social hide-in-mobile"><a href="https://twitter.com/shiba_dog" target="_blank" rel="noopener me" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://github.com/shibadog" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://pages.shibadog.net/posts/">Posts</a></li>
+			<li><a href="https://pages.shibadog.net/about-hugo/">About</a></li>
+		</ul>
+	</div>
+
+
+	<div class="bg-img"></div>
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>Jun 23, 2023</span></div>
+				<h1>spring boot log4j2のログローテーション</h1>
+			</header>
+			<div class="content">
+				<p>目次</p>
+<ul>
+<li><a href="#%E3%81%BE%E3%81%A8%E3%82%81">まとめ</a></li>
+<li><a href="#%E3%81%AA%E3%82%93%E3%81%A7%E3%81%93%E3%82%93%E3%81%AA%E3%81%93%E3%81%A8">なんでこんなこと</a></li>
+<li><a href="#%E3%81%A8%E3%81%84%E3%81%86%E3%81%93%E3%81%A8%E3%81%A7%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB">ということで、サンプル</a></li>
+<li><a href="#%E3%81%93%E3%81%BE%E3%81%91%E3%81%87%E3%81%93%E3%81%A8%E3%81%AF%E3%81%84%E3%81%84%E3%81%8B%E3%82%89%E3%81%A9%E3%81%86%E3%81%AA%E3%81%A3%E3%81%9F%E3%82%93">こまけぇことはいいから、どうなったん？</a></li>
+<li><a href="#%E3%81%A1%E3%81%AA%E3%81%BF%E3%81%AB">ちなみに</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">参考資料</a></li>
+</ul>
+<h2 id="まとめ">まとめ<a href="#まとめ" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<ul>
+<li>log4j2ならば、柔軟なローテション設定ができる
+<ul>
+<li>起動時にすでにある場合のローテーション</li>
+<li>ログ出力サイズによるログローテーション（今回はこれ）</li>
+<li>時間によるログローテーション</li>
+<li>などなど</li>
+</ul>
+</li>
+<li>log4j2ならば、ロールオーバーも簡単設定
+<ul>
+<li>保持期限によるロールオーバー(今回はこれ)</li>
+</ul>
+</li>
+</ul>
+<h2 id="なんでこんなこと">なんでこんなこと<a href="#なんでこんなこと" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>オンプレミスでのアプリケーションではログはローカルのディスクに書き込むことになる。（多分それ以外の方法もいっぱいあるんだろうけど、おそらく一番ベターでしょ）<br>
+この場合、バッチやら、logrotateでいい感じにローテートしたり、自動削除などを行うのが割と古くからされてる方法ではあると思うが、最新のログライブラリではその辺カバーすることが出来ると思いお試しをしてみた。</p>
+<h2 id="ということでサンプル">ということで、サンプル<a href="#ということでサンプル" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>サンプルアプリケーションとしては、spring bootの現時点（2023/06/25）での最新である、 3.1.1 を利用して、標準であるlogbackからlog4j2に変更した状態とした。</p>
+<p>処理内容は、一定間隔でログを出し続けるコマンドラインアプリケーション。（つまり、何にもしないし、Webでさえない）</p>
+<p>ソースは<a href="https://github.com/shibadog/sample-log4j2-logrotate">ここ</a></p>
+<h2 id="こまけぇことはいいからどうなったん">こまけぇことはいいから、どうなったん？<a href="#こまけぇことはいいからどうなったん" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>今回目指したのは、ログを容量によってローテーションして、一定期間でロールオーバーする状況。</p>
+<p>つまり、ログを別の機構で <code>バックアップ or ログ基盤への転送</code> をする想定で、一定容量のみローカルには保持するような状態とした。<br>
+（バックアップさえできれば無運用）</p>
+<p>手元で試すため、時間や容量は小さい状態で試している。</p>
+<p><img src="./result.gif" alt="結果"></p>
+<p>ちゃんと、一定のログ容量でローテーション＆ロールオーバーがなされていることを確認した。</p>
+<p>以下log4j2のconfig。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;Configuration</span> <span style="color:#a6e22e">strict=</span><span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://logging.apache.org/log4j/2.0/config&#34;</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#a6e22e">xsi:schemaLocation=</span><span style="color:#e6db74">&#34;http://logging.apache.org/log4j/2.0/config 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">           https://raw.githubusercontent.com/apache/logging-log4j2/main/log4j-core/src/main/resources/Log4j-config.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Properties&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;baseDir&#34;</span><span style="color:#f92672">&gt;</span>logs<span style="color:#f92672">&lt;/Property&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/Properties&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Appenders&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Console</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Console&#34;</span> <span style="color:#a6e22e">target=</span><span style="color:#e6db74">&#34;SYSTEM_OUT&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;PatternLayout</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">pattern=</span><span style="color:#e6db74">&#34;%d{yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ} %highlight{%-5level}[%style{$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}}{blue}][%style{%t}{bright,blue}] %style{%C}{bright,yellow}: %m%n&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/Console&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;RollingFile</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ApplicationLog&#34;</span> <span style="color:#a6e22e">fileName=</span><span style="color:#e6db74">&#34;${baseDir}/app.log&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">filePattern=</span><span style="color:#e6db74">&#34;${baseDir}/$${date:yyyy-MM}/app-%d{yyyyMMdd-hhmmss}.log.gz&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;PatternLayout</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">pattern=</span><span style="color:#e6db74">&#34;%d{yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ} %-5level[$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}][%t] %C: %m%n&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;Policies&gt;</span><span style="color:#75715e">&lt;!-- Policiesは必須。 ローテーションポリシー --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;OnStartupTriggeringPolicy</span> <span style="color:#f92672">/&gt;</span> <span style="color:#75715e">&lt;!-- 起動時にすでにログがあったら退避する --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;SizeBasedTriggeringPolicy</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;1 KB&#34;</span> <span style="color:#f92672">/&gt;</span> <span style="color:#75715e">&lt;!-- 指定容量に達した場合にローテーションする --&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/Policies&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">&lt;!-- &lt;DefaultRolloverStrategy max=&#34;20&#34;/&gt; シンプルに最大保持数で指定することも可能。--&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;DefaultRolloverStrategy&gt;</span><span style="color:#75715e">&lt;!-- 削除条件 --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;Delete</span> <span style="color:#a6e22e">basePath=</span><span style="color:#e6db74">&#34;${baseDir}&#34;</span> <span style="color:#a6e22e">maxDepth=</span><span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">&gt;</span> <span style="color:#75715e">&lt;!-- maxDepthはbasePath配下のフォルダをどこまでたどるかの深度 --&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;IfFileName</span> <span style="color:#a6e22e">glob=</span><span style="color:#e6db74">&#34;*/app-*.log.gz&#34;</span> <span style="color:#f92672">/&gt;</span> <span style="color:#75715e">&lt;!-- 削除対象のファイル名フォーマット定義。正規表現でも指定可能 --&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;IFLastModified</span> <span style="color:#a6e22e">age=</span><span style="color:#e6db74">&#34;P1M&#34;</span> <span style="color:#f92672">/&gt;</span> <span style="color:#75715e">&lt;!-- この時間を過ぎたら削除する。形式はISO 8601 --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/Delete&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/DefaultRolloverStrategy&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/RollingFile&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/Appenders&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Loggers&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Root</span> <span style="color:#a6e22e">level=</span><span style="color:#e6db74">&#34;info&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;AppenderRef</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;Console&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;AppenderRef</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;ApplicationLog&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/Root&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/Loggers&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/Configuration&gt;</span>
+</span></span></code></pre></div><h2 id="ちなみに">ちなみに<a href="#ちなみに" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>ログロールオーバーの方の時間設定に関しては、 ISO 8601 を利用して設定するらしい。</p>
+<p>ちょっと特殊なので気を付けたし。（頭にPがついているのはそういうものらしい。あとは、まぁ、ね）</p>
+<h2 id="参考資料">参考資料<a href="#参考資料" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<ul>
+<li><a href="https://qiita.com/ss_koishi/items/407679d74e56ed800a37">log4j2でログローテートがしたかっただけなんだ - Qiita</a></li>
+<li><a href="https://logging.apache.org/log4j/2.x/manual/appenders.html#RollingFileAppender">RollingFileAppender - Log4j – Log4j 2 Appenders</a></li>
+<li><a href="https://logging.apache.org/log4j/2.x/manual/appenders.html#log-archive-retention-policy-delete-on-rollover">Log Archive Retention Policy: Delete on Rollover - Log4j – Log4j 2 Appenders</a></li>
+<li><a href="https://qiita.com/kazokmr/items/7d8323cd2033b233c261">Spring Boot でロギングライブラリをLog4j2にする - Qiita</a></li>
+<li><a href="https://en.wikipedia.org/wiki/ISO_8601#Durations">ISO 8601 Durations - Wikipedia</a></li>
+</ul>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pages.shibadog.net/tags/java">java</a></span><span class="tag"><a href="https://pages.shibadog.net/tags/spring">spring</a></span><span class="tag"><a href="https://pages.shibadog.net/tags/spring-boot">spring boot</a></span><span class="tag"><a href="https://pages.shibadog.net/tags/log4j2">log4j2</a></span>
+				</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>166 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2023-06-23T11:00:00&#43;0000</p>
+			</footer>
+		</article>
+		<aside id="toc">
+			<div class="toc-title">Table of Contents</div>
+			<nav id="TableOfContents">
+  <ul>
+    <li><a href="#まとめ">まとめ</a></li>
+    <li><a href="#なんでこんなこと">なんでこんなこと</a></li>
+    <li><a href="#ということでサンプル">ということで、サンプル</a></li>
+    <li><a href="#こまけぇことはいいからどうなったん">こまけぇことはいいから、どうなったん？</a></li>
+    <li><a href="#ちなみに">ちなみに</a></li>
+    <li><a href="#参考資料">参考資料</a></li>
+  </ul>
+</nav>
+		</aside>
+		<div class="post-nav thin">
+			<a class="prev-post" href="https://pages.shibadog.net/posts/008_survery_results/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>spring boot 3 trace</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+    <p>&copy; 2023 <a href="https://pages.shibadog.net/">shibadog</a></p>
+    <p>
+        Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://pages.shibadog.net/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+    </p>
+</footer>
+<script src="/asset/mermaid/mermaid.js"></script>
+
+
+
+	<script src="https://pages.shibadog.net/js/bundle.min.580988ed2982bcbb74a1773c7abea97b43e4c43b9324e10cda0813ec6ec4bb67.js" integrity="sha256-WAmI7SmCvLt0oXc8er6pe0PkxDuTJOEM2ggT7G7Eu2c=" crossorigin="anonymous"></script>
+	
+
+</body>
+
+</html>

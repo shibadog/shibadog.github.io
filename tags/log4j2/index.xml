@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>log4j2 on shibadog site</title>
+    <link>https://pages.shibadog.net/tags/log4j2/</link>
+    <description>Recent content in log4j2 on shibadog site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Fri, 23 Jun 2023 20:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/log4j2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>spring boot log4j2のログローテーション</title>
+      <link>https://pages.shibadog.net/posts/016_log4j2_rotate/</link>
+      <pubDate>Fri, 23 Jun 2023 20:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/016_log4j2_rotate/</guid>
+      <description>目次
+まとめ なんでこんなこと ということで、サンプル こまけぇことはいいから、どうなったん？ ちなみに 参考資料 まとめ log4j2ならば、柔軟なローテション設定ができる 起動時にすでにある場合のローテーション ログ出力サイズによるログローテーション（今回はこれ） 時間によるログローテーション などなど log4j2ならば、ロールオーバーも簡単設定 保持期限によるロールオーバー(今回はこれ) なんでこんなこと オンプレミスでのアプリケーションではログはローカルのディスクに書き込むことになる。（多分それ以外の方法もいっぱいあるんだろうけど、おそらく一番ベターでしょ）
+この場合、バッチやら、logrotateでいい感じにローテートしたり、自動削除などを行うのが割と古くからされてる方法ではあると思うが、最新のログライブラリではその辺カバーすることが出来ると思いお試しをしてみた。
+ということで、サンプル サンプルアプリケーションとしては、spring bootの現時点（2023/06/25）での最新である、 3.1.1 を利用して、標準であるlogbackからlog4j2に変更した状態とした。
+処理内容は、一定間隔でログを出し続けるコマンドラインアプリケーション。（つまり、何にもしないし、Webでさえない）
+ソースはここ
+こまけぇことはいいから、どうなったん？ 今回目指したのは、ログを容量によってローテーションして、一定期間でロールオーバーする状況。
+つまり、ログを別の機構で バックアップ or ログ基盤への転送 をする想定で、一定容量のみローカルには保持するような状態とした。
+（バックアップさえできれば無運用）
+手元で試すため、時間や容量は小さい状態で試している。
+ちゃんと、一定のログ容量でローテーション＆ロールオーバーがなされていることを確認した。
+以下log4j2のconfig。
+&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;Configuration strict=&amp;#34;true&amp;#34; xmlns=&amp;#34;http://logging.apache.org/log4j/2.0/config&amp;#34; xmlns:xsi=&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34; xsi:schemaLocation=&amp;#34;http://logging.apache.org/log4j/2.0/config https://raw.githubusercontent.com/apache/logging-log4j2/main/log4j-core/src/main/resources/Log4j-config.xsd&amp;#34;&amp;gt; &amp;lt;Properties&amp;gt; &amp;lt;Property name=&amp;#34;baseDir&amp;#34;&amp;gt;logs&amp;lt;/Property&amp;gt; &amp;lt;/Properties&amp;gt; &amp;lt;Appenders&amp;gt; &amp;lt;Console name=&amp;#34;Console&amp;#34; target=&amp;#34;SYSTEM_OUT&amp;#34;&amp;gt; &amp;lt;PatternLayout pattern=&amp;#34;%d{yyyy-MM-dd&amp;#39;T&amp;#39;HH:mm:ss.SSSZ} %highlight{%-5level}[%style{$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}}{blue}][%style{%t}{bright,blue}] %style{%C}{bright,yellow}: %m%n&amp;#34;/&amp;gt; &amp;lt;/Console&amp;gt; &amp;lt;RollingFile name=&amp;#34;ApplicationLog&amp;#34; fileName=&amp;#34;${baseDir}/app.log&amp;#34; filePattern=&amp;#34;${baseDir}/$${date:yyyy-MM}/app-%d{yyyyMMdd-hhmmss}.log.gz&amp;#34;&amp;gt; &amp;lt;PatternLayout pattern=&amp;#34;%d{yyyy-MM-dd&amp;#39;T&amp;#39;HH:mm:ss.SSSZ} %-5level[$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}][%t] %C: %m%n&amp;#34;/&amp;gt; &amp;lt;Policies&amp;gt;&amp;lt;!-- Policiesは必須。 ローテーションポリシー --&amp;gt; &amp;lt;OnStartupTriggeringPolicy /&amp;gt; &amp;lt;!</description>
+    </item>
+    
+  </channel>
+</rss>

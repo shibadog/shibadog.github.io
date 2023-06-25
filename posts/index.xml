@@ -5,8 +5,119 @@
 		<description>Recent content in Posts on shibadog site</description>
 		<generator>Hugo -- gohugo.io</generator>
 		<language>ja-jp</language>
-		<lastBuildDate>Wed, 17 May 2023 00:00:00 +0900</lastBuildDate>
+		<lastBuildDate>Fri, 23 Jun 2023 20:00:00 +0900</lastBuildDate>
 		<atom:link href="https://pages.shibadog.net/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>spring boot log4j2のログローテーション</title>
+			<link>https://pages.shibadog.net/posts/016_log4j2_rotate/</link>
+			<pubDate>Fri, 23 Jun 2023 20:00:00 +0900</pubDate>
+			
+			<guid>https://pages.shibadog.net/posts/016_log4j2_rotate/</guid>
+			<description>目次
+まとめ なんでこんなこと ということで、サンプル こまけぇことはいいから、どうなったん？ ちなみに 参考資料 まとめ log4j2ならば、柔軟なローテション設定ができる 起動時にすでにある場合のローテーション ログ出力サイズによるログローテーション（今回はこれ） 時間によるログローテーション などなど log4j2ならば、ロールオーバーも簡単設定 保持期限によるロールオーバー(今回はこれ) なんでこんなこと オンプレミスでのアプリケーションではログはローカルのディスクに書き込むことになる。（多分それ以外の方法もいっぱいあるんだろうけど、おそらく一番ベターでしょ）
+この場合、バッチやら、logrotateでいい感じにローテートしたり、自動削除などを行うのが割と古くからされてる方法ではあると思うが、最新のログライブラリではその辺カバーすることが出来ると思いお試しをしてみた。
+ということで、サンプル サンプルアプリケーションとしては、spring bootの現時点（2023/06/25）での最新である、 3.1.1 を利用して、標準であるlogbackからlog4j2に変更した状態とした。
+処理内容は、一定間隔でログを出し続けるコマンドラインアプリケーション。（つまり、何にもしないし、Webでさえない）
+ソースはここ
+こまけぇことはいいから、どうなったん？ 今回目指したのは、ログを容量によってローテーションして、一定期間でロールオーバーする状況。
+つまり、ログを別の機構で バックアップ or ログ基盤への転送 をする想定で、一定容量のみローカルには保持するような状態とした。
+（バックアップさえできれば無運用）
+手元で試すため、時間や容量は小さい状態で試している。
+ちゃんと、一定のログ容量でローテーション＆ロールオーバーがなされていることを確認した。
+以下log4j2のconfig。
+&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;Configuration strict=&amp;#34;true&amp;#34; xmlns=&amp;#34;http://logging.apache.org/log4j/2.0/config&amp;#34; xmlns:xsi=&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34; xsi:schemaLocation=&amp;#34;http://logging.apache.org/log4j/2.0/config https://raw.githubusercontent.com/apache/logging-log4j2/main/log4j-core/src/main/resources/Log4j-config.xsd&amp;#34;&amp;gt; &amp;lt;Properties&amp;gt; &amp;lt;Property name=&amp;#34;baseDir&amp;#34;&amp;gt;logs&amp;lt;/Property&amp;gt; &amp;lt;/Properties&amp;gt; &amp;lt;Appenders&amp;gt; &amp;lt;Console name=&amp;#34;Console&amp;#34; target=&amp;#34;SYSTEM_OUT&amp;#34;&amp;gt; &amp;lt;PatternLayout pattern=&amp;#34;%d{yyyy-MM-dd&amp;#39;T&amp;#39;HH:mm:ss.SSSZ} %highlight{%-5level}[%style{$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}}{blue}][%style{%t}{bright,blue}] %style{%C}{bright,yellow}: %m%n&amp;#34;/&amp;gt; &amp;lt;/Console&amp;gt; &amp;lt;RollingFile name=&amp;#34;ApplicationLog&amp;#34; fileName=&amp;#34;${baseDir}/app.log&amp;#34; filePattern=&amp;#34;${baseDir}/$${date:yyyy-MM}/app-%d{yyyyMMdd-hhmmss}.log.gz&amp;#34;&amp;gt; &amp;lt;PatternLayout pattern=&amp;#34;%d{yyyy-MM-dd&amp;#39;T&amp;#39;HH:mm:ss.SSSZ} %-5level[$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}][%t] %C: %m%n&amp;#34;/&amp;gt; &amp;lt;Policies&amp;gt;&amp;lt;!-- Policiesは必須。 ローテーションポリシー --&amp;gt; &amp;lt;OnStartupTriggeringPolicy /&amp;gt; &amp;lt;!</description>
+			<content type="html"><![CDATA[<p>目次</p>
+<ul>
+<li><a href="#%E3%81%BE%E3%81%A8%E3%82%81">まとめ</a></li>
+<li><a href="#%E3%81%AA%E3%82%93%E3%81%A7%E3%81%93%E3%82%93%E3%81%AA%E3%81%93%E3%81%A8">なんでこんなこと</a></li>
+<li><a href="#%E3%81%A8%E3%81%84%E3%81%86%E3%81%93%E3%81%A8%E3%81%A7%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB">ということで、サンプル</a></li>
+<li><a href="#%E3%81%93%E3%81%BE%E3%81%91%E3%81%87%E3%81%93%E3%81%A8%E3%81%AF%E3%81%84%E3%81%84%E3%81%8B%E3%82%89%E3%81%A9%E3%81%86%E3%81%AA%E3%81%A3%E3%81%9F%E3%82%93">こまけぇことはいいから、どうなったん？</a></li>
+<li><a href="#%E3%81%A1%E3%81%AA%E3%81%BF%E3%81%AB">ちなみに</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">参考資料</a></li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<ul>
+<li>log4j2ならば、柔軟なローテション設定ができる
+<ul>
+<li>起動時にすでにある場合のローテーション</li>
+<li>ログ出力サイズによるログローテーション（今回はこれ）</li>
+<li>時間によるログローテーション</li>
+<li>などなど</li>
+</ul>
+</li>
+<li>log4j2ならば、ロールオーバーも簡単設定
+<ul>
+<li>保持期限によるロールオーバー(今回はこれ)</li>
+</ul>
+</li>
+</ul>
+<h2 id="なんでこんなこと">なんでこんなこと</h2>
+<p>オンプレミスでのアプリケーションではログはローカルのディスクに書き込むことになる。（多分それ以外の方法もいっぱいあるんだろうけど、おそらく一番ベターでしょ）<br>
+この場合、バッチやら、logrotateでいい感じにローテートしたり、自動削除などを行うのが割と古くからされてる方法ではあると思うが、最新のログライブラリではその辺カバーすることが出来ると思いお試しをしてみた。</p>
+<h2 id="ということでサンプル">ということで、サンプル</h2>
+<p>サンプルアプリケーションとしては、spring bootの現時点（2023/06/25）での最新である、 3.1.1 を利用して、標準であるlogbackからlog4j2に変更した状態とした。</p>
+<p>処理内容は、一定間隔でログを出し続けるコマンドラインアプリケーション。（つまり、何にもしないし、Webでさえない）</p>
+<p>ソースは<a href="https://github.com/shibadog/sample-log4j2-logrotate">ここ</a></p>
+<h2 id="こまけぇことはいいからどうなったん">こまけぇことはいいから、どうなったん？</h2>
+<p>今回目指したのは、ログを容量によってローテーションして、一定期間でロールオーバーする状況。</p>
+<p>つまり、ログを別の機構で <code>バックアップ or ログ基盤への転送</code> をする想定で、一定容量のみローカルには保持するような状態とした。<br>
+（バックアップさえできれば無運用）</p>
+<p>手元で試すため、時間や容量は小さい状態で試している。</p>
+<p><img src="./result.gif" alt="結果"></p>
+<p>ちゃんと、一定のログ容量でローテーション＆ロールオーバーがなされていることを確認した。</p>
+<p>以下log4j2のconfig。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;Configuration</span> <span style="color:#a6e22e">strict=</span><span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://logging.apache.org/log4j/2.0/config&#34;</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#a6e22e">xsi:schemaLocation=</span><span style="color:#e6db74">&#34;http://logging.apache.org/log4j/2.0/config 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">           https://raw.githubusercontent.com/apache/logging-log4j2/main/log4j-core/src/main/resources/Log4j-config.xsd&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Properties&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;baseDir&#34;</span><span style="color:#f92672">&gt;</span>logs<span style="color:#f92672">&lt;/Property&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/Properties&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Appenders&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Console</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Console&#34;</span> <span style="color:#a6e22e">target=</span><span style="color:#e6db74">&#34;SYSTEM_OUT&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;PatternLayout</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">pattern=</span><span style="color:#e6db74">&#34;%d{yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ} %highlight{%-5level}[%style{$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}}{blue}][%style{%t}{bright,blue}] %style{%C}{bright,yellow}: %m%n&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/Console&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;RollingFile</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;ApplicationLog&#34;</span> <span style="color:#a6e22e">fileName=</span><span style="color:#e6db74">&#34;${baseDir}/app.log&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">filePattern=</span><span style="color:#e6db74">&#34;${baseDir}/$${date:yyyy-MM}/app-%d{yyyyMMdd-hhmmss}.log.gz&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;PatternLayout</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">pattern=</span><span style="color:#e6db74">&#34;%d{yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ} %-5level[$${spring:spring.application.name},%X{traceId},%X{spanId},%X{sampled}][%t] %C: %m%n&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;Policies&gt;</span><span style="color:#75715e">&lt;!-- Policiesは必須。 ローテーションポリシー --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;OnStartupTriggeringPolicy</span> <span style="color:#f92672">/&gt;</span> <span style="color:#75715e">&lt;!-- 起動時にすでにログがあったら退避する --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;SizeBasedTriggeringPolicy</span> <span style="color:#a6e22e">size=</span><span style="color:#e6db74">&#34;1 KB&#34;</span> <span style="color:#f92672">/&gt;</span> <span style="color:#75715e">&lt;!-- 指定容量に達した場合にローテーションする --&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/Policies&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">&lt;!-- &lt;DefaultRolloverStrategy max=&#34;20&#34;/&gt; シンプルに最大保持数で指定することも可能。--&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;DefaultRolloverStrategy&gt;</span><span style="color:#75715e">&lt;!-- 削除条件 --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;Delete</span> <span style="color:#a6e22e">basePath=</span><span style="color:#e6db74">&#34;${baseDir}&#34;</span> <span style="color:#a6e22e">maxDepth=</span><span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">&gt;</span> <span style="color:#75715e">&lt;!-- maxDepthはbasePath配下のフォルダをどこまでたどるかの深度 --&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;IfFileName</span> <span style="color:#a6e22e">glob=</span><span style="color:#e6db74">&#34;*/app-*.log.gz&#34;</span> <span style="color:#f92672">/&gt;</span> <span style="color:#75715e">&lt;!-- 削除対象のファイル名フォーマット定義。正規表現でも指定可能 --&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;IFLastModified</span> <span style="color:#a6e22e">age=</span><span style="color:#e6db74">&#34;P1M&#34;</span> <span style="color:#f92672">/&gt;</span> <span style="color:#75715e">&lt;!-- この時間を過ぎたら削除する。形式はISO 8601 --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/Delete&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/DefaultRolloverStrategy&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/RollingFile&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/Appenders&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Loggers&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Root</span> <span style="color:#a6e22e">level=</span><span style="color:#e6db74">&#34;info&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;AppenderRef</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;Console&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;AppenderRef</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;ApplicationLog&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/Root&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/Loggers&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/Configuration&gt;</span>
+</span></span></code></pre></div><h2 id="ちなみに">ちなみに</h2>
+<p>ログロールオーバーの方の時間設定に関しては、 ISO 8601 を利用して設定するらしい。</p>
+<p>ちょっと特殊なので気を付けたし。（頭にPがついているのはそういうものらしい。あとは、まぁ、ね）</p>
+<h2 id="参考資料">参考資料</h2>
+<ul>
+<li><a href="https://qiita.com/ss_koishi/items/407679d74e56ed800a37">log4j2でログローテートがしたかっただけなんだ - Qiita</a></li>
+<li><a href="https://logging.apache.org/log4j/2.x/manual/appenders.html#RollingFileAppender">RollingFileAppender - Log4j – Log4j 2 Appenders</a></li>
+<li><a href="https://logging.apache.org/log4j/2.x/manual/appenders.html#log-archive-retention-policy-delete-on-rollover">Log Archive Retention Policy: Delete on Rollover - Log4j – Log4j 2 Appenders</a></li>
+<li><a href="https://qiita.com/kazokmr/items/7d8323cd2033b233c261">Spring Boot でロギングライブラリをLog4j2にする - Qiita</a></li>
+<li><a href="https://en.wikipedia.org/wiki/ISO_8601#Durations">ISO 8601 Durations - Wikipedia</a></li>
+</ul>
+]]></content>
+		</item>
 		
 		<item>
 			<title>spring boot 3 trace</title>

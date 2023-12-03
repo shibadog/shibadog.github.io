@@ -131,6 +131,8 @@
     <loc>https://pages.shibadog.net/about-hugo/</loc>
     <lastmod>2019-10-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://pages.shibadog.net/categories/</loc>
+    <loc>https://pages.shibadog.net/blog/</loc>
+  </url><url>
+    <loc>https://pages.shibadog.net/series/</loc>
   </url>
 </urlset>

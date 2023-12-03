@@ -6,29 +6,7 @@
     <description>Recent content in spring on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Sun, 03 Dec 2023 11:34:51 +0000</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/spring/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>fly.ioへspring bootアプリケーションをデプロイする</title>
-      <link>https://pages.shibadog.net/posts/017_fly.io2spring-boot-01/</link>
-      <pubDate>Sun, 03 Dec 2023 11:34:51 +0000</pubDate>
-      
-      <guid>https://pages.shibadog.net/posts/017_fly.io2spring-boot-01/</guid>
-      <description>何がしたかったのか？ 今回は、子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみたので、これを良い感じに転がす場所を探した結果 fly.io というサービスにデプロイしてみた、というもの。
-fly.ioとは fly.io
-herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ。
-このfly.ioは、herokuと同様にコンテナを起動することでアプリケーションを動作させるため、どんな言語のアプリケーションでも、最終的にはコンテナの中で動作する仕組みとなる。
-公式ドキュメントでも触れられている通り、 Dockerfile によるデプロイが一番プレーンはデプロイ方法となり、標準で対応している言語はソースの自動判定により起動イメージを選択される。
-実は、fly.ioではこの自動判定に含まれないJava（Spring Boot）でのイメージデプロイをpaketo buildpacksを利用してワンタッチで行えるため、この手順を試してみる。
-まずは、ソースを用意する プログラムは、 maine-coonというものを用意した。
-これをクローンして試してみると良い。
-ローカルで起動して、適切に動作するところまで実装をした。
-&amp;gt; ./mvnw spring-boot:run -&amp;gt; http://localhost:8080/ 出来上がったらflyコマンドをインストール flyctlのインストール
-fly.ioはローカルからコマンドでコントロールすることができる。
-このコマンドは2種類存在しており、 fly と flyctl が存在する。
-どう使い分けるのか、正直良くわからない（ぇ
-&amp;gt; curl -L https://fly.io/install.sh | sh % Total % Received % Xferd Average Speed Time Time Time Current Dload Upload Total Spent Left Speed 100 1735 0 1735 0 0 4131 0 --:--:-- --:--:-- --:--:-- 4140 ######################################################################## 100.</description>
-    </item>
-    
+    <lastBuildDate>Fri, 23 Jun 2023 20:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/spring/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>spring boot log4j2のログローテーション</title>
       <link>https://pages.shibadog.net/posts/016_log4j2_rotate/</link>

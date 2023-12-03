@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="robots" content="index, follow">
+<meta name="revisit-after" content="15 days">
+<link rel="author" href="/humans.txt">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+<link rel="shortcut icon" href="/favicon.ico"><meta name="author" content="shibadog">
+
+<meta itemprop="name" content="fly.ioへspring bootアプリケーションをデプロイする">
+<meta itemprop="description" content="何がしたかったのか？ 今回は、子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみたので、これを良い感じに転がす場所を探した結果 fly.io というサービスにデプロイしてみた、というもの。
+fly.ioとは fly.io
+herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ。
+このfly.ioは、herokuと同様にコンテナを起動することでアプリケーションを動作させるため、どんな言語のアプリケーションでも、最終的にはコンテナの中で動作する仕組みとなる。
+公式ドキュメントでも触れられている通り、 Dockerfile によるデプロイが一番プレーンはデプロイ方法となり、標準で対応している言語はソースの自動判定により起動イメージを選択される。
+実は、fly.ioではこの自動判定に含まれないJava（Spring Boot）でのイメージデプロイをpaketo buildpacksを利用してワンタッチで行えるため、この手順を試してみる。
+まずは、ソースを用意する プログラムは、 maine-coonというものを用意した。
+これをクローンして試してみると良い。
+ローカルで起動して、適切に動作するところまで実装をした。
+&gt; ./mvnw spring-boot:run -&gt; http://localhost:8080/ 出来上がったらflyコマンドをインストール flyctlのインストール
+fly.ioはローカルからコマンドでコントロールすることができる。
+このコマンドは2種類存在しており、 fly と flyctl が存在する。
+どう使い分けるのか、正直良くわからない（ぇ
+&gt; curl -L https://fly.io/install.sh | sh % Total % Received % Xferd Average Speed Time Time Time Current Dload Upload Total Spent Left Speed 100 1735 0 1735 0 0 4131 0 --:--:-- --:--:-- --:--:-- 4140 ######################################################################## 100."><meta itemprop="datePublished" content="2023-12-03T11:34:51+00:00" />
+<meta itemprop="dateModified" content="2023-12-03T11:34:51+00:00" />
+<meta itemprop="wordCount" content="247">
+<meta itemprop="keywords" content="java,spring,spring boot,fly.io,buildpacks," /><meta property="og:title" content="fly.ioへspring bootアプリケーションをデプロイする" />
+<meta property="og:description" content="何がしたかったのか？ 今回は、子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみたので、これを良い感じに転がす場所を探した結果 fly.io というサービスにデプロイしてみた、というもの。
+fly.ioとは fly.io
+herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ。
+このfly.ioは、herokuと同様にコンテナを起動することでアプリケーションを動作させるため、どんな言語のアプリケーションでも、最終的にはコンテナの中で動作する仕組みとなる。
+公式ドキュメントでも触れられている通り、 Dockerfile によるデプロイが一番プレーンはデプロイ方法となり、標準で対応している言語はソースの自動判定により起動イメージを選択される。
+実は、fly.ioではこの自動判定に含まれないJava（Spring Boot）でのイメージデプロイをpaketo buildpacksを利用してワンタッチで行えるため、この手順を試してみる。
+まずは、ソースを用意する プログラムは、 maine-coonというものを用意した。
+これをクローンして試してみると良い。
+ローカルで起動して、適切に動作するところまで実装をした。
+&gt; ./mvnw spring-boot:run -&gt; http://localhost:8080/ 出来上がったらflyコマンドをインストール flyctlのインストール
+fly.ioはローカルからコマンドでコントロールすることができる。
+このコマンドは2種類存在しており、 fly と flyctl が存在する。
+どう使い分けるのか、正直良くわからない（ぇ
+&gt; curl -L https://fly.io/install.sh | sh % Total % Received % Xferd Average Speed Time Time Time Current Dload Upload Total Spent Left Speed 100 1735 0 1735 0 0 4131 0 --:--:-- --:--:-- --:--:-- 4140 ######################################################################## 100." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://pages.shibadog.net/posts/017_fly.io2spring-boot-01/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-12-03T11:34:51+00:00" />
+<meta property="article:modified_time" content="2023-12-03T11:34:51+00:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="fly.ioへspring bootアプリケーションをデプロイする"/>
+<meta name="twitter:description" content="何がしたかったのか？ 今回は、子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみたので、これを良い感じに転がす場所を探した結果 fly.io というサービスにデプロイしてみた、というもの。
+fly.ioとは fly.io
+herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ。
+このfly.ioは、herokuと同様にコンテナを起動することでアプリケーションを動作させるため、どんな言語のアプリケーションでも、最終的にはコンテナの中で動作する仕組みとなる。
+公式ドキュメントでも触れられている通り、 Dockerfile によるデプロイが一番プレーンはデプロイ方法となり、標準で対応している言語はソースの自動判定により起動イメージを選択される。
+実は、fly.ioではこの自動判定に含まれないJava（Spring Boot）でのイメージデプロイをpaketo buildpacksを利用してワンタッチで行えるため、この手順を試してみる。
+まずは、ソースを用意する プログラムは、 maine-coonというものを用意した。
+これをクローンして試してみると良い。
+ローカルで起動して、適切に動作するところまで実装をした。
+&gt; ./mvnw spring-boot:run -&gt; http://localhost:8080/ 出来上がったらflyコマンドをインストール flyctlのインストール
+fly.ioはローカルからコマンドでコントロールすることができる。
+このコマンドは2種類存在しており、 fly と flyctl が存在する。
+どう使い分けるのか、正直良くわからない（ぇ
+&gt; curl -L https://fly.io/install.sh | sh % Total % Received % Xferd Average Speed Time Time Time Current Dload Upload Total Spent Left Speed 100 1735 0 1735 0 0 4131 0 --:--:-- --:--:-- --:--:-- 4140 ######################################################################## 100."/>
+<title>fly.ioへspring bootアプリケーションをデプロイする</title>
+<link rel="stylesheet dns-prefetch preconnect preload prefetch" as="style" href="https://pages.shibadog.net/css/style.min.947d16cd3d7efa8ccfabd16e40c0865f392c1588ba2726938f74e7e1593f2ede.css" integrity="sha256-lH0WzT1++ozPq9FuQMCGXzksFYi6JyaTj3Tn4Vk/Lt4=" crossorigin="anonymous">
+	
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1EGC7KVL3W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1EGC7KVL3W');
+</script>
+</head>
+<body id="page">
+	<header id="site-header" class="animated slideInUp">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://pages.shibadog.net/">shibadog site</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+				<a href="https://pages.shibadog.net/posts/">Posts</a>
+				<a href="https://pages.shibadog.net/about-hugo/">About</a>
+</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<button id="toc-btn" class="hdr-btn desktop-only-ib" title=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg></button><span class="hdr-social hide-in-mobile"><a href="https://x.com/shiba_dog" target="_blank" rel="noopener me" title="X"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="st0" d="m21.3 21.1 -11.4 -18.2h-7.2l11.4 18.2zm-18.6 0 7.2 -6.6m4.2 -5 7.2 -6.6"/></svg></a><a href="https://github.com/shibadog" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="share-btn" class="hdr-btn" title=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share-2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></button>
+ 
+<div id="share-links" class="animated fast">
+    
+    
+    
+    
+    <ul>
+        <li>
+            <a href="https://twitter.com/intent/tweet?hashtags=hermit2&amp;url=https%3a%2f%2fpages.shibadog.net%2fposts%2f017_fly.io2spring-boot-01%2f&amp;text=fly.io%e3%81%b8spring%20boot%e3%82%a2%e3%83%97%e3%83%aa%e3%82%b1%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3%e3%82%92%e3%83%87%e3%83%97%e3%83%ad%e3%82%a4%e3%81%99%e3%82%8b" target="_blank" rel="noopener" aria-label="Share on X"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="st0" d="m21.3 21.1 -11.4 -18.2h-7.2l11.4 18.2zm-18.6 0 7.2 -6.6m4.2 -5 7.2 -6.6"/></svg></a>
+        </li>
+        <li>
+            <a href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fpages.shibadog.net%2fposts%2f017_fly.io2spring-boot-01%2f" target="_blank" rel="noopener" aria-label="Share on Facebook"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+        </li>
+        <li>
+            <a href="mailto:?subject=fly.io%e3%81%b8spring%20boot%e3%82%a2%e3%83%97%e3%83%aa%e3%82%b1%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3%e3%82%92%e3%83%87%e3%83%97%e3%83%ad%e3%82%a4%e3%81%99%e3%82%8b&amp;body=https%3a%2f%2fpages.shibadog.net%2fposts%2f017_fly.io2spring-boot-01%2f" target="_self" rel="noopener" aria-label="Share on Email"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
+        </li>
+        <li>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fpages.shibadog.net%2fposts%2f017_fly.io2spring-boot-01%2f&amp;source=https://pages.shibadog.net/&amp;title=fly.io%e3%81%b8spring%20boot%e3%82%a2%e3%83%97%e3%83%aa%e3%82%b1%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3%e3%82%92%e3%83%87%e3%83%97%e3%83%ad%e3%82%a4%e3%81%99%e3%82%8b&amp;summary=fly.io%e3%81%b8spring%20boot%e3%82%a2%e3%83%97%e3%83%aa%e3%82%b1%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3%e3%82%92%e3%83%87%e3%83%97%e3%83%ad%e3%82%a4%e3%81%99%e3%82%8b%2c%20by%20shibadog%0a%0a%3cnil%3e%0a" target="_blank" rel="noopener" aria-label="Share on LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+        </li>
+        <li>
+            <a href="#" onclick="linkShare(&#34;fly.ioへspring bootアプリケーションをデプロイする&#34;,&#34;https://pages.shibadog.net/posts/017_fly.io2spring-boot-01/&#34;,&#34;fly.ioへspring bootアプリケーションをデプロイする, by shibadog\n\n\u003cnil\u003e\n&#34;); return false;" target="_self" rel="noopener" aria-label="Copy Link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></a>
+        </li>
+    </ul>
+</div><button id="menu-btn" class="hdr-btn" title=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://pages.shibadog.net/posts/">Posts</a></li>
+			<li><a href="https://pages.shibadog.net/about-hugo/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster"><article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>Dec 3, 2023</span></div>
+				<h1>fly.ioへspring bootアプリケーションをデプロイする</h1>
+			</header>
+			<div class="post-info"><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-feather"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg><a href="/about-hugo/" target="_blank">shibadog</a></p>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pages.shibadog.net/tags/java">java</a></span><span class="tag"><a href="https://pages.shibadog.net/tags/spring">spring</a></span><span class="tag"><a href="https://pages.shibadog.net/tags/spring-boot">spring boot</a></span><span class="tag"><a href="https://pages.shibadog.net/tags/fly.io">fly.io</a></span><span class="tag"><a href="https://pages.shibadog.net/tags/buildpacks">buildpacks</a></span></p>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+    … ⏲ Reading Time:
+    
+    
+    
+    1 Minute, 7 Seconds</p>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2023-12-03T11:34:00&#43;0000</p></div>
+			<hr class="post-end">
+			<div class="content">
+				<h2 id="何がしたかったのか">何がしたかったのか？<a href="#何がしたかったのか" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>今回は、子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみたので、これを良い感じに転がす場所を探した結果 <code>fly.io</code> というサービスにデプロイしてみた、というもの。</p>
+<h2 id="flyioとは">fly.ioとは<a href="#flyioとは" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p><a href="https://fly.io/">fly.io</a></p>
+<p>herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ。</p>
+<p>このfly.ioは、herokuと同様にコンテナを起動することでアプリケーションを動作させるため、どんな言語のアプリケーションでも、最終的にはコンテナの中で動作する仕組みとなる。</p>
+<p>公式ドキュメントでも触れられている通り、 Dockerfile によるデプロイが一番プレーンはデプロイ方法となり、標準で対応している言語はソースの自動判定により起動イメージを選択される。</p>
+<p>実は、fly.ioではこの自動判定に含まれないJava（Spring Boot）でのイメージデプロイをpaketo buildpacksを利用してワンタッチで行えるため、この手順を試してみる。</p>
+<h2 id="まずはソースを用意する">まずは、ソースを用意する<a href="#まずはソースを用意する" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>プログラムは、 <a href="https://github.com/shibadog/maine-coon">maine-coon</a>というものを用意した。</p>
+<p>これをクローンして試してみると良い。</p>
+<p>ローカルで起動して、適切に動作するところまで実装をした。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; ./mvnw spring-boot:run
+</span></span><span style="display:flex;"><span>-&gt; http://localhost:8080/
+</span></span></code></pre></div><h2 id="出来上がったらflyコマンドをインストール">出来上がったらflyコマンドをインストール<a href="#出来上がったらflyコマンドをインストール" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p><a href="https://fly.io/docs/hands-on/install-flyctl/">flyctlのインストール</a></p>
+<p>fly.ioはローカルからコマンドでコントロールすることができる。</p>
+<p>このコマンドは2種類存在しており、 <code>fly</code> と <code>flyctl</code> が存在する。</p>
+<p>どう使い分けるのか、正直良くわからない（ぇ</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; curl -L https://fly.io/install.sh | sh
+</span></span><span style="display:flex;"><span>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span style="display:flex;"><span>                                 Dload  Upload   Total   Spent    Left  Speed
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100</span>  <span style="color:#ae81ff">1735</span>    <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">1735</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">4131</span>      <span style="color:#ae81ff">0</span> --:--:-- --:--:-- --:--:--  <span style="color:#ae81ff">4140</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">######################################################################## 100.0%</span>
+</span></span><span style="display:flex;"><span>set update channel to shell
+</span></span><span style="display:flex;"><span>flyctl was installed successfully to /home/vscode/.fly/bin/flyctl
+</span></span><span style="display:flex;"><span>Manually add the directory to your $HOME/.bash_profile <span style="color:#f92672">(</span>or similar<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  export FLYCTL_INSTALL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/home/vscode/.fly&#34;</span>
+</span></span><span style="display:flex;"><span>  export PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$FLYCTL_INSTALL<span style="color:#e6db74">/bin:</span>$PATH<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>Run <span style="color:#e6db74">&#39;/home/vscode/.fly/bin/flyctl --help&#39;</span> to get started
+</span></span></code></pre></div><h2 id="flyioにログイン">fly.ioにログイン<a href="#flyioにログイン" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>事前にfly.ioでサインアップをしておく必要がある。</p>
+<blockquote>
+<p>[!NOTE]<br>
+更に、これを試したとき（2023/12/03時点）では、無料利用においてもクレジットカード登録が必要な様子。</p>
+</blockquote>
+<p>この上で、flyコマンドからログインを行う。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; fly auth login
+</span></span><span style="display:flex;"><span>failed opening browser. Copy the url <span style="color:#f92672">(</span>https://fly.io/app/auth/cli/XXXXXXXXXXXXXXXXXXX<span style="color:#f92672">)</span> into a browser and <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>Opening https://fly.io/app/auth/cli/XXXXXXXXXXXXXXXXXXX ...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">for</span> session...⣾
+</span></span></code></pre></div><p>上記状況になった後、表示されたURLからブラウザでログインを行うと、コマンドのログインも完了する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; fly auth login
+</span></span><span style="display:flex;"><span>failed opening browser. Copy the url <span style="color:#f92672">(</span>https://fly.io/app/auth/cli/XXXXXXXXXXXXXXXXXXX<span style="color:#f92672">)</span> into a browser and <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>Opening https://fly.io/app/auth/cli/XXXXXXXXXXXXXXXXXXX ...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">for</span> session... Done
+</span></span><span style="display:flex;"><span>successfully logged in as <span style="color:#f92672">{{</span>login user<span style="color:#f92672">}}</span>
+</span></span></code></pre></div><h2 id="アプリケーションの構築">アプリケーションの構築<a href="#アプリケーションの構築" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>まずは、fly.ioの自分の領域にアプリケーションのデプロイを行う場所を作成する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; flyctl launch
+</span></span></code></pre></div><p>以降、対話形式で諸々聞かれるため、必要に応じて設定する。</p>
+<p>このやり取りが成功すると、カレントディレクトリに <code>fly.toml</code> が作成される。</p>
+<blockquote>
+<p>[!NOTE]<br>
+この <code>fly.toml</code> が、デプロイを行うためのマニフェストファイルとなる。<br>
+ここに指示を記載することで、デプロイ後のセットアップをコントロールすることができる。</p>
+</blockquote>
+<h2 id="flytomlの編集">fly.tomlの編集<a href="#flytomlの編集" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>そのままではJavaはデプロイできないため、fly.tomlを編集する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">app</span> = <span style="color:#e6db74">&#34;maine-coon&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">primary_region</span> = <span style="color:#e6db74">&#34;nrt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">build</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">builder</span> = <span style="color:#e6db74">&#34;paketobuildpacks/builder-jammy-base:0.4.252&#34;</span>
+</span></span><span style="display:flex;"><span>  [<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">args</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">BPE_APPEND_JAVA_TOOL_OPTIONS</span> = <span style="color:#e6db74">&#34;-XX:ReservedCodeCacheSize=30M -Xss256k&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">BPE_BPL_JVM_THREAD_COUNT</span> = <span style="color:#e6db74">&#34;10&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">BPE_DELIM_JAVA_TOOL_OPTIONS</span> = <span style="color:#e6db74">&#34; &#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">BPE_SERVER_TOMCAT_THREADS_MAX</span> = <span style="color:#e6db74">&#34;2&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">BP_JVM_VERSION</span> = <span style="color:#e6db74">&#34;21&#34;</span>
+</span></span></code></pre></div><p>今回は、paketo buildpacksを用いて、javaのビルドとイメージ化を行い、ここで作成したイメージを起動することで fly.io 上でアプリケーションを動作させる。</p>
+<p>ただし、 fly.io の無料分で利用できるコンテナのリソースは少なく、 256mb のメモリで動作させる必要があるため、調整を入れている。</p>
+<h2 id="デプロイ">デプロイ<a href="#デプロイ" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>準備ができたら、実際にデプロイを行う。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; fly deploy
+</span></span></code></pre></div><p>これで、カレントに存在する fly.toml に従ってログインしているアカウントにデプロイが行われる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>:
+</span></span><span style="display:flex;"><span>:
+</span></span><span style="display:flex;"><span>-------
+</span></span><span style="display:flex;"><span>Updating existing machines in <span style="color:#e6db74">&#39;maine-coon&#39;</span> with rolling strategy
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>-------
+</span></span><span style="display:flex;"><span> ✔ <span style="color:#f92672">[</span>1/2<span style="color:#f92672">]</span> Machine 32874dddae6348 <span style="color:#f92672">[</span>app<span style="color:#f92672">]</span> update succeeded
+</span></span><span style="display:flex;"><span> ✔ <span style="color:#f92672">[</span>2/2<span style="color:#f92672">]</span> Machine 9185991c207383 <span style="color:#f92672">[</span>app<span style="color:#f92672">]</span> update succeeded
+</span></span><span style="display:flex;"><span>-------
+</span></span></code></pre></div><p>正常に起動が行われた場合、デフォルトで2コンテナが起動し、自動で割り当てられたURLでルーティングが行われる。</p>
+
+			</div>
+		</article>
+		<aside id="toc">
+			<div class="toc-title"></div>
+			<nav id="TableOfContents">
+  <ul>
+    <li><a href="#何がしたかったのか">何がしたかったのか？</a></li>
+    <li><a href="#flyioとは">fly.ioとは</a></li>
+    <li><a href="#まずはソースを用意する">まずは、ソースを用意する</a></li>
+    <li><a href="#出来上がったらflyコマンドをインストール">出来上がったらflyコマンドをインストール</a></li>
+    <li><a href="#flyioにログイン">fly.ioにログイン</a></li>
+    <li><a href="#アプリケーションの構築">アプリケーションの構築</a></li>
+    <li><a href="#flytomlの編集">fly.tomlの編集</a></li>
+    <li><a href="#デプロイ">デプロイ</a></li>
+  </ul>
+</nav>
+		</aside>
+		<div class="post-nav thin">
+			<a class="prev-post" href="https://pages.shibadog.net/posts/016_log4j2_rotate/">
+				<span class="post-nav-label">&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>spring boot log4j2のログローテーション</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+	<p>
+		&copy; 2023 <a href="https://pages.shibadog.net/">shibadog</a>
+		&#183; 
+		&#183; Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>
+		&#183; Theme <a href="https://github.com/1bl4z3r/hermit-V2" target="_blank" rel="noopener">Hermit-V2</a>
+		
+		&#183; <a href="https://pages.shibadog.net/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		
+	</p>
+
+</footer>
+<script src="/asset/mermaid/mermaid.js"></script>
+
+<script async src="https://pages.shibadog.net/js/bundle.min.038214de9d568246fadcfeb06c69349925de3209f332ec123861b6aa031d63c6.js" integrity="sha256-A4IU3p1Wgkb63P6wbGk0mSXeMgnzMuwSOGG2qgMdY8Y=" crossorigin="anonymous"></script><script async src="https://pages.shibadog.net/js/link-share.min.24409a4f6e5537d70ffc55ec8f9192208d718678cb8638585342423020b37f39.js" integrity="sha256-JECaT25VN9cP/FXsj5GSII1xhnjLhjhYU0JCMCCzfzk=" crossorigin="anonymous"></script>
+</body>
+
+</html>

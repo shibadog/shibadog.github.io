@@ -5,8 +5,175 @@
 		<description>Recent content in Posts on shibadog site</description>
 		<generator>Hugo -- gohugo.io</generator>
 		<language>ja-jp</language>
-		<lastBuildDate>Fri, 23 Jun 2023 20:00:00 +0900</lastBuildDate>
+		<lastBuildDate>Tue, 30 Apr 2024 15:00:00 +0900</lastBuildDate>
 		<atom:link href="https://pages.shibadog.net/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>PlayStation4を壊して直した</title>
+			<link>https://pages.shibadog.net/posts/017_playstation4/</link>
+			<pubDate>Tue, 30 Apr 2024 15:00:00 +0900</pubDate>
+			
+			<guid>https://pages.shibadog.net/posts/017_playstation4/</guid>
+			<description>目次
+何が起こったのか？ 何をどうするのか？ 何が起こったのか？ PlayStation4を持っているのだが、使っているうちにかなりファンの音がうるさくなってきた。
+最近、任天堂Switchの修理をしまくっていたため、調子に乗って、分解清掃でもするか、とばらして掃除したところ、なんと、電源の信号部分のコネクタを壊してしまった。
+基盤からコネクタを引っこ抜いてしまい、そのパターンも完全にはがれてしまった。。。
+がしかし、なんと、先駆者がいらっしゃり、パターンをはがしても裏の基盤から直接信号を伝えることが出来るとのこと。
+この時点で、めんどくさくなって放置していたが、昨日やっと手を付けたので記録を残したい。
+何をどうするのか？ 先駆者がまとめてくれていた動画は以下の通り。
+https://youtube.com/watch?v=fRuwFATJ3Bc&amp;amp;si=UdmizDm7xKN9Va46
+この動画を見ると、ピンの順序と意味は以下の通り。
+で、このパターンと対応する露出が裏面に存在するとのこと。
+これを適当に買ってきた導線につなぎ、ちぎれとんだ端子にはんだでつけなおす。
+剥がれたパターン部分や、導線などは適当にビニールテープで押さえつけてつないだところ、無事復旧した。
+また、改めてもう少し時間がある時にまとめようと思う。</description>
+			<content type="html"><![CDATA[<p>目次</p>
+<ul>
+<li><a href="#%E4%BD%95%E3%81%8C%E8%B5%B7%E3%81%93%E3%81%A3%E3%81%9F%E3%81%AE%E3%81%8B">何が起こったのか？</a></li>
+<li><a href="#%E4%BD%95%E3%82%92%E3%81%A9%E3%81%86%E3%81%99%E3%82%8B%E3%81%AE%E3%81%8B">何をどうするのか？</a></li>
+</ul>
+<h2 id="何が起こったのか">何が起こったのか？</h2>
+<p>PlayStation4を持っているのだが、使っているうちにかなりファンの音がうるさくなってきた。<br>
+最近、任天堂Switchの修理をしまくっていたため、調子に乗って、分解清掃でもするか、とばらして掃除したところ、なんと、電源の信号部分のコネクタを壊してしまった。</p>
+<p><img src="images/%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%81%8C%E3%81%AF%E3%81%92%E3%81%9F.png" alt="パターンがはげた"></p>
+<p>基盤からコネクタを引っこ抜いてしまい、そのパターンも完全にはがれてしまった。。。</p>
+<p>がしかし、なんと、先駆者がいらっしゃり、パターンをはがしても裏の基盤から直接信号を伝えることが出来るとのこと。</p>
+<p>この時点で、めんどくさくなって放置していたが、昨日やっと手を付けたので記録を残したい。</p>
+<h2 id="何をどうするのか">何をどうするのか？</h2>
+<p>先駆者がまとめてくれていた動画は以下の通り。</p>
+<p><a href="https://youtube.com/watch?v=fRuwFATJ3Bc&amp;si=UdmizDm7xKN9Va46">https://youtube.com/watch?v=fRuwFATJ3Bc&amp;si=UdmizDm7xKN9Va46</a></p>
+<p>この動画を見ると、ピンの順序と意味は以下の通り。</p>
+<p><img src="images/%E3%83%94%E3%83%B3%E3%81%AE%E9%A0%86%E5%BA%8F.png" alt="ピンの順序"></p>
+<p>で、このパターンと対応する露出が裏面に存在するとのこと。</p>
+<p><img src="images/%E7%9B%B4%E4%BB%98%E3%81%91%E3%81%AE%E5%A0%B4%E6%89%80.png" alt="直付けの場所"></p>
+<p><img src="images/gnd.png" alt="GNDは表に"></p>
+<p>これを適当に買ってきた導線につなぎ、ちぎれとんだ端子にはんだでつけなおす。</p>
+<p>剥がれたパターン部分や、導線などは適当にビニールテープで押さえつけてつないだところ、無事復旧した。</p>
+<p>また、改めてもう少し時間がある時にまとめようと思う。</p>
+]]></content>
+		</item>
+		
+		<item>
+			<title>fly.ioへspring bootアプリケーションをデプロイする</title>
+			<link>https://pages.shibadog.net/posts/017_fly.io2spring-boot-01/</link>
+			<pubDate>Wed, 06 Dec 2023 00:00:00 +0000</pubDate>
+			
+			<guid>https://pages.shibadog.net/posts/017_fly.io2spring-boot-01/</guid>
+			<description>はじめに Qiitaのアドベントカレンダーをいつも見ていて、いつか参加してみたいと思ってました。 はじめてのアドベントカレンダーという企画があることを知ったので、今回始めて参加してみようと思います。
+何がしたかったのか？ 子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみた。
+これはspring bootで作成した画面を持つWebサービスですが、なんとか無料で子供のタブレットから使えないかと、良い感じに転がす場所を探した結果 fly.io というサービスを見つけた。
+デプロイまでに少しハマったので、この手順を記述した。
+fly.ioとは fly.io
+herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ（らしい）。
+このfly.ioは、herokuと同様にコンテナを起動することでアプリケーションを動作させるため、どんな言語のアプリケーションでも、最終的にはコンテナの中で動作する仕組みとなる。
+公式ドキュメントでも触れられている通り、 Dockerfile によるデプロイが一番プレーンはデプロイ方法となり、標準で対応している言語はソースの自動判定により起動イメージを選択される。
+実は、fly.ioではこの自動判定に含まれないJava（Spring Boot）でのイメージデプロイをpaketo buildpacksを利用してワンタッチで行えるため、この手順を試してみる。
+まずは、ソースを用意する プログラムは、 maine-coonというものを用意した。
+これをクローンして試してみると良い。
+ローカルで起動して、適切に動作するところまで実装をした。
+&amp;gt; ./mvnw spring-boot:run -&amp;gt; http://localhost:8080/ 出来上がったらflyコマンドをインストール flyctlのインストール
+fly.ioはローカルからコマンドでコントロールすることができる。
+このコマンドは2種類存在しており、 fly と flyctl が存在する。
+どう使い分けるのか、正直良くわからない（ぇ
+&amp;gt; curl -L https://fly.io/install.sh | sh % Total % Received % Xferd Average Speed Time Time Time Current Dload Upload Total Spent Left Speed 100 1735 0 1735 0 0 4131 0 --:--:-- --:--:-- --:--:-- 4140 ######################################################################## 100.</description>
+			<content type="html"><![CDATA[<h2 id="はじめに">はじめに</h2>
+<p>Qiitaのアドベントカレンダーをいつも見ていて、いつか参加してみたいと思ってました。
+はじめてのアドベントカレンダーという企画があることを知ったので、今回始めて参加してみようと思います。</p>
+<h2 id="何がしたかったのか">何がしたかったのか？</h2>
+<p>子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみた。<br>
+これはspring bootで作成した画面を持つWebサービスですが、なんとか無料で子供のタブレットから使えないかと、良い感じに転がす場所を探した結果 <code>fly.io</code> というサービスを見つけた。<br>
+デプロイまでに少しハマったので、この手順を記述した。</p>
+<h2 id="flyioとは">fly.ioとは</h2>
+<p><a href="https://fly.io/">fly.io</a></p>
+<p>herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ（らしい）。</p>
+<p>このfly.ioは、herokuと同様にコンテナを起動することでアプリケーションを動作させるため、どんな言語のアプリケーションでも、最終的にはコンテナの中で動作する仕組みとなる。</p>
+<p>公式ドキュメントでも触れられている通り、 Dockerfile によるデプロイが一番プレーンはデプロイ方法となり、標準で対応している言語はソースの自動判定により起動イメージを選択される。</p>
+<p>実は、fly.ioではこの自動判定に含まれないJava（Spring Boot）でのイメージデプロイをpaketo buildpacksを利用してワンタッチで行えるため、この手順を試してみる。</p>
+<h2 id="まずはソースを用意する">まずは、ソースを用意する</h2>
+<p>プログラムは、 <a href="https://github.com/shibadog/maine-coon">maine-coon</a>というものを用意した。</p>
+<p>これをクローンして試してみると良い。</p>
+<p>ローカルで起動して、適切に動作するところまで実装をした。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; ./mvnw spring-boot:run
+</span></span><span style="display:flex;"><span>-&gt; http://localhost:8080/
+</span></span></code></pre></div><h2 id="出来上がったらflyコマンドをインストール">出来上がったらflyコマンドをインストール</h2>
+<p><a href="https://fly.io/docs/hands-on/install-flyctl/">flyctlのインストール</a></p>
+<p>fly.ioはローカルからコマンドでコントロールすることができる。</p>
+<p>このコマンドは2種類存在しており、 <code>fly</code> と <code>flyctl</code> が存在する。</p>
+<p>どう使い分けるのか、正直良くわからない（ぇ</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; curl -L https://fly.io/install.sh | sh
+</span></span><span style="display:flex;"><span>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span style="display:flex;"><span>                                 Dload  Upload   Total   Spent    Left  Speed
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100</span>  <span style="color:#ae81ff">1735</span>    <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">1735</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">4131</span>      <span style="color:#ae81ff">0</span> --:--:-- --:--:-- --:--:--  <span style="color:#ae81ff">4140</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">######################################################################## 100.0%</span>
+</span></span><span style="display:flex;"><span>set update channel to shell
+</span></span><span style="display:flex;"><span>flyctl was installed successfully to /home/vscode/.fly/bin/flyctl
+</span></span><span style="display:flex;"><span>Manually add the directory to your $HOME/.bash_profile <span style="color:#f92672">(</span>or similar<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  export FLYCTL_INSTALL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/home/vscode/.fly&#34;</span>
+</span></span><span style="display:flex;"><span>  export PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$FLYCTL_INSTALL<span style="color:#e6db74">/bin:</span>$PATH<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>Run <span style="color:#e6db74">&#39;/home/vscode/.fly/bin/flyctl --help&#39;</span> to get started
+</span></span></code></pre></div><h2 id="flyioにログイン">fly.ioにログイン</h2>
+<p>事前にfly.ioでサインアップをしておく必要がある。</p>
+<blockquote>
+<p>[!NOTE]<br>
+更に、これを試したとき（2023/12/03時点）では、無料利用においてもクレジットカード登録が必要な様子。</p>
+</blockquote>
+<p>この上で、flyコマンドからログインを行う。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; fly auth login
+</span></span><span style="display:flex;"><span>failed opening browser. Copy the url <span style="color:#f92672">(</span>https://fly.io/app/auth/cli/XXXXXXXXXXXXXXXXXXX<span style="color:#f92672">)</span> into a browser and <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>Opening https://fly.io/app/auth/cli/XXXXXXXXXXXXXXXXXXX ...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">for</span> session...⣾
+</span></span></code></pre></div><p>上記状況になった後、表示されたURLからブラウザでログインを行うと、コマンドのログインも完了する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; fly auth login
+</span></span><span style="display:flex;"><span>failed opening browser. Copy the url <span style="color:#f92672">(</span>https://fly.io/app/auth/cli/XXXXXXXXXXXXXXXXXXX<span style="color:#f92672">)</span> into a browser and <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>Opening https://fly.io/app/auth/cli/XXXXXXXXXXXXXXXXXXX ...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#66d9ef">for</span> session... Done
+</span></span><span style="display:flex;"><span>successfully logged in as <span style="color:#f92672">{{</span>login user<span style="color:#f92672">}}</span>
+</span></span></code></pre></div><h2 id="アプリケーションの構築">アプリケーションの構築</h2>
+<p>まずは、fly.ioの自分の領域にアプリケーションのデプロイを行う場所を作成する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; flyctl launch
+</span></span></code></pre></div><p>以降、対話形式で諸々聞かれるため、必要に応じて設定する。</p>
+<p>このやり取りが成功すると、カレントディレクトリに <code>fly.toml</code> が作成される。</p>
+<blockquote>
+<p>[!NOTE]<br>
+この <code>fly.toml</code> が、デプロイを行うためのマニフェストファイルとなる。<br>
+ここに指示を記載することで、デプロイ後のセットアップをコントロールすることができる。</p>
+</blockquote>
+<h2 id="flytomlの編集">fly.tomlの編集</h2>
+<p>そのままではJavaはデプロイできないため、fly.tomlを編集する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">app</span> = <span style="color:#e6db74">&#34;maine-coon&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">primary_region</span> = <span style="color:#e6db74">&#34;nrt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">build</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">builder</span> = <span style="color:#e6db74">&#34;paketobuildpacks/builder-jammy-base:0.4.252&#34;</span>
+</span></span><span style="display:flex;"><span>  [<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">args</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">BPE_APPEND_JAVA_TOOL_OPTIONS</span> = <span style="color:#e6db74">&#34;-XX:ReservedCodeCacheSize=30M -Xss256k&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">BPE_BPL_JVM_THREAD_COUNT</span> = <span style="color:#e6db74">&#34;10&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">BPE_DELIM_JAVA_TOOL_OPTIONS</span> = <span style="color:#e6db74">&#34; &#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">BPE_SERVER_TOMCAT_THREADS_MAX</span> = <span style="color:#e6db74">&#34;2&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">BP_JVM_VERSION</span> = <span style="color:#e6db74">&#34;21&#34;</span>
+</span></span></code></pre></div><p>今回は、paketo buildpacksを用いて、javaのビルドとイメージ化を行い、ここで作成したイメージを起動することで fly.io 上でアプリケーションを動作させる。</p>
+<p>ただし、 fly.io の無料分で利用できるコンテナのリソースは少なく、 256mb のメモリで動作させる必要があるため、調整を入れている。</p>
+<h2 id="デプロイ">デプロイ</h2>
+<p>準備ができたら、実際にデプロイを行う。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; fly deploy
+</span></span></code></pre></div><p>これで、カレントに存在する fly.toml に従ってログインしているアカウントにデプロイが行われる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>:
+</span></span><span style="display:flex;"><span>:
+</span></span><span style="display:flex;"><span>-------
+</span></span><span style="display:flex;"><span>Updating existing machines in <span style="color:#e6db74">&#39;maine-coon&#39;</span> with rolling strategy
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>-------
+</span></span><span style="display:flex;"><span> ✔ <span style="color:#f92672">[</span>1/2<span style="color:#f92672">]</span> Machine 32874dddae6348 <span style="color:#f92672">[</span>app<span style="color:#f92672">]</span> update succeeded
+</span></span><span style="display:flex;"><span> ✔ <span style="color:#f92672">[</span>2/2<span style="color:#f92672">]</span> Machine 9185991c207383 <span style="color:#f92672">[</span>app<span style="color:#f92672">]</span> update succeeded
+</span></span><span style="display:flex;"><span>-------
+</span></span></code></pre></div><p>正常に起動が行われた場合、デフォルトで2コンテナが起動し、自動で割り当てられたURLでルーティングが行われる。</p>
+<h2 id="この先">この先</h2>
+<p>これで、とりあえず動作することはできるようになったが、ソースの編集をしたあとにデプロイするまでのコマンドを打つのが面倒なため、CIを用意してデプロイを行った。</p>
+<p>こちらについても別途記載をしたい。</p>
+]]></content>
+		</item>
 		
 		<item>
 			<title>spring boot log4j2のログローテーション</title>

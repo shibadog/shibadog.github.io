@@ -16,9 +16,12 @@
 <link rel="shortcut icon" href="/favicon.ico"><meta name="author" content="shibadog">
 
 <meta itemprop="name" content="fly.ioへspring bootアプリケーションをデプロイする">
-<meta itemprop="description" content="何がしたかったのか？ 今回は、子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみたので、これを良い感じに転がす場所を探した結果 fly.io というサービスにデプロイしてみた、というもの。
+<meta itemprop="description" content="はじめに Qiitaのアドベントカレンダーをいつも見ていて、いつか参加してみたいと思ってました。 はじめてのアドベントカレンダーという企画があることを知ったので、今回始めて参加してみようと思います。
+何がしたかったのか？ 子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみた。
+これはspring bootで作成した画面を持つWebサービスですが、なんとか無料で子供のタブレットから使えないかと、良い感じに転がす場所を探した結果 fly.io というサービスを見つけた。
+デプロイまでに少しハマったので、この手順を記述した。
 fly.ioとは fly.io
-herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ。
+herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ（らしい）。
 このfly.ioは、herokuと同様にコンテナを起動することでアプリケーションを動作させるため、どんな言語のアプリケーションでも、最終的にはコンテナの中で動作する仕組みとなる。
 公式ドキュメントでも触れられている通り、 Dockerfile によるデプロイが一番プレーンはデプロイ方法となり、標準で対応している言語はソースの自動判定により起動イメージを選択される。
 実は、fly.ioではこの自動判定に含まれないJava（Spring Boot）でのイメージデプロイをpaketo buildpacksを利用してワンタッチで行えるため、この手順を試してみる。
@@ -29,13 +32,16 @@ herokuとかと同様にPaaS環境を提供してくれるサービスの一つ�
 fly.ioはローカルからコマンドでコントロールすることができる。
 このコマンドは2種類存在しており、 fly と flyctl が存在する。
 どう使い分けるのか、正直良くわからない（ぇ
-&gt; curl -L https://fly.io/install.sh | sh % Total % Received % Xferd Average Speed Time Time Time Current Dload Upload Total Spent Left Speed 100 1735 0 1735 0 0 4131 0 --:--:-- --:--:-- --:--:-- 4140 ######################################################################## 100."><meta itemprop="datePublished" content="2023-12-03T11:34:51+00:00" />
-<meta itemprop="dateModified" content="2023-12-03T11:34:51+00:00" />
-<meta itemprop="wordCount" content="247">
+&gt; curl -L https://fly.io/install.sh | sh % Total % Received % Xferd Average Speed Time Time Time Current Dload Upload Total Spent Left Speed 100 1735 0 1735 0 0 4131 0 --:--:-- --:--:-- --:--:-- 4140 ######################################################################## 100."><meta itemprop="datePublished" content="2023-12-06T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-12-06T00:00:00+00:00" />
+<meta itemprop="wordCount" content="256">
 <meta itemprop="keywords" content="java,spring,spring boot,fly.io,buildpacks," /><meta property="og:title" content="fly.ioへspring bootアプリケーションをデプロイする" />
-<meta property="og:description" content="何がしたかったのか？ 今回は、子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみたので、これを良い感じに転がす場所を探した結果 fly.io というサービスにデプロイしてみた、というもの。
+<meta property="og:description" content="はじめに Qiitaのアドベントカレンダーをいつも見ていて、いつか参加してみたいと思ってました。 はじめてのアドベントカレンダーという企画があることを知ったので、今回始めて参加してみようと思います。
+何がしたかったのか？ 子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみた。
+これはspring bootで作成した画面を持つWebサービスですが、なんとか無料で子供のタブレットから使えないかと、良い感じに転がす場所を探した結果 fly.io というサービスを見つけた。
+デプロイまでに少しハマったので、この手順を記述した。
 fly.ioとは fly.io
-herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ。
+herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ（らしい）。
 このfly.ioは、herokuと同様にコンテナを起動することでアプリケーションを動作させるため、どんな言語のアプリケーションでも、最終的にはコンテナの中で動作する仕組みとなる。
 公式ドキュメントでも触れられている通り、 Dockerfile によるデプロイが一番プレーンはデプロイ方法となり、標準で対応している言語はソースの自動判定により起動イメージを選択される。
 実は、fly.ioではこの自動判定に含まれないJava（Spring Boot）でのイメージデプロイをpaketo buildpacksを利用してワンタッチで行えるため、この手順を試してみる。
@@ -49,13 +55,16 @@ fly.ioはローカルからコマンドでコントロールすることがで�
 &gt; curl -L https://fly.io/install.sh | sh % Total % Received % Xferd Average Speed Time Time Time Current Dload Upload Total Spent Left Speed 100 1735 0 1735 0 0 4131 0 --:--:-- --:--:-- --:--:-- 4140 ######################################################################## 100." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://pages.shibadog.net/posts/017_fly.io2spring-boot-01/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-12-03T11:34:51+00:00" />
-<meta property="article:modified_time" content="2023-12-03T11:34:51+00:00" />
+<meta property="article:published_time" content="2023-12-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-12-06T00:00:00+00:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="fly.ioへspring bootアプリケーションをデプロイする"/>
-<meta name="twitter:description" content="何がしたかったのか？ 今回は、子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみたので、これを良い感じに転がす場所を探した結果 fly.io というサービスにデプロイしてみた、というもの。
+<meta name="twitter:description" content="はじめに Qiitaのアドベントカレンダーをいつも見ていて、いつか参加してみたいと思ってました。 はじめてのアドベントカレンダーという企画があることを知ったので、今回始めて参加してみようと思います。
+何がしたかったのか？ 子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみた。
+これはspring bootで作成した画面を持つWebサービスですが、なんとか無料で子供のタブレットから使えないかと、良い感じに転がす場所を探した結果 fly.io というサービスを見つけた。
+デプロイまでに少しハマったので、この手順を記述した。
 fly.ioとは fly.io
-herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ。
+herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ（らしい）。
 このfly.ioは、herokuと同様にコンテナを起動することでアプリケーションを動作させるため、どんな言語のアプリケーションでも、最終的にはコンテナの中で動作する仕組みとなる。
 公式ドキュメントでも触れられている通り、 Dockerfile によるデプロイが一番プレーンはデプロイ方法となり、標準で対応している言語はソースの自動判定により起動イメージを選択される。
 実は、fly.ioではこの自動判定に含まれないJava（Spring Boot）でのイメージデプロイをpaketo buildpacksを利用してワンタッチで行えるため、この手順を試してみる。
@@ -131,7 +140,7 @@ fly.ioはローカルからコマンドでコントロールすることがで�
 
 	<main class="site-main section-inner animated fadeIn faster"><article class="thin">
 			<header class="post-header">
-				<div class="post-meta"><span>Dec 3, 2023</span></div>
+				<div class="post-meta"><span>Dec 6, 2023</span></div>
 				<h1>fly.ioへspring bootアプリケーションをデプロイする</h1>
 			</header>
 			<div class="post-info"><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-feather"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg><a href="/about-hugo/" target="_blank">shibadog</a></p>
@@ -141,15 +150,20 @@ fly.ioはローカルからコマンドでコントロールすることがで�
     
     
     
-    1 Minute, 7 Seconds</p>
-<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2023-12-03T11:34:00&#43;0000</p></div>
+    1 Minute, 9 Seconds</p>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2023-12-06T00:00:00&#43;0000</p></div>
 			<hr class="post-end">
 			<div class="content">
-				<h2 id="何がしたかったのか">何がしたかったのか？<a href="#何がしたかったのか" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
-<p>今回は、子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみたので、これを良い感じに転がす場所を探した結果 <code>fly.io</code> というサービスにデプロイしてみた、というもの。</p>
+				<h2 id="はじめに">はじめに<a href="#はじめに" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>Qiitaのアドベントカレンダーをいつも見ていて、いつか参加してみたいと思ってました。
+はじめてのアドベントカレンダーという企画があることを知ったので、今回始めて参加してみようと思います。</p>
+<h2 id="何がしたかったのか">何がしたかったのか？<a href="#何がしたかったのか" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>子供のために、復習用の計算プリントをランダム生成するアプリケーションを作ってみた。<br>
+これはspring bootで作成した画面を持つWebサービスですが、なんとか無料で子供のタブレットから使えないかと、良い感じに転がす場所を探した結果 <code>fly.io</code> というサービスを見つけた。<br>
+デプロイまでに少しハマったので、この手順を記述した。</p>
 <h2 id="flyioとは">fly.ioとは<a href="#flyioとは" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
 <p><a href="https://fly.io/">fly.io</a></p>
-<p>herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ。</p>
+<p>herokuとかと同様にPaaS環境を提供してくれるサービスの一つで、herokuの無料利用分がなくなってしまったため、移行先として上がるサービスの一つ（らしい）。</p>
 <p>このfly.ioは、herokuと同様にコンテナを起動することでアプリケーションを動作させるため、どんな言語のアプリケーションでも、最終的にはコンテナの中で動作する仕組みとなる。</p>
 <p>公式ドキュメントでも触れられている通り、 Dockerfile によるデプロイが一番プレーンはデプロイ方法となり、標準で対応している言語はソースの自動判定により起動イメージを選択される。</p>
 <p>実は、fly.ioではこの自動判定に含まれないJava（Spring Boot）でのイメージデプロイをpaketo buildpacksを利用してワンタッチで行えるため、この手順を試してみる。</p>
@@ -233,6 +247,9 @@ fly.ioはローカルからコマンドでコントロールすることがで�
 </span></span><span style="display:flex;"><span> ✔ <span style="color:#f92672">[</span>2/2<span style="color:#f92672">]</span> Machine 9185991c207383 <span style="color:#f92672">[</span>app<span style="color:#f92672">]</span> update succeeded
 </span></span><span style="display:flex;"><span>-------
 </span></span></code></pre></div><p>正常に起動が行われた場合、デフォルトで2コンテナが起動し、自動で割り当てられたURLでルーティングが行われる。</p>
+<h2 id="この先">この先<a href="#この先" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>これで、とりあえず動作することはできるようになったが、ソースの編集をしたあとにデプロイするまでのコマンドを打つのが面倒なため、CIを用意してデプロイを行った。</p>
+<p>こちらについても別途記載をしたい。</p>
 
 			</div>
 		</article>
@@ -240,6 +257,7 @@ fly.ioはローカルからコマンドでコントロールすることがで�
 			<div class="toc-title"></div>
 			<nav id="TableOfContents">
   <ul>
+    <li><a href="#はじめに">はじめに</a></li>
     <li><a href="#何がしたかったのか">何がしたかったのか？</a></li>
     <li><a href="#flyioとは">fly.ioとは</a></li>
     <li><a href="#まずはソースを用意する">まずは、ソースを用意する</a></li>
@@ -248,10 +266,14 @@ fly.ioはローカルからコマンドでコントロールすることがで�
     <li><a href="#アプリケーションの構築">アプリケーションの構築</a></li>
     <li><a href="#flytomlの編集">fly.tomlの編集</a></li>
     <li><a href="#デプロイ">デプロイ</a></li>
+    <li><a href="#この先">この先</a></li>
   </ul>
 </nav>
 		</aside>
 		<div class="post-nav thin">
+			<a class="next-post" href="https://pages.shibadog.net/posts/017_playstation4/">
+				<span class="post-nav-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>&nbsp;</span><br><span>PlayStation4を壊して直した</span>
+			</a>
 			<a class="prev-post" href="https://pages.shibadog.net/posts/016_log4j2_rotate/">
 				<span class="post-nav-label">&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>spring boot log4j2のログローテーション</span>
 			</a>
@@ -262,7 +284,7 @@ fly.ioはローカルからコマンドでコントロールすることがで�
 
 <footer id="site-footer" class="section-inner thin animated fadeIn faster">
 	<p>
-		&copy; 2023 <a href="https://pages.shibadog.net/">shibadog</a>
+		&copy; 2024 <a href="https://pages.shibadog.net/">shibadog</a>
 		&#183; 
 		&#183; Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>
 		&#183; Theme <a href="https://github.com/1bl4z3r/hermit-V2" target="_blank" rel="noopener">Hermit-V2</a>

@@ -6,13 +6,67 @@
     <description>Recent content in Tags on shibadog site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Fri, 23 Jun 2023 20:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 30 Apr 2024 15:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>game</title>
+      <link>https://pages.shibadog.net/tags/game/</link>
+      <pubDate>Tue, 30 Apr 2024 15:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/tags/game/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>playstation4</title>
+      <link>https://pages.shibadog.net/tags/playstation4/</link>
+      <pubDate>Tue, 30 Apr 2024 15:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/tags/playstation4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>buildpacks</title>
+      <link>https://pages.shibadog.net/tags/buildpacks/</link>
+      <pubDate>Wed, 06 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://pages.shibadog.net/tags/buildpacks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fly.io</title>
+      <link>https://pages.shibadog.net/tags/fly.io/</link>
+      <pubDate>Wed, 06 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://pages.shibadog.net/tags/fly.io/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>java</title>
       <link>https://pages.shibadog.net/tags/java/</link>
-      <pubDate>Fri, 23 Jun 2023 20:00:00 +0900</pubDate>
+      <pubDate>Wed, 06 Dec 2023 00:00:00 +0000</pubDate>
       
       <guid>https://pages.shibadog.net/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spring</title>
+      <link>https://pages.shibadog.net/tags/spring/</link>
+      <pubDate>Wed, 06 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://pages.shibadog.net/tags/spring/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spring boot</title>
+      <link>https://pages.shibadog.net/tags/spring-boot/</link>
+      <pubDate>Wed, 06 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://pages.shibadog.net/tags/spring-boot/</guid>
       <description></description>
     </item>
     
@@ -22,24 +76,6 @@
       <pubDate>Fri, 23 Jun 2023 20:00:00 +0900</pubDate>
       
       <guid>https://pages.shibadog.net/tags/log4j2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>spring</title>
-      <link>https://pages.shibadog.net/tags/spring/</link>
-      <pubDate>Fri, 23 Jun 2023 20:00:00 +0900</pubDate>
-      
-      <guid>https://pages.shibadog.net/tags/spring/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>spring boot</title>
-      <link>https://pages.shibadog.net/tags/spring-boot/</link>
-      <pubDate>Fri, 23 Jun 2023 20:00:00 +0900</pubDate>
-      
-      <guid>https://pages.shibadog.net/tags/spring-boot/</guid>
       <description></description>
     </item>
     

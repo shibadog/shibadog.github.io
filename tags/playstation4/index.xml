@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>playstation4 on shibadog site</title>
+    <link>https://pages.shibadog.net/tags/playstation4/</link>
+    <description>Recent content in playstation4 on shibadog site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Tue, 30 Apr 2024 15:00:00 +0900</lastBuildDate><atom:link href="https://pages.shibadog.net/tags/playstation4/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PlayStation4を壊して直した</title>
+      <link>https://pages.shibadog.net/posts/017_playstation4/</link>
+      <pubDate>Tue, 30 Apr 2024 15:00:00 +0900</pubDate>
+      
+      <guid>https://pages.shibadog.net/posts/017_playstation4/</guid>
+      <description>目次
+何が起こったのか？ 何をどうするのか？ 何が起こったのか？ PlayStation4を持っているのだが、使っているうちにかなりファンの音がうるさくなってきた。
+最近、任天堂Switchの修理をしまくっていたため、調子に乗って、分解清掃でもするか、とばらして掃除したところ、なんと、電源の信号部分のコネクタを壊してしまった。
+基盤からコネクタを引っこ抜いてしまい、そのパターンも完全にはがれてしまった。。。
+がしかし、なんと、先駆者がいらっしゃり、パターンをはがしても裏の基盤から直接信号を伝えることが出来るとのこと。
+この時点で、めんどくさくなって放置していたが、昨日やっと手を付けたので記録を残したい。
+何をどうするのか？ 先駆者がまとめてくれていた動画は以下の通り。
+https://youtube.com/watch?v=fRuwFATJ3Bc&amp;amp;si=UdmizDm7xKN9Va46
+この動画を見ると、ピンの順序と意味は以下の通り。
+で、このパターンと対応する露出が裏面に存在するとのこと。
+これを適当に買ってきた導線につなぎ、ちぎれとんだ端子にはんだでつけなおす。
+剥がれたパターン部分や、導線などは適当にビニールテープで押さえつけてつないだところ、無事復旧した。
+また、改めてもう少し時間がある時にまとめようと思う。</description>
+    </item>
+    
+  </channel>
+</rss>
